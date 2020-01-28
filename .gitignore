@@ -1,0 +1,14 @@
+angular-ms/iot-app/dist
+
+angular-ms/iot-app/node_modules
+orchestrator-ms/node_modules
+temperature-ms/node_modules
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+.DS_Store

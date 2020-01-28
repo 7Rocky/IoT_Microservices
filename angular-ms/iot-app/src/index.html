@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>IotApp</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    function getData() {
+      const xhr = new XMLHttpRequest();
+      const endpoint = 'http://localhost:3000/';
+
+      return new Promise(resolve => {
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+            resolve(JSON.parse(xhr.response));
+          }
+        }
+
+        xhr.open('GET', endpoint, true);
+        xhr.send();
+      });
+    }
+
+    function printData() {
+      const ol = document.getElementById('prueba-arduino');
+
+      getData()
+        .then(response => {
+          ol.innerHTML = '';
+
+          for (const input of response.analogInputs) {
+            ol.innerHTML += `<li>${input}</li>`;
+          }
+      });
+    }
+  </script>
+</head>
+<body>
+  Prueba Arduino
+  <ol id="prueba-arduino"></ol>
+  <app-root></app-root>
+  <script>setInterval(printData, 5000);</script>
+</body>
+</html>
