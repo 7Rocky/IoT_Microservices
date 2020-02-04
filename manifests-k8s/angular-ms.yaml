@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-ms
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: angular-ms
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: angular-ms
+        tier: frontend
+    spec:
+      containers:
+      - name: angular-ms
+        image: 7rocky/angular-ms
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: angular-ms
+spec:
+  selector:
+    app: angular-ms
+    tier: frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 31600
+  type: NodePort

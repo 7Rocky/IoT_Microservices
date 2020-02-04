@@ -1,14 +1,9 @@
 angular-ms/iot-app/dist
 
-angular-ms/iot-app/node_modules
-orchestrator-ms/node_modules
-temperature-ms/node_modules
+arduino-iot/main/main.h
 
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
+/**/node_modules/
+
+/**/*.sh
 
 .DS_Store

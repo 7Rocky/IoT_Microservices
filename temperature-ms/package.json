@@ -9,7 +9,7 @@
   "description": "",
   "license": "ISC",
   "main": "index.js",
-  "name": "orchestrator-ms",
+  "name": "temperature-ms",
   "repository": {
     "type": "git",
     "url": "https://github.com/7Rocky/IoT_Microservices.git"

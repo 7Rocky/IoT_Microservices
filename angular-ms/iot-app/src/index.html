@@ -1,46 +1,72 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>IotApp</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script>
-    function getData() {
-      const xhr = new XMLHttpRequest();
-      const endpoint = 'http://localhost:3000/';
+  <head>
+    <meta charset="utf-8">
+    <title>IotApp</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script>
+      function getData() {
+        const xhr = new XMLHttpRequest();
+        const endpoint = 'http://localhost:3000/';
 
-      return new Promise(resolve => {
-        xhr.onreadystatechange = () => {
-          if (xhr.readyState === xhr.DONE && xhr.status === 200) {
-            resolve(JSON.parse(xhr.response));
+        return new Promise(resolve => {
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+              resolve(JSON.parse(xhr.response));
+            }
           }
-        }
 
-        xhr.open('GET', endpoint, true);
-        xhr.send();
+          xhr.open('GET', endpoint, true);
+          xhr.send();
+        });
+      }
+
+      function printData() {
+        const ol = document.getElementById('prueba-arduino');
+
+        getData()
+          .then(response => {
+            ol.innerHTML = '';
+
+            for (const input of response.analogInputs) {
+              ol.innerHTML += `<li>${input}</li>`;
+            }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    Prueba Arduino
+    <ol id="prueba-arduino"></ol>
+    <!--<script>setInterval(printData, 5000);</script>-->
+    <input id="ip" type="text" size="100">
+    <input id="method" type="text">
+    <button id="button" type="button">Button</button>
+    <div id="div"></div>
+    <app-root></app-root>
+    <script>
+      const button = document.getElementById('button');
+      const div = document.getElementById('div');
+      const inputIp = document.getElementById('ip');
+      const inputMethod = document.getElementById('method');
+
+      button.addEventListener('click', e => {
+        setInterval(() => {
+          const xhr = new XMLHttpRequest();
+          //div.innerHTML = '';
+
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+              div.innerHTML = xhr.response;
+            }
+          };
+
+          xhr.open(inputMethod.value || 'GET', `http://${inputIp.value}`, true);
+          xhr.send();
+        }, 5000);
       });
-    }
-
-    function printData() {
-      const ol = document.getElementById('prueba-arduino');
-
-      getData()
-        .then(response => {
-          ol.innerHTML = '';
-
-          for (const input of response.analogInputs) {
-            ol.innerHTML += `<li>${input}</li>`;
-          }
-      });
-    }
-  </script>
-</head>
-<body>
-  Prueba Arduino
-  <ol id="prueba-arduino"></ol>
-  <app-root></app-root>
-  <script>setInterval(printData, 5000);</script>
-</body>
+    </script>
+  </body>
 </html>

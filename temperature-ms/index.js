@@ -3,7 +3,8 @@ const cors = require('cors');
 const express = require('express');
 const http = require('http');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
+const ARDUINO = process.env.ARDUINO || '192.168.1.40';
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,7 +13,7 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
   const options = {
-    hostname: req.query.host,
+    hostname: ARDUINO,
     method: 'GET',
     path: req.query.path || '/',
     port: req.query.port || 80
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
     let dataString = '';
 
     response.on('data', data => dataString += data)
-      .on('end', () => res.json(JSON.parse(dataString)));
+      .on('end', () => res.json({ arduino: JSON.parse(dataString), envs: process.env }));
   });
 
   request.on('error', error => console.error(error));
@@ -31,9 +32,9 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
   const options = {
-    hostname: req.query.host,
+    hostname: ARDUINO,
     method: 'POST',
-    path: req.query.path || '/',
+    path: req.query.path || '/hola',
     port: req.query.port || 80
   };
 
@@ -48,4 +49,8 @@ app.post('/', (req, res) => {
   request.end();
 });
 
-app.listen(PORT, () => console.log('App listening at http://localhost:' + PORT))
+app.get('/prueba', (req, res) => res.json({ message: 'GET Prueba from other backend' }));
+
+app.post('/prueba', (req, res) => res.json({ message: 'POST Prueba from other backend' }));
+
+app.listen(PORT, () => console.log('App listening at http://localhost:' + PORT));
