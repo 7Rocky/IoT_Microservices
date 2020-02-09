@@ -6,7 +6,7 @@
     "express": "^4.17.1",
     "http": "0.0.0"
   },
-  "description": "",
+  "description": "Orchestrator microservice",
   "license": "ISC",
   "main": "index.js",
   "name": "orchestrator-ms",
