@@ -163,7 +163,7 @@ docker rmi <image-id>
 
 ## Recommendations
 
-For developing and producing this application, Visual Studio Code is a great tool to do it. These extensions are really useful for this project:
+For developing and producing this application, [Visual Studio Code](https://code.visualstudio.com) is a great tool to do it. These extensions are really useful for this project:
 
 * [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)
 * [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
