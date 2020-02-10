@@ -1,0 +1,10 @@
+<main>
+  <h1>Prueba Arduino</h1>
+  <p>http://192.168.99.100:31600/orchestrator-ms?host=temperature-ms&port=80&path=/prueba</p>
+  <p>http://192.168.99.100:31600/orchestrator-ms?host=temperature-ms&port=80</p>
+  <p>http://192.168.99.100:31600/orchestrator-ms?host=humidity-ms&port=80</p>
+  <input id="url" name="url" [(ngModel)]="url" placeholder="URL" size="100" type="text">
+  <input id="method" name="method" [(ngModel)]="method" placeholder="HTTP Method" type="text">
+  <button (click)="getData()" id="button" type="button">Button</button>
+  <div id="div">{{ data }}</div>
+</main>
