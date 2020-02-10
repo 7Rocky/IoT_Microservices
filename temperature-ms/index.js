@@ -51,6 +51,6 @@ app.post('/', (req, res) => {
 
 app.get('/prueba', (req, res) => res.json({ message: 'GET Prueba from other backend' }));
 
-app.post('/prueba', (req, res) => res.json({ message: 'POST Prueba from other backend' }));
+app.post('/prueba', (req, res) => res.json({ data: req.body, message: 'POST Prueba from other backend' }));
 
 app.listen(PORT, () => console.log('App listening at http://localhost:' + PORT));
