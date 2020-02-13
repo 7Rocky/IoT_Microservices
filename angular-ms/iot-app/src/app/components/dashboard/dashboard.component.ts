@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { ArduinoService } from '@services/arduino.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class DashboardComponent implements OnInit {
   url: string = 'http://localhost:4000/prueba';
 
   constructor(
-    private arduinoSvc: ArduinoService
+    private arduinoService: ArduinoService
   ) { }
 
   ngOnInit() {
@@ -20,11 +21,10 @@ export class DashboardComponent implements OnInit {
   }
 
   getData() {
-    console.log(this.method);
     if (this.method === 'GET') {
-      this.arduinoSvc.getData(this.url).subscribe(response => this.data = JSON.stringify(response));
+      this.arduinoService.getData(this.url).subscribe(response => this.data = JSON.stringify(response));
     } else if (this.method === 'POST') {
-      this.arduinoSvc.postData(this.url).subscribe(response => this.data = JSON.stringify(response));
+      this.arduinoService.postData(this.url).subscribe(response => this.data = JSON.stringify(response));
     }
   }
 }
