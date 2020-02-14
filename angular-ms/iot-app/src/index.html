@@ -6,46 +6,10 @@
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <script>
-      function getData() {
-        const xhr = new XMLHttpRequest();
-        const endpoint = 'http://localhost:3000/';
-
-        return new Promise(resolve => {
-          xhr.onreadystatechange = () => {
-            if (xhr.readyState === xhr.DONE && xhr.status === 200) {
-              resolve(JSON.parse(xhr.response));
-            }
-          }
-
-          xhr.open('GET', endpoint, true);
-          xhr.send();
-        });
-      }
-
-      function printData() {
-        const ol = document.getElementById('prueba-arduino');
-
-        getData()
-          .then(response => {
-            ol.innerHTML = '';
-
-            for (const input of response.analogInputs) {
-              ol.innerHTML += `<li>${input}</li>`;
-            }
-        });
-      }
-    </script>
   </head>
   <body>
-    Prueba Arduino
-    <ol id="prueba-arduino"></ol>
-    <!--<script>setInterval(printData, 5000);</script>-->
-    <input id="ip" type="text" size="100">
-    <input id="method" type="text">
-    <button id="button" type="button">Button</button>
-    <div id="div"></div>
     <app-root></app-root>
+<<<<<<< HEAD
     <script>
       const button = document.getElementById('button');
       const div = document.getElementById('div');
@@ -68,5 +32,7 @@
         //}, 5000);
       });
     </script>
+=======
+>>>>>>> angular-master
   </body>
 </html>

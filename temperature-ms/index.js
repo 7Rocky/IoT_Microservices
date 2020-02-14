@@ -19,14 +19,16 @@ app.post('/', (req, res) => {
     port: req.query.port || 80
   };
 
+  console.log('request /');
+
   const request = http.request(options, response => {
     let dataString = '';
 
     response.on('data', data => dataString += data)
-      .on('end', () => res.json({ arduino: JSON.parse(dataString), envs: process.env }));
+      .on('end', () => res.json({ arduino: JSON.parse(dataString) }));
   });
 
-  request.on('error', error => console.error(error));
+  request.on('error', error => console.error('Error', error));
   request.end();
 });
 
@@ -42,12 +44,7 @@ app.get('/', (req, res) => {
     let dataString = '';
 
     response.on('data', data => dataString += data)
-      .on('end', () => {
-       if (response.statusCode === 200) {
-          res.status(response.statusCode).json(JSON.parse(dataString));
-       }
-       res.status(response.statusCode).json(JSON.parse(dataString));
-      });
+      .on('end', () => res.status(response.statusCode).json(JSON.parse(dataString)));
   });
 
   request.on('error', error => console.error(error));
