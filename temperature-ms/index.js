@@ -4,7 +4,7 @@ const express = require('express');
 const http = require('http');
 
 const PORT = process.env.PORT || 4000;
-const ARDUINO = process.env.ARDUINO || '192.168.1.40';
+const ARDUINO = process.env.ARDUINO || '192.168.1.50';
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,14 +19,16 @@ app.get('/', (req, res) => {
     port: req.query.port || 80
   };
 
+  console.log('request /');
+
   const request = http.request(options, response => {
     let dataString = '';
 
     response.on('data', data => dataString += data)
-      .on('end', () => res.json({ arduino: JSON.parse(dataString), envs: process.env }));
+      .on('end', () => res.json({ arduino: JSON.parse(dataString) }));
   });
 
-  request.on('error', error => console.error(error));
+  request.on('error', error => console.error('Error', error));
   request.end();
 });
 
