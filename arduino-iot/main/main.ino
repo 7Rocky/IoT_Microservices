@@ -60,7 +60,7 @@ void loop() {
         if (c == '\n') {
           if (currentLine.length() == 0) {
             if (analogInputPin == -1) {
-              printHttpHeaders(client, 404);
+              printHttpError(client, 404);
             } else {
               printHttpHeaders(client, 200);
               printHttpResponse(client, analogInputPin, analogInputName);
@@ -97,16 +97,20 @@ void printHttpHeaders(WiFiClient client, int status) {
   switch (status) {
     case 200:
       client.println("HTTP/1.1 200 OK");
-      client.println("Content-Type: application/json");
       break;
     default:
       client.println("HTTP/1.1 404 Not Found");
-      client.println("Content-Type: text/html");
       break;
   } 
 
-  client.println("Connection: close");
+  client.println("Content-Tupe: application/json");
+  client.println("Connection: keep-alive");
   client.println("Access-Control-Allow-Origin: *\n");
+}
+
+void printHttpError(WiFiClient client, int status) {
+  printHttpHeaders(client, 404);
+  client.println("{\"error\":404,\"message\":\"Not Found\"}");
 }
 
 void printHttpResponse(WiFiClient client, int pin, String name) {
