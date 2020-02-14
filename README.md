@@ -2,7 +2,7 @@
 
 ## Before you begin
 
-You'll need to have at least Kubernetes (Minikube) and Docker installed on your machine tu run the application.
+You'll need to have at least Kubernetes (Minikube) and Docker installed on your machine to run the application.
 
 If you want to modify the application, you may need to install the following:
 
@@ -72,7 +72,7 @@ This will generate a JAR file in a directory called `target`.
 
 ## 5. Program Arduino board
 
-You will ned to use Arduino IDE and open [main.ino](https://github.com/7Rocky/IoT_Microservices/tree/master/arduino-iot/main/main.ino) file.
+You will need to use Arduino IDE and open [main.ino](https://github.com/7Rocky/IoT_Microservices/tree/master/arduino-iot/main/main.ino) file.
 
 You will have to add your WiFi SSID and password to the [main-template.h](https://github.com/7Rocky/IoT_Microservices/tree/master/arduino-iot/main/main-template.h) file, as well as the IP address and port you desire your Arduino to listen on. Then, change the filename to simply `main.h`.
 
@@ -122,7 +122,7 @@ minikube service angular-ms
 
 ## 8. Deploy your own Docker images on Kubernetes
 
-Take a look at the YAML files and note that there is a property called `image: 7rocky/<name-of-the-image>`. You will need to change `7rocky` for your username, an put the name of the Docker image you want to deploy (the image must be uploaded to [DockerHub](https://hub.docker.com)).
+Take a look at the YAML files and note that there is a property called `image: 7rocky/<name-of-the-image>`. You will need to change `7rocky` for your username, and put the name of the Docker image you want to deploy (the image must be uploaded to [DockerHub](https://hub.docker.com)).
 
 There are some microservices that need the Arduino IP address. For that, Kubernetes offers the possibility to configure environment variables. For example:
 
