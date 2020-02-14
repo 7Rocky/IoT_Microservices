@@ -53,7 +53,7 @@
       const inputMethod = document.getElementById('method');
 
       button.addEventListener('click', e => {
-        setInterval(() => {
+        //setInterval(() => {
           const xhr = new XMLHttpRequest();
           //div.innerHTML = '';
 
@@ -65,7 +65,7 @@
 
           xhr.open(inputMethod.value || 'GET', `http://${inputIp.value}`, true);
           xhr.send();
-        }, 5000);
+        //}, 5000);
       });
     </script>
   </body>

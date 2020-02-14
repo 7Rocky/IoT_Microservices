@@ -4,14 +4,14 @@ const express = require('express');
 const http = require('http');
 
 const PORT = process.env.PORT || 4000;
-const ARDUINO = process.env.ARDUINO || '192.168.1.40';
+const ARDUINO = process.env.ARDUINO || '192.168.1.50';
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.post('/', (req, res) => {
   const options = {
     hostname: ARDUINO,
     method: 'GET',
@@ -30,10 +30,10 @@ app.get('/', (req, res) => {
   request.end();
 });
 
-app.post('/', (req, res) => {
+app.get('/', (req, res) => {
   const options = {
     hostname: ARDUINO,
-    method: 'POST',
+    method: 'GET',
     path: req.query.path || '/hola',
     port: req.query.port || 80
   };
@@ -42,7 +42,12 @@ app.post('/', (req, res) => {
     let dataString = '';
 
     response.on('data', data => dataString += data)
-      .on('end', () => res.json(JSON.parse(dataString)));
+      .on('end', () => {
+       if (response.statusCode === 200) {
+          res.status(response.statusCode).json(JSON.parse(dataString));
+       }
+       res.status(response.statusCode).json(JSON.parse(dataString));
+      });
   });
 
   request.on('error', error => console.error(error));
