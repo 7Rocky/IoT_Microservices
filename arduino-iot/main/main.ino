@@ -3,6 +3,9 @@
 
 #include "main.h" // Add data to main-template.h and change its name to main.h
 
+#define TEMPERATURE_PIN 0
+#define HUMIDITY_PIN 1
+
 int status = WL_IDLE_STATUS;
 
 WiFiServer server(PORT);
@@ -34,12 +37,10 @@ void setup() {
     Serial.println(WIFI_SSID);
 
     status = WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-
     delay(10000);
   }
 
   server.begin();
-
   printWifiStatus();
 }
 
@@ -48,45 +49,72 @@ void loop() {
 
   if (client) {
     Serial.println("New client");
-
-    boolean currentLineIsBlank = true;
+    int analogInputPin = -1;
+    String analogInputName = "";
+    String currentLine = "";
 
     while (client.connected()) {
       if (client.available()) {
         char c = client.read();
-        Serial.write(c);
 
-        if (c == '\n' && currentLineIsBlank) {
-          client.println("HTTP/1.1 200 OK");
-          client.println("Content-Type: application/json");
-          client.println("Connection: close");
-          client.println("Access-Control-Allow-Origin: *\n");
-
-          client.print("{\"analogInputs\":[");
-
-          for (int analogChannel = 0; analogChannel < 6; analogChannel++) {
-            int sensorReading = analogRead(analogChannel);
-
-            if (analogChannel != 0) {
-              client.print(",");
+        if (c == '\n') {
+          if (currentLine.length() == 0) {
+            if (analogInputPin == -1) {
+              printHttpHeaders(client, 404);
+            } else {
+              printHttpHeaders(client, 200);
+              printHttpResponse(client, analogInputPin, analogInputName);
             }
-            
-            client.print(sensorReading);
+
+            break;
+          } else {
+            if (currentLine.equals("GET /temperature HTTP/1.1")) {
+              analogInputPin = TEMPERATURE_PIN;
+              analogInputName = "temperature";
+              Serial.print("Temperature endpoint requested");
+            } else if (currentLine.equals("GET /humidity HTTP/1.1")) {
+              analogInputPin = HUMIDITY_PIN;
+              analogInputName = "humidity";
+              Serial.print("Humidity endpoint requested");
+            }
+
+            Serial.println(currentLine);
+            currentLine = "";
           }
-
-          client.println("]}");
-          break;
+        } else if (c != '\r') {
+          currentLine += c;
         }
-
-        currentLineIsBlank = c == '\n' ? true : c != '\r' ? false : currentLineIsBlank;
       }
     }
 
     delay(1);
-
     client.stop();
     Serial.println("client disonnected");
   }
+}
+
+void printHttpHeaders(WiFiClient client, int status) {
+  switch (status) {
+    case 200:
+      client.println("HTTP/1.1 200 OK");
+      client.println("Content-Type: application/json");
+      break;
+    default:
+      client.println("HTTP/1.1 404 Not Found");
+      client.println("Content-Type: text/html");
+      break;
+  } 
+
+  client.println("Connection: close");
+  client.println("Access-Control-Allow-Origin: *\n");
+}
+
+void printHttpResponse(WiFiClient client, int pin, String name) {
+  client.print("{\"");
+  client.print(name);
+  client.print("\":[");
+  client.print(analogRead(pin));
+  client.println("]}\n");
 }
 
 void getIpNumbers(char* ip, int* numbers) {
