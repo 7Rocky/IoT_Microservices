@@ -7,4 +7,5 @@
   <input id="method" name="method" [(ngModel)]="method" placeholder="HTTP Method" type="text">
   <button (click)="getData()" id="button" type="button">Button</button>
   <div id="div">{{ data }}</div>
+  <google-chart [data]="chart"></google-chart>
 </main>

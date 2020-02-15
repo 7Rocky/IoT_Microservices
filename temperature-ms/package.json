@@ -7,6 +7,9 @@
     "http": "0.0.0"
   },
   "description": "Temperature microservice",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
   "license": "ISC",
   "main": "index.js",
   "name": "temperature-ms",
@@ -15,8 +18,8 @@
     "url": "https://github.com/7Rocky/IoT_Microservices.git"
   },
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "version": "1.0.0"
 }

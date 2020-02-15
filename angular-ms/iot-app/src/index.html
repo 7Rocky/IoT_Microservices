@@ -9,30 +9,5 @@
   </head>
   <body>
     <app-root></app-root>
-<<<<<<< HEAD
-    <script>
-      const button = document.getElementById('button');
-      const div = document.getElementById('div');
-      const inputIp = document.getElementById('ip');
-      const inputMethod = document.getElementById('method');
-
-      button.addEventListener('click', e => {
-        //setInterval(() => {
-          const xhr = new XMLHttpRequest();
-          //div.innerHTML = '';
-
-          xhr.onreadystatechange = () => {
-            if (xhr.readyState === xhr.DONE && xhr.status === 200) {
-              div.innerHTML = xhr.response;
-            }
-          };
-
-          xhr.open(inputMethod.value || 'GET', `http://${inputIp.value}`, true);
-          xhr.send();
-        //}, 5000);
-      });
-    </script>
-=======
->>>>>>> angular-master
   </body>
 </html>

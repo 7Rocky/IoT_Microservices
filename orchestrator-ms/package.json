@@ -7,6 +7,9 @@
     "http": "0.0.0"
   },
   "description": "Orchestrator microservice",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
   "license": "ISC",
   "main": "index.js",
   "name": "orchestrator-ms",

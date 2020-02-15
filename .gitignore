@@ -3,7 +3,7 @@ angular-ms/iot-app/dist
 arduino-iot/main/main.h
 arduino-iot/main/main-iPhone.h
 
-/**/node_modules/
+/***/node_modules/
 
 /**/*.sh
 

@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from '@components/navbar/navbar.component';
@@ -21,6 +23,7 @@ import { ArduinoService } from '@services/arduino.service';
     AppRoutingModule,
     BrowserModule,
     FormsModule,
+    Ng2GoogleChartsModule,
     HttpClientModule
   ],
   providers: [
