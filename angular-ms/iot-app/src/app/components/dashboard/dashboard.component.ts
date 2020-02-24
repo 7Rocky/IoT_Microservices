@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getData() {
-    setInterval(() => {
+    //setInterval(() => {
       if (this.method === 'GET') {
         this.arduinoService.getData(this.url).subscribe(response => {
           this.chart.dataTable.push([ new Date().toLocaleTimeString(), response.temperature[0] ]);
@@ -42,6 +42,6 @@ export class DashboardComponent implements OnInit {
       } else if (this.method === 'POST') {
         this.arduinoService.postData(this.url).subscribe(response => this.data = JSON.stringify(response));
       }
-    }, 5000);
+   // }, 5000);
   }
 }

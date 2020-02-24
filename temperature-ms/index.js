@@ -1,58 +1,26 @@
+const axios = require('axios');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
-const http = require('http');
 
 const PORT = process.env.PORT || 4000;
-const ARDUINO = process.env.ARDUINO || '192.168.1.50';
+const ARDUINO = process.env.ARDUINO || 'localhost';
 const app = express();
+
+console.log(`Using ${process.env.ARDUINO ? '' : 'Fake-'}Arduino at: ${ARDUINO}`);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.json());
 
-app.post('/', (req, res) => {
-  const options = {
-    hostname: ARDUINO,
-    method: 'GET',
-    path: req.query.path || '/',
-    port: req.query.port || 80
-  };
-
-  console.log('request /');
-
-  const request = http.request(options, response => {
-    let dataString = '';
-
-    response.on('data', data => dataString += data)
-      .on('end', () => res.json({ arduino: JSON.parse(dataString) }));
-  });
-
-  request.on('error', error => console.error('Error', error));
-  request.end();
-});
-
 app.get('/', (req, res) => {
-  const options = {
-    hostname: ARDUINO,
-    method: 'GET',
-    path: req.query.path || '/hola',
-    port: req.query.port || 80
-  };
+  const url = `http://${ARDUINO}${req.query.path || '/temperature'}`;
 
-  const request = http.request(options, response => {
-    let dataString = '';
-
-    response.on('data', data => dataString += data)
-      .on('end', () => res.status(response.statusCode).json(JSON.parse(dataString)));
-  });
-
-  request.on('error', error => console.error(error));
-  request.end();
+  axios.get(url)
+    .then(response => res.status(response.status).json(response.data))
+    .catch(error => console.log(error));
 });
 
 app.get('/prueba', (req, res) => res.json({ message: 'GET Prueba from other backend' }));
 
-app.post('/prueba', (req, res) => res.json({ data: req.body, message: 'POST Prueba from other backend' }));
-
-app.listen(PORT, () => console.log('App listening at http://localhost:' + PORT));
+app.listen(PORT, () => console.log('temperature-ms listening at http://localhost:' + PORT));
