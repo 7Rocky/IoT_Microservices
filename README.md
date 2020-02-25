@@ -9,8 +9,7 @@ If you want to modify the application, you may need to install the following:
 * [Kubernetes](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 * [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 * Docker ([Docker Desktop](https://www.docker.com/products/docker-desktop) and a [DockerHub](https://hub.docker.com) account)
-* [Node.js](https://nodejs.org/en/download/)
-* Node.js Package Manager: [npm](https://www.npmjs.com/get-npm)
+* [Node.js](https://nodejs.org/en/download/) and [npm](https://www.npmjs.com/get-npm)
 * Java Development Kit: [jdk8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 * [Arduino IDE](https://www.arduino.cc/en/main/software)
 
