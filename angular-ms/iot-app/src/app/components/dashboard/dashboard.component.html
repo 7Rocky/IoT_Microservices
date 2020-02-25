@@ -4,8 +4,20 @@
   <p>DEV (Fake): http://localhost:3000?host=localhost&port=4000</p>
   <input id="url" name="url" [(ngModel)]="query" placeholder="URL" size="100" type="text">
   <input id="method" name="method" [(ngModel)]="method" placeholder="HTTP Method" type="text">-->
-  <button (click)="getData()" id="button" type="button">Button</button>
-  <div style="width: 70%">
+  
+  <div class="chart-container">
+    <button (click)="getData()" id="button" type="button">Button</button>
+    <br>
     <google-chart [data]="chart" style="width: 100%"></google-chart>
+  </div>
+  <div class="stats">
+    Estadísticas
+    Personalizar...
+
+    <ul>
+      <li>Máxima: 30 ºC</li>
+      <li>Mínima: 15 ºC</li>
+      <li>Media: 22 ºC</li>
+    </ul>
   </div>
 </main>
