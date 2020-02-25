@@ -7,17 +7,21 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from '@components/navbar/navbar.component';
-import { MenuComponent } from '@components/menu/menu.component';
 import { DashboardComponent } from '@components/dashboard/dashboard.component';
+import { DropdownMenuComponent } from '@components/dropdown-menu/dropdown-menu.component';
+import { LoginComponent } from '@components/login/login.component';
+import { NavbarComponent } from '@components/navbar/navbar.component';
+
 import { ArduinoService } from '@services/arduino.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    MenuComponent,
-    NavbarComponent,
+    DropdownMenuComponent,
+    LoginComponent,
+    NavbarComponent
   ],
   imports: [
     AppRoutingModule,

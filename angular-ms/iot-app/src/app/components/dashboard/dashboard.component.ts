@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 
 import { ArduinoService } from '@services/arduino.service';
-import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.less']
+  styleUrls: [ './dashboard.component.less' ],
+  templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-  data: any;
-  method: string = 'GET';
-  url: string = 'http://localhost:4000?path=/temperature';
+  H_AXIS_MAX: number = 10;
   chart: GoogleChartInterface = {
     chartType: 'AreaChart',
     dataTable: [
@@ -19,7 +17,15 @@ export class DashboardComponent implements OnInit {
       [ new Date().toLocaleTimeString(), 460 ]
     ],
     options: {
-      title: 'Prueba'
+      hAxis: {
+        viewWindow: {
+          max: this.H_AXIS_MAX
+        }
+      },
+      legend: {
+        alignment: 'end',
+        position: 'top'
+      }
     }
   };
 
@@ -32,16 +38,16 @@ export class DashboardComponent implements OnInit {
   }
 
   getData() {
-    //setInterval(() => {
-      if (this.method === 'GET') {
-        this.arduinoService.getData(this.url).subscribe(response => {
-          this.chart.dataTable.push([ new Date().toLocaleTimeString(), response.temperature[0] ]);
-          this.chart.component.draw();
-          this.data = JSON.stringify(response);
-        });
-      } else if (this.method === 'POST') {
-        this.arduinoService.postData(this.url).subscribe(response => this.data = JSON.stringify(response));
+    this.arduinoService.getData({ host: 'localhost', port : 4000 }).subscribe(response => {
+      if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
+        const headerNames = this.chart.dataTable.shift();
+        this.chart.dataTable.shift();
+        this.chart.dataTable.unshift(headerNames);
       }
-   // }, 5000);
+
+      this.chart.dataTable.push([ new Date().toLocaleTimeString(), response.temperature[0] ]);
+      this.chart.component.draw();
+    });
   }
+
 }

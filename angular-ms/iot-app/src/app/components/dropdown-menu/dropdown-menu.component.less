@@ -1,0 +1,51 @@
+@import (reference) "../navbar/navbar.component.less";
+
+a {
+  color: #000;
+  display: block;
+  float: none;
+  font-size: 16px;
+  padding: 12px 16px;
+  text-align: left;
+  text-decoration: none;
+  &:hover {
+    background-color: #ddd;
+    cursor: pointer;
+  }
+}
+div {
+  float: left;
+  margin: 0 2px;
+}
+svg {
+  height: 24px;
+  width: 24px;
+}
+.angle-down-icon {
+  fill: currentColor;
+  transition: transform .2s linear;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.dropdown-content {
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(63, 39, 39, 0.2);
+  display: none;
+  min-width: 160px;
+  position: absolute;
+  top: @navbar-height;
+  z-index: 1;
+}
+.dropdown-prompt {
+  user-select: none;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.nav-item{
+  .nav-item;
+}
+.rotate-arrow {
+  transform: rotateX(-180deg);
+}

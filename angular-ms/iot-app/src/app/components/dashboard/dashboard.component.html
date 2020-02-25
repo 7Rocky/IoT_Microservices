@@ -1,10 +1,11 @@
-<main>
-  <h1>Prueba Arduino</h1>
-  <p>PROD: http://192.168.99.100:31600/orchestrator-ms?host=temperature-ms&port=80</p>
+<main class="container">
+  <h1>Temperatura</h1>
+  <!--<p>PROD: http://192.168.99.100:31600/orchestrator-ms?host=temperature-ms&port=80</p>
   <p>DEV (Fake): http://localhost:3000?host=localhost&port=4000</p>
-  <input id="url" name="url" [(ngModel)]="url" placeholder="URL" size="100" type="text">
-  <input id="method" name="method" [(ngModel)]="method" placeholder="HTTP Method" type="text">
+  <input id="url" name="url" [(ngModel)]="query" placeholder="URL" size="100" type="text">
+  <input id="method" name="method" [(ngModel)]="method" placeholder="HTTP Method" type="text">-->
   <button (click)="getData()" id="button" type="button">Button</button>
-  <div id="div">{{ data }}</div>
-  <google-chart [data]="chart"></google-chart>
+  <div style="width: 70%">
+    <google-chart [data]="chart" style="width: 100%"></google-chart>
+  </div>
 </main>
