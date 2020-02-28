@@ -1,50 +1,46 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: temperature-ms
-spec:
-  selector:
-    matchLabels:
-      app: temperature-ms
-      tier: backend
-      track: stable
-  replicas: 3
-  template:
-    metadata:
-      labels:
-        app: temperature-ms
-        tier: backend
-        track: stable
-    spec:
-      containers:
-      - name: temperature-ms
-        image: 7rocky/temperature-ms
-        env:
-        - name: ARDUINO
-          value: "192.168.1.50"
-        - name: PORT
-          value: "80"
-        ports:
-        - name: http
-          containerPort: 80
-        resources:
-          limits:
-            memory: "64Mi"
-            cpu: "100m"
-          requests:
-            memory: "16Mi"
-
----
 apiVersion: v1
 kind: Service
 metadata:
   name: temperature-ms
 spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: http
   selector:
     app: temperature-ms
     tier: backend
-    track: stable
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: http
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temperature-ms
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: temperature-ms
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: temperature-ms
+        tier: backend
+    spec:
+      containers:
+      - env:
+        - name: ARDUINO
+          value: 192.168.1.50
+        - name: PORT
+          value: "80"
+        image: 7rocky/temperature-ms
+        name: temperature-ms
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+          requests:
+            memory: 16Mi

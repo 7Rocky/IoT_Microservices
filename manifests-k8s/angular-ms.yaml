@@ -1,3 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: angular-ms
+spec:
+  ports:
+  - nodePort: 31600
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: angular-ms
+    tier: frontend
+  type: NodePort
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,29 +31,13 @@ spec:
         tier: frontend
     spec:
       containers:
-      - name: angular-ms
-        image: 7rocky/angular-ms
+      - image: 7rocky/angular-ms
+        name: angular-ms
         ports:
         - containerPort: 80
         resources:
           limits:
-            memory: "64Mi"
-            cpu: "100m"
+            cpu: 100m
+            memory: 64Mi
           requests:
-            memory: "8Mi"
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: angular-ms
-spec:
-  selector:
-    app: angular-ms
-    tier: frontend
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-    nodePort: 31600
-  type: NodePort
+            memory: 8Mi
