@@ -2,56 +2,54 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: mongo
-  name: mongo
+    app: mysql
+  name: mysql
 spec:
   ports:
-  - port: 27017
+  - port: 3306
     protocol: TCP
-    targetPort: 27017
+    targetPort: 3306
   selector:
-    app: mongo
+    app: mysql
 
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongo
+  name: mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongo
-  serviceName: mongo
+      app: mysql
+  serviceName: mysql
   template:
     metadata:
       labels:
-        app: mongo
+        app: mysql
     spec:
       containers:
       - env:
-        - name: MONGO_INITDB_ROOT_USERNAME
-          value: root
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          value: secret
-        image: mongo
-        name: mongo
+        - name: MYSQL_ROOT_PASSWORD
+          value: my-secret-pw
+        image: mysql
+        name: mysql
         ports:
-        - containerPort: 27017
+        - containerPort: 3306
         volumeMounts:
-        - mountPath: /data/db
-          name: mongo-persistent-storage
+        - mountPath: /var/lib/mysql
+          name: mysql-persistent-storage
       terminationGracePeriodSeconds: 10
       volumes:
-      - name: mongo-persistent-storage
+      - name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: mongo-pv-claim
+          claimName: mysql-pv-claim
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mongo-pv-claim
+  name: mysql-pv-claim
 spec:
   accessModes:
   - ReadWriteOnce
