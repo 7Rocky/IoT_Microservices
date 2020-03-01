@@ -6,7 +6,7 @@ const dao = new Dao();
 dao.connect('temperature');
 
 const getIndex = (req, res) => {
-  axios.get(`http://${ARDUINO}${req.query.path || '/temperature'}`)
+  axios.get(`http://${ARDUINO}/temperature`)
     .then(response => res.status(response.status).json(response.data))
     .catch(error => console.log(error));
 };

@@ -6,7 +6,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: http
+    targetPort: 80
   selector:
     app: temperature-ms
     tier: backend

@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: orchestrator-ms
 spec:
-  selector:
-    app: orchestrator-ms
-    tier: backend
   ports:
   - port: 80
     protocol: TCP
-    targetPort: http
+    targetPort: 80
+  selector:
+    app: orchestrator-ms
+    tier: backend
 
 ---
 apiVersion: apps/v1

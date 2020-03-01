@@ -18,6 +18,10 @@ export class ArduinoService {
     return this.http.get<any>(`http://${this.endpoint}`, { params });
   }
 
+  setQuery(url: string): Observable<any> {
+    return this.http.get<any>(`http://${url}`);
+  }
+
   postData(url: string): Observable<any> {
     return this.http.post<any>(url, { message: 'Hello Backend' });
   }

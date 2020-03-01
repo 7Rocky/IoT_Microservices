@@ -1,6 +1,6 @@
 module.exports = {
-  HOST: '192.168.99.100',//'172.17.0.3',
-  PORT: 32000, //27017,
+  HOST: process.env.MONGO_SERVICE_HOST ? 'mongo' : '192.168.99.100',
+  PORT: process.env.MONGO_SERVICE_PORT || 32000,
   USERNAME: 'root',
   PASSWORD: 'secret'
 };

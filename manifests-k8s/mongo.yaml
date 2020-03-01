@@ -47,14 +47,3 @@ spec:
         persistentVolumeClaim:
           claimName: mongo-pv-claim
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mongo-pv-claim
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
