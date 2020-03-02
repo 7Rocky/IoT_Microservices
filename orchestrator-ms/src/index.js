@@ -10,4 +10,4 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(require('./routes/routes'));
 
-app.listen(PORT, () => console.log('orchestrator-ms listening at http://localhost:' + PORT));
+app.listen(PORT, () => console.log('orchestrator-ms at http://localhost:' + PORT));

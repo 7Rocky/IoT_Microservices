@@ -12,4 +12,4 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(require('./routes/routes'));
 
-app.listen(PORT, () => console.log('temperature-ms listening at http://localhost:' + PORT));
+app.listen(PORT, () => console.log('temperature-ms at http://localhost:' + PORT));
