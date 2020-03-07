@@ -27,6 +27,9 @@
       "@mockups/*": [
         "src/app/mockups/*"
       ],
+      "@modules/*": [
+        "src/app/modules/*"
+      ],
       "@services/*": [
         "src/app/services/*"
       ],

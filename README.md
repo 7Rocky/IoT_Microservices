@@ -8,7 +8,7 @@ If you want to modify the application, you may need to install the following:
 
 * [Kubernetes](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 * [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
-* Docker ([Docker Desktop](https://www.docker.com/products/docker-desktop) and a [DockerHub](https://hub.docker.com) account)
+* Docker ([Docker Desktop](https://www.docker.com/products/docker-desktop) and a [Docker Hub](https://hub.docker.com) account)
 * [Node.js](https://nodejs.org/en/download/) and [npm](https://www.npmjs.com/get-npm)
 * Java Development Kit: [jdk8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 * [Arduino IDE](https://www.arduino.cc/en/main/software)
@@ -88,7 +88,7 @@ docker run -p 4000:4000 my-new-image
 
 Note: `-p 4000:4000` argument is mapping the listening port on the container application to a port on your machine.
 
-You will need to push your image to DockerHub to deploy it on Kubernetes:
+You will need to push your image to Docker Hub to deploy it on Kubernetes:
 
 ```
 docker build -t <your-username>/my-new-image .
@@ -121,7 +121,7 @@ minikube service angular-ms
 
 ## 8. Deploy your own Docker images on Kubernetes
 
-Take a look at the YAML files and note that there is a property called `image: 7rocky/<name-of-the-image>`. You will need to change `7rocky` for your username, and put the name of the Docker image you want to deploy (the image must be uploaded to [DockerHub](https://hub.docker.com)).
+Take a look at the YAML files and note that there is a property called `image: 7rocky/<name-of-the-image>`. You will need to change `7rocky` for your username, and put the name of the Docker image you want to deploy (the image must be uploaded to [Docker Hub](https://hub.docker.com)).
 
 There are some microservices that need the Arduino IP address. For that, Kubernetes offers the possibility to configure environment variables. For example:
 
@@ -129,7 +129,7 @@ There are some microservices that need the Arduino IP address. For that, Kuberne
 ...
 env:
 - name: ARDUINO
-  value: "192.168.1.50"
+  value: 192.168.1.50
 ...
 ```
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
@@ -14,8 +14,24 @@ export class ArduinoService {
     private http: HttpClient
   ) { }
 
-  getData(params: any): Observable<any> {
+  getCurrentTemperature(params: any): Observable<any> {
     return this.http.get<any>(`http://${this.endpoint}`, { params });
+  }
+
+  getPreviousTemperatures(n: number): Observable<any> {
+    let temperatures = [];
+    const date = new Date(2019, 11, 22, 1);
+
+    for (let i = 0; i < n; i++) {
+      temperatures.push({
+        date: new Date(date.getTime() + i * 60000).toUTCString(),
+        digital_value: [ (Math.random() * 100).toFixed() + 400 ],
+        real_value: [ (Math.random() * 100).toFixed() + 400 ],
+        timestamp: date.getTime() + i * 60000
+      });
+    }
+
+    return of(temperatures);
   }
 
   setQuery(url: string): Observable<any> {

@@ -5,13 +5,29 @@
   <input id="url" name="url" [(ngModel)]="query" placeholder="URL" size="100" type="text">
   <input id="method" name="method" [(ngModel)]="method" placeholder="HTTP Method" type="text">-->
   
-  <div class="chart-container">
-    <button (click)="getData(1)" id="button" type="button">Button1</button>
-    <button (click)="getData(2)" id="button" type="button">Button2</button>
-    <button (click)="setQuery()" id="button" type="button">Button3</button>
-    <input [(ngModel)]="input" type="text">
+  <div>
+    <button (click)="getCurrentTemperature()" [color]="'primary'" mat-raised-button type="button">
+      <mat-label>Actualizar</mat-label>
+      <mat-icon>sync</mat-icon>
+    </button>
+    <button (click)="getPreviousTemperatures()" [color]="'primary'" mat-raised-button type="button">
+      <mat-label>Cargar</mat-label>
+      <mat-icon>history</mat-icon>
+    </button>
+    <!--<button (click)="setQuery()" type="button">Button3</button>
+    <button mat-flat-button>button</button>
+    <input [(ngModel)]="input" type="text">-->
     <br>
     <google-chart [data]="chart" style="width: 100%"></google-chart>
+    <mat-checkbox (click)="checkboxClicked()" [color]="'primary'" [(ngModel)]="checked">Actualizar automáticamente cada</mat-checkbox>
+    <br>
+    <mat-form-field>
+      <mat-select [disabled]="!checked" [(ngModel)]="refresh_time" (selectionChange)="selectChanged()" [(value)]="refresh_time">
+        <mat-option *ngFor="let time of refresh_times" [value]="time">
+          {{ time / 1000 }} segundos
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div class="stats">
     Estadísticas

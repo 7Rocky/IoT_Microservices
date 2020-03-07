@@ -4,4 +4,12 @@
   </span>
   <app-dropdown-menu [options]="options" [prompt]="'Servicios'"></app-dropdown-menu>
   <app-login></app-login>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item>Settings</button>
+    <button mat-menu-item>Help</button>
+  </mat-menu>
+  
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
 </nav>
