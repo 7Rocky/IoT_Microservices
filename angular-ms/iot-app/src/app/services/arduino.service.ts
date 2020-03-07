@@ -25,8 +25,8 @@ export class ArduinoService {
     for (let i = 0; i < n; i++) {
       temperatures.push({
         date: new Date(date.getTime() + i * 60000).toUTCString(),
-        digital_value: [ (Math.random() * 100).toFixed() + 400 ],
-        real_value: [ (Math.random() * 100).toFixed() + 400 ],
+        digital_value: Number((Math.random() * 100).toFixed()) + 400,
+        real_value: Number((Math.random() * 100).toFixed()) + 400,
         timestamp: date.getTime() + i * 60000
       });
     }

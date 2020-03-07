@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
-import { interval } from 'rxjs';
 
 import { ArduinoService } from '@services/arduino.service';
 import { environment } from 'src/environments/environment';
@@ -12,10 +11,11 @@ import { environment } from 'src/environments/environment';
 })
 export class DashboardComponent implements OnInit {
   H_AXIS_MAX: number = 10;
+  header: string[] = [ 'Time', 'Temperature' ];
   chart: GoogleChartInterface = {
     chartType: 'AreaChart',
     dataTable: [
-      [ 'Time', 'Temperature' ],
+      this.header,
       [ new Date().toLocaleTimeString(), 460 ]
     ],
     options: {
@@ -83,9 +83,10 @@ export class DashboardComponent implements OnInit {
     this.arduinoService.getPreviousTemperatures(20)
       .subscribe(response => {
         console.log(response);
-        this.chart.dataTable = [];
+        this.chart.dataTable = [ this.header ];
 
         for (const data of response) {
+          console.log(data);
           this.chart.dataTable.push([ data.date, data.real_value ]);
         }
 

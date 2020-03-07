@@ -1,42 +1,34 @@
 <main class="container">
   <h1>Temperatura</h1>
-  <!--<p>PROD: http://192.168.99.100:31600/orchestrator-ms?host=temperature-ms&port=80</p>
-  <p>DEV (Fake): http://localhost:3000?host=localhost&port=4000</p>
-  <input id="url" name="url" [(ngModel)]="query" placeholder="URL" size="100" type="text">
-  <input id="method" name="method" [(ngModel)]="method" placeholder="HTTP Method" type="text">-->
-  
-  <div>
-    <button (click)="getCurrentTemperature()" [color]="'primary'" mat-raised-button type="button">
-      <mat-label>Actualizar</mat-label>
-      <mat-icon>sync</mat-icon>
-    </button>
-    <button (click)="getPreviousTemperatures()" [color]="'primary'" mat-raised-button type="button">
-      <mat-label>Cargar</mat-label>
-      <mat-icon>history</mat-icon>
-    </button>
-    <!--<button (click)="setQuery()" type="button">Button3</button>
-    <button mat-flat-button>button</button>
-    <input [(ngModel)]="input" type="text">-->
-    <br>
-    <google-chart [data]="chart" style="width: 100%"></google-chart>
-    <mat-checkbox (click)="checkboxClicked()" [color]="'primary'" [(ngModel)]="checked">Actualizar automáticamente cada</mat-checkbox>
-    <br>
-    <mat-form-field>
-      <mat-select [disabled]="!checked" [(ngModel)]="refresh_time" (selectionChange)="selectChanged()" [(value)]="refresh_time">
-        <mat-option *ngFor="let time of refresh_times" [value]="time">
-          {{ time / 1000 }} segundos
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="stats">
-    Estadísticas
-    Personalizar...
-
-    <ul>
-      <li>Máxima: 30 ºC</li>
-      <li>Mínima: 15 ºC</li>
-      <li>Media: 22 ºC</li>
-    </ul>
+  <div style="height: 265px; text-align: center;">
+    <div style="display: inline-block; height: 265px; width: 47%; text-align: left; margin-right: 3%;">
+      <mat-card style="box-sizing: border-box; height: 100%; float: left; width: 100%">
+        <mat-card-title>Tiempo real</mat-card-title>
+        <mat-card-content>
+          <google-chart [data]="chart" style="width: 100%"></google-chart>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div style="display: inline-block; height: 265px; width: 47%; text-align: left; margin-left: 3%;">
+      <mat-card class="stats" style="box-sizing: border-box; height: 100%; float: right; width: 100%">
+        <mat-card-title>Estadísticas</mat-card-title>
+        <mat-card-content>
+          <ul>
+            <li>
+              <span>Máxima: </span>
+              <span>33 ºC</span>
+            </li>
+            <li>
+              <span>Mínima: </span>
+              <span>15 ºC</span>
+            </li>
+            <li>
+              <span>Media: </span>
+              <span>22 ºC</span>
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </main>

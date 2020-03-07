@@ -1,0 +1,42 @@
+<main class="container">
+  <h1>Temperatura</h1>
+  <!--<p>PROD: http://192.168.99.100:31600/orchestrator-ms?host=temperature-ms&port=80</p>
+  <p>DEV (Fake): http://localhost:3000?host=localhost&port=4000</p>
+  <input id="url" name="url" [(ngModel)]="query" placeholder="URL" size="100" type="text">
+  <input id="method" name="method" [(ngModel)]="method" placeholder="HTTP Method" type="text">-->
+  
+  <div>
+    <button (click)="getCurrentTemperature()" [color]="'primary'" mat-raised-button type="button">
+      <mat-label>Actualizar</mat-label>
+      <mat-icon>sync</mat-icon>
+    </button>
+    <button (click)="getPreviousTemperatures()" [color]="'primary'" mat-raised-button type="button">
+      <mat-label>Cargar</mat-label>
+      <mat-icon>history</mat-icon>
+    </button>
+    <!--<button (click)="setQuery()" type="button">Button3</button>
+    <button mat-flat-button>button</button>
+    <input [(ngModel)]="input" type="text">-->
+    <br>
+    <google-chart [data]="chart" style="width: 100%"></google-chart>
+    <mat-checkbox (click)="checkboxClicked()" [color]="'primary'" [(ngModel)]="checked">Actualizar automáticamente cada</mat-checkbox>
+    <br>
+    <mat-form-field>
+      <mat-select [disabled]="!checked" [(ngModel)]="refresh_time" (selectionChange)="selectChanged()" [(value)]="refresh_time">
+        <mat-option *ngFor="let time of refresh_times" [value]="time">
+          {{ time / 1000 }} segundos
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="stats">
+    Estadísticas
+    Personalizar...
+
+    <ul>
+      <li>Máxima: 30 ºC</li>
+      <li>Mínima: 15 ºC</li>
+      <li>Media: 22 ºC</li>
+    </ul>
+  </div>
+</main>
