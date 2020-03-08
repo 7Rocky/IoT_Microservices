@@ -2,13 +2,16 @@
   <span class="nav-item nav-title">
     <a routerLink="/">IoT_Microservices</a>
   </span>
-  <app-dropdown-menu [options]="options" [prompt]="'Servicios'"></app-dropdown-menu>
   <app-login></app-login>
+  <span style="float: right; font-size: 24px; line-height: 36px; margin-right: 5%;">{{ today }}</span>
   <mat-menu #appMenu="matMenu">
-    <button mat-menu-item>Settings</button>
-    <button mat-menu-item>Help</button>
+    <button mat-menu-item routerLink="/temperature/realtime">Tiempo real</button>
+    <button mat-menu-item routerLink="/temperature/history">Historial</button>
+    <button mat-menu-item>Estadísticas</button>
+    <button mat-menu-item>Predicciones</button>
   </mat-menu>
-  <button mat-icon-button [matMenuTriggerFor]="appMenu">
-    <mat-icon>more_vert</mat-icon>
+  <button mat-button [matMenuTriggerFor]="appMenu" (menuClosed)="menuClosed()" (menuOpened)="menuOpened()" type="button">
+    <label style="font-size: 24px; font-weight: normal">Temperatura</label>
+    <mat-icon>{{ icon }}</mat-icon>
   </button>
 </nav>

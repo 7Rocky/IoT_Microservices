@@ -1,5 +1,5 @@
 export interface Temperature {
-  date: Date,
+  date: string,
   digital_value: number,
   real_value: number,
   timestamp: number

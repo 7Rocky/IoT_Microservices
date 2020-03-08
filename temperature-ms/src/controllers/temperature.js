@@ -10,7 +10,7 @@ const getIndex = (req, res) => {
     .then(response => {
       res.status(response.status)
         .json({
-          date: new Date(),
+          date: new Date().toUTCString(),
           digital_value: response.data.temperature,
           real_value: digitalToReal(response.data.temperature),
           timestamp: Date.now()
