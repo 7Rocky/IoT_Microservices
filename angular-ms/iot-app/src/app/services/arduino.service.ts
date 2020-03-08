@@ -21,14 +21,15 @@ export class ArduinoService {
   }
 
   getPreviousTemperatures(n: number): Observable<any> {
-    let temperatures = [];
-    const date = new Date(2019, 11, 22, 1);
+    let temperatures: any[] = [];
+    const date: Date = new Date(2019, 11, 22, 1);
+    const digital_value: number = Number((Math.random() * 100 + 400).toFixed());
 
     for (let i = 0; i < n; i++) {
       temperatures.push({
         date: new Date(date.getTime() + i * 60000).toUTCString(),
-        digital_value: Number((Math.random() * 100).toFixed()) + 400,
-        real_value: Number((Math.random() * 100).toFixed()) + 400,
+        digital_value,
+        real_value: Number((digital_value / 10 - 25).toFixed(1)),
         timestamp: date.getTime() + i * 60000
       });
     }

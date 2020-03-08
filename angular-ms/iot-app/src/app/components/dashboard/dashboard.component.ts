@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit {
             this.chart.dataTable.unshift(this.header);
           }
 
-          this.chart.dataTable.push([ new Date().toLocaleTimeString(), response.temperature[0] ]);
+          this.chart.dataTable.push([ new Date().toLocaleTimeString(), response.real_value ]);
           this.chart.component.draw();
         });
   }
