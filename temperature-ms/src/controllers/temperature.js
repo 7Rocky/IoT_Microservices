@@ -7,9 +7,19 @@ dao.connect('temperature');
 
 const getIndex = (req, res) => {
   axios.get(`http://${ARDUINO}/temperature`)
-    .then(response => res.status(response.status).json(response.data))
+    .then(response => {
+      res.status(response.status)
+        .json({
+          date: new Date(),
+          digital_value: response.data.temperature,
+          real_value: digitalToReal(response.data.temperature),
+          timestamp: Date.now()
+        });
+    })
     .catch(error => console.log(error));
 };
+
+const digitalToReal = digital => Number((digital / 10  - 25).toFixed(1));
 
 const getTemperatures = (req, res) => {
   dao.findAll()
@@ -30,8 +40,8 @@ setInterval(() => {
       console.log(response.data);
       dao.saveTemperature({
         date: new Date(),
-        digital_value: response.data.temperature[0],
-        real_value: response.data.temperature[0],
+        digital_value: response.data.temperature,
+        real_value: digitalToReal(response.data.temperature),
         timestamp: Date.now()
       });
     })
