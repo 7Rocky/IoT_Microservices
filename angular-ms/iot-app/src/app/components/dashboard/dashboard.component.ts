@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 
 import { ArduinoService } from '@services/arduino.service';
-import { environment } from 'src/environments/environment';
+
+import { Temperature } from '@models/temperature.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,7 @@ export class DashboardComponent implements OnInit {
     chartType: 'AreaChart',
     dataTable: [
       this.header,
-      [ new Date().toLocaleTimeString(), 460 ]
+      [ new Date().toLocaleTimeString(), 24 ]
     ],
     options: {
       hAxis: {
@@ -47,15 +48,15 @@ export class DashboardComponent implements OnInit {
 
   getCurrentTemperature() {
       this.arduinoService.getCurrentTemperature()
-        .subscribe(response => {
-          console.log(response);
+        .subscribe((temperature: Temperature) => {
+          console.log(temperature);
           if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
             this.chart.dataTable.shift();
             this.chart.dataTable.shift();
             this.chart.dataTable.unshift(this.header);
           }
 
-          this.chart.dataTable.push([ new Date().toLocaleTimeString(), response.real_value ]);
+          this.chart.dataTable.push([ new Date().toLocaleTimeString(), temperature.real_value ]);
           this.chart.component.draw();
         });
   }
@@ -78,13 +79,13 @@ export class DashboardComponent implements OnInit {
     console.log('getPreviousTemperatures');
 
     this.arduinoService.getPreviousTemperatures(20)
-      .subscribe(response => {
-        console.log(response);
+      .subscribe((temperatures: Temperature[]) => {
+        console.log(temperatures);
         this.chart.dataTable = [ this.header ];
 
-        for (const data of response) {
-          console.log(data);
-          this.chart.dataTable.push([ data.date, data.real_value ]);
+        for (const temperature of temperatures) {
+          console.log(temperature);
+          this.chart.dataTable.push([ temperature.date, temperature.real_value ]);
         }
 
         this.chart.component.draw();

@@ -24,8 +24,8 @@
       "@constants/*": [
         "src/app/constants/*"
       ],
-      "@mockups/*": [
-        "src/app/mockups/*"
+      "@models/*": [
+        "src/app/models/*"
       ],
       "@modules/*": [
         "src/app/modules/*"

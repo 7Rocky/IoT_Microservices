@@ -4,6 +4,8 @@ import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces
 
 import { ArduinoService } from '@services/arduino.service';
 
+import { Temperature } from '@models/temperature.model';
+
 @Component({
   selector: 'app-dashboard-chart',
   styleUrls: [ './dashboard-chart.component.less' ],
@@ -16,7 +18,7 @@ export class DashboardChartComponent implements OnInit {
     chartType: 'AreaChart',
     dataTable: [
       this.header,
-      [ new Date().toLocaleTimeString(), 480 ]
+      [ new Date().toLocaleTimeString(), 24 ]
     ],
     options: {
       hAxis: {
@@ -44,15 +46,15 @@ export class DashboardChartComponent implements OnInit {
 
   getCurrentTemperature() {
       this.arduinoService.getCurrentTemperature()
-        .subscribe(response => {
-          console.log(response);
+        .subscribe((temperature: Temperature) => {
+          console.log(temperature);
           if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
             this.chart.dataTable.shift();
             this.chart.dataTable.shift();
             this.chart.dataTable.unshift(this.header);
           }
 
-          this.chart.dataTable.push([ new Date().toLocaleTimeString(), response.real_value ]);
+          this.chart.dataTable.push([ new Date().toLocaleTimeString(), temperature.real_value ]);
           this.chart.component.draw();
         });
   }

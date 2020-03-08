@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable, of } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
+import { Temperature } from '@models/temperature.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,11 @@ export class ArduinoService {
     private http: HttpClient
   ) { }
 
-  getCurrentTemperature(): Observable<any> {
+  getCurrentTemperature(): Observable<Temperature> {
     return this.http.get<any>(`http://${this.endpoint}`, { params: { host: this.host, port: this.port } });
   }
 
-  getPreviousTemperatures(n: number): Observable<any> {
+  getPreviousTemperatures(n: number): Observable<Temperature[]> {
     let temperatures: any[] = [];
     const date: Date = new Date(2019, 11, 22, 1);
     const digital_value: number = Number((Math.random() * 100 + 400).toFixed());
