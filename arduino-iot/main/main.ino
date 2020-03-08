@@ -116,9 +116,9 @@ void printHttpError(WiFiClient client, int status) {
 void printHttpResponse(WiFiClient client, int pin, String name) {
   client.print("{\"");
   client.print(name);
-  client.print("\":[");
+  client.print("\":");
   client.print(analogRead(pin));
-  client.println("]}\n");
+  client.println("}\n");
 }
 
 void getIpNumbers(char* ip, int* numbers) {
