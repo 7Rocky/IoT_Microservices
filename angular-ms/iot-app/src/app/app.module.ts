@@ -16,7 +16,6 @@ import { NavbarComponent } from '@components/navbar/navbar.component';
 
 import { DashboardModule } from '@modules/dashboard.module';
 
-
 @NgModule({
   bootstrap: [
     AppComponent

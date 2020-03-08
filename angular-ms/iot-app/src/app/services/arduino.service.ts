@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable, of } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
@@ -9,13 +9,15 @@ import { environment } from 'src/environments/environment';
 })
 export class ArduinoService {
   endpoint: string = environment.ORCHESTRATOR_MS;
+  host: string = environment.production ? 'temperature-ms' : 'localhost';
+  port: string = environment.production ? '80' : '4000';
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getCurrentTemperature(params: any): Observable<any> {
-    return this.http.get<any>(`http://${this.endpoint}`, { params });
+  getCurrentTemperature(): Observable<any> {
+    return this.http.get<any>(`http://${this.endpoint}`, { params: { host: this.host, port: this.port } });
   }
 
   getPreviousTemperatures(n: number): Observable<any> {

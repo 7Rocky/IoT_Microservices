@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class DashboardComponent implements OnInit {
   H_AXIS_MAX: number = 10;
-  header: string[] = [ 'Time', 'Temperature' ];
+  header: string[] = [ 'Tiempo', 'Temperatura' ];
   chart: GoogleChartInterface = {
     chartType: 'AreaChart',
     dataTable: [
@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
   };
 
   input: string;
-  interval: any;// = setInterval(() => this.getData(), 5000);
+  interval: any = setInterval(() => this.getCurrentTemperature(), 10000);
   checked: boolean = false;
   refresh_time: number = 30000;
   refresh_times: number[] = [ 5000, 10000, 30000, 60000 ];
@@ -46,16 +46,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getCurrentTemperature() {
-      this.arduinoService.getCurrentTemperature({
-        host: environment.production ? 'temperature-ms' : 'localhost',
-        port: environment.production ? 80 : 4000
-      })
+      this.arduinoService.getCurrentTemperature()
         .subscribe(response => {
           console.log(response);
           if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
-            const headerNames = this.chart.dataTable.shift();
             this.chart.dataTable.shift();
-            this.chart.dataTable.unshift(headerNames);
+            this.chart.dataTable.shift();
+            this.chart.dataTable.unshift(this.header);
           }
 
           this.chart.dataTable.push([ new Date().toLocaleTimeString(), response.temperature[0] ]);

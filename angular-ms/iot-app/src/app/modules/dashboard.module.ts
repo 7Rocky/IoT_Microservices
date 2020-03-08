@@ -8,16 +8,18 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 
-
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
+import { DashboardChartComponent } from '@components/dashboard-chart/dashboard-chart.component';
 import { DashboardComponent } from '@components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
+    DashboardChartComponent,
     DashboardComponent
   ],
   exports: [
+    DashboardChartComponent,
     DashboardComponent
   ],
   imports: [
