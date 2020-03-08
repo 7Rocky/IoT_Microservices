@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { ARDUINO, REFRESH_TIME } = require('../constants/constants');
+const { ARDUINO, REFRESH_TIME, B_TERMISTOR } = require('../constants/constants');
 const Dao = require('../database/dao');
 
 const dao = new Dao();
@@ -7,8 +7,20 @@ dao.connect('temperature');
 
 const getIndex = (req, res) => {
   axios.get(`http://${ARDUINO}/temperature`)
-    .then(response => res.status(response.status).json(response.data))
+    .then(response => {
+      res.status(response.status)
+        .json({
+          date: new Date().toUTCString(),
+          digital_value: response.data.temperature,
+          real_value: digitalToReal(response.data.temperature),
+          timestamp: Date.now()
+        });
+    })
     .catch(error => console.log(error));
+};
+
+const digitalToReal = digital => {
+  return Number((1 / (Math.log(1023 / digital - 1) / B_TERMISTOR + 1 / 298.15) - 273.15).toFixed(1));
 };
 
 const getTemperatures = (req, res) => {
@@ -27,11 +39,11 @@ const getPrueba = (req, res) => {
 setInterval(() => {
   axios.get(`http://${ARDUINO}/temperature`)
     .then(response => {
-      console.log(response.data);
+      console.log(response.data, '=>', digitalToReal(response.data.temperature) + '', 'ºC');
       dao.saveTemperature({
         date: new Date(),
-        digital_value: response.data.temperature[0],
-        real_value: response.data.temperature[0],
+        digital_value: response.data.temperature,
+        real_value: digitalToReal(response.data.temperature),
         timestamp: Date.now()
       });
     })

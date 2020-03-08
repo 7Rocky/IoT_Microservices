@@ -21,11 +21,14 @@
       "@components/*": [
         "src/app/components/*"
       ],
-      "@constants/*": [
-        "src/app/constants/*"
+      "@models/*": [
+        "src/app/models/*"
       ],
-      "@mockups/*": [
-        "src/app/mockups/*"
+      "@modules/*": [
+        "src/app/modules/*"
+      ],
+      "@routes/*": [
+        "src/app/routes/*"
       ],
       "@services/*": [
         "src/app/services/*"

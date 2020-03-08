@@ -1,26 +1,47 @@
 <main class="container">
-  <h1>Temperatura</h1>
-  <!--<p>PROD: http://192.168.99.100:31600/orchestrator-ms?host=temperature-ms&port=80</p>
-  <p>DEV (Fake): http://localhost:3000?host=localhost&port=4000</p>
-  <input id="url" name="url" [(ngModel)]="query" placeholder="URL" size="100" type="text">
-  <input id="method" name="method" [(ngModel)]="method" placeholder="HTTP Method" type="text">-->
-  
-  <div class="chart-container">
-    <button (click)="getData(1)" id="button" type="button">Button1</button>
-    <button (click)="getData(2)" id="button" type="button">Button2</button>
-    <button (click)="setQuery()" id="button" type="button">Button3</button>
-    <input [(ngModel)]="input" type="text">
-    <br>
-    <google-chart [data]="chart" style="width: 100%"></google-chart>
-  </div>
-  <div class="stats">
-    Estadísticas
-    Personalizar...
-
-    <ul>
-      <li>Máxima: 30 ºC</li>
-      <li>Mínima: 15 ºC</li>
-      <li>Media: 22 ºC</li>
-    </ul>
+  <h1 class="topic-title">
+    <a routerLink="/temperature/realtime" style="color: inherit; text-decoration: none;">Temperatura</a>
+  </h1>
+  <div class="cards-container">
+    <div class="card card-left">
+      <app-dashboard-chart #temperature></app-dashboard-chart>
+    </div>
+    <div class="card card-right">
+      <mat-card class="stats" style="box-sizing: border-box; height: 100%; float: right; width: 100%">
+        <mat-card-title>Estadísticas</mat-card-title>
+        <mat-card-content>
+          <ul>
+            <li>
+              <div style="display: inline-block; width: 15%;">Último valor: </div>
+              <span style="padding: 1%; font-weight: 500;" (click)="lastDate.style.visibility = ''">{{ temperature.lastTemperature.real_value }} ºC</span>
+              <span #lastDate style="padding: 1%;">
+                <mat-icon style="line-height: inherit; vertical-align: middle;">keyboard_arrow_right</mat-icon>
+                {{ temperature.lastTemperature.date }}
+              </span>
+            </li>
+            <li>
+              <div style="display: inline-block; width: 15%;">Máxima: </div>
+              <span style="background-color: #ec8b8b; color: white; padding: 1%; font-weight: 500;">{{ temperature.maxTemperature.real_value }} ºC</span>
+              <span #lastDate style="padding: 1%;">
+                <mat-icon style="line-height: inherit; vertical-align: middle;">keyboard_arrow_right</mat-icon>
+                {{ temperature.maxTemperature.date }}
+              </span>
+            </li>
+            <li>
+              <div style="display: inline-block; width: 15%;">Mínima: </div>
+              <span style="background-color: #85c0ec; color: white; padding: 1%; font-weight: 500;">{{ temperature.minTemperature.real_value }} ºC</span>
+              <span #lastDate style="padding: 1%;">
+                <mat-icon style="line-height: inherit; vertical-align: middle;">keyboard_arrow_right</mat-icon>
+                {{ temperature.minTemperature.date }}
+              </span>
+            </li>
+            <li>
+              <div style="display: inline-block; width: 15%;">Media: </div>
+              <span style="background-color: #80808080; color: white; padding: 1%; font-weight: 500;">{{ temperature.avgTemperature }} ºC</span>
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </main>

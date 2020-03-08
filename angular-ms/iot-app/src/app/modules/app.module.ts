@@ -2,39 +2,41 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { DashboardComponent } from '@components/dashboard/dashboard.component';
+import { DashboardModule } from '@modules/dashboard.module';
+
+import { AppRoutingModule } from '@routes/app-routing.module';
+
+import { AppComponent } from '@components/app/app.component';
 import { DropdownMenuComponent } from '@components/dropdown-menu/dropdown-menu.component';
 import { LoginComponent } from '@components/login/login.component';
 import { NavbarComponent } from '@components/navbar/navbar.component';
 
-import { ArduinoService } from '@services/arduino.service';
-
-
 @NgModule({
+  bootstrap: [
+    AppComponent
+  ],
   declarations: [
     AppComponent,
-    DashboardComponent,
     DropdownMenuComponent,
     LoginComponent,
     NavbarComponent
   ],
   imports: [
     AppRoutingModule,
+    BrowserAnimationsModule,
     BrowserModule,
+    DashboardModule,
     FormsModule,
-    Ng2GoogleChartsModule,
-    HttpClientModule
-  ],
-  providers: [
-    ArduinoService
-  ],
-  bootstrap: [
-    AppComponent
+    HttpClientModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule
   ]
 })
 export class AppModule { }

@@ -1,0 +1,21 @@
+<main class="container">
+  <h1>Temperatura</h1>
+  <div>
+    <button (click)="getPreviousTemperatures()" [color]="'primary'" mat-raised-button type="button">
+      <mat-label>Cargar</mat-label>
+      <mat-icon>history</mat-icon>
+    </button>
+    <br>
+    <mat-card>
+      <mat-card-content>
+        <google-chart [data]="chart" style="width: 100%"></google-chart>
+      </mat-card-content>
+    </mat-card>
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</main>
