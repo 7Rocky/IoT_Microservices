@@ -4,11 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-
 import { DashboardModule } from '@modules/dashboard.module';
+import { MatModule } from '@modules/mat.module';
 
 import { AppRoutingModule } from '@routes/app-routing.module';
 
@@ -34,9 +31,7 @@ import { NavbarComponent } from '@components/navbar/navbar.component';
     DashboardModule,
     FormsModule,
     HttpClientModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule
+    MatModule
   ]
 })
 export class AppModule { }

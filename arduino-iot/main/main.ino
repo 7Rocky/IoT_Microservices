@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include <WiFiNINA.h>
 
-#include "main.h" // Add data to main-template.h and change its name to main.h
+#include "main-iPhone.h" // Add data to main-template.h and change its name to main.h
 
 #define TEMPERATURE_PIN 0
 #define HUMIDITY_PIN 1
@@ -10,7 +10,7 @@ int status = WL_IDLE_STATUS;
 
 WiFiServer server(PORT);
 
-void setup() {
+void setup() {  
   int ip_address[4];
 
   getIpNumbers(IP_ADDRESS, ip_address);
@@ -71,11 +71,11 @@ void loop() {
             if (currentLine.equals("GET /temperature HTTP/1.1")) {
               analogInputPin = TEMPERATURE_PIN;
               analogInputName = "temperature";
-              Serial.print("Temperature endpoint requested");
+              Serial.println("Temperature endpoint requested");
             } else if (currentLine.equals("GET /humidity HTTP/1.1")) {
               analogInputPin = HUMIDITY_PIN;
               analogInputName = "humidity";
-              Serial.print("Humidity endpoint requested");
+              Serial.println("Humidity endpoint requested");
             }
 
             Serial.println(currentLine);

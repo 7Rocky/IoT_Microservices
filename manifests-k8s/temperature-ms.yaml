@@ -17,7 +17,7 @@ kind: Deployment
 metadata:
   name: temperature-ms
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: temperature-ms
@@ -31,7 +31,7 @@ spec:
       containers:
       - env:
         - name: ARDUINO
-          value: 192.168.1.50
+          value: "172.20.10.3"
         - name: PORT
           value: "80"
         image: 7rocky/temperature-ms
