@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 
@@ -11,7 +11,7 @@ import { Temperature } from '@models/temperature.model';
   styleUrls: [ './temperature-realtime.component.less' ],
   templateUrl: './temperature-realtime.component.html'
 })
-export class TemperatureRealtimeComponent implements OnInit {
+export class TemperatureRealtimeComponent implements OnDestroy, OnInit {
   H_AXIS_MAX: number = 10;
   header: string[] = [ 'Tiempo', 'Temperatura' ];
   chart: GoogleChartInterface = {
@@ -34,7 +34,7 @@ export class TemperatureRealtimeComponent implements OnInit {
   };
   input: string;
   refresh_time: number = 10000;
-  interval: any = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
+  interval: any;
   checked: boolean = true;
   refresh_times: number[] = [ 5000, 10000, 30000, 60000 ];
 
@@ -43,7 +43,11 @@ export class TemperatureRealtimeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.interval = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
+  }
 
+  ngOnDestroy() {
+    clearInterval(this.interval);
   }
 
   getCurrentTemperature() {
@@ -73,23 +77,6 @@ export class TemperatureRealtimeComponent implements OnInit {
     } else {
       this.interval = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
     }
-  }
-
-  getPreviousTemperatures() {
-    console.log('getPreviousTemperatures');
-
-    this.arduinoService.getPreviousTemperatures(20)
-      .subscribe((temperatures: Temperature[]) => {
-        console.log(temperatures);
-        this.chart.dataTable = [ this.header ];
-
-        for (const temperature of temperatures) {
-          console.log(temperature);
-          this.chart.dataTable.push([ temperature.date, temperature.real_value ]);
-        }
-
-        this.chart.component.draw();
-      });
   }
 
   selectChanged() {

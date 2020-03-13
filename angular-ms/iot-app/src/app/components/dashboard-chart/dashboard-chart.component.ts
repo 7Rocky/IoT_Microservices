@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 
@@ -6,19 +6,32 @@ import { ArduinoService } from '@services/arduino.service';
 
 import { Temperature } from '@models/temperature.model';
 
+const initDate: string = new Date().toLocaleTimeString();
+const initValue: string = (24.5).toFixed(1);
+const initTemperature: Temperature = {
+  date: initDate,
+  digital_value: 0,
+  real_value: +initValue,
+  timestamp: 0
+};
+const localizeTemperature = (timestamp: number): string => {
+  return new Date(timestamp).toLocaleTimeString();
+}
+
 @Component({
   selector: 'app-dashboard-chart',
   styleUrls: [ './dashboard-chart.component.less' ],
   templateUrl: './dashboard-chart.component.html'
 })
-export class DashboardChartComponent implements OnInit {
+export class DashboardChartComponent implements OnDestroy, OnInit {
+
   H_AXIS_MAX: number = 20;
   header: string[] = [ 'Tiempo', 'Temperatura' ];
   chart: GoogleChartInterface = {
     chartType: 'AreaChart',
     dataTable: [
       this.header,
-      [ new Date().toLocaleTimeString(), 24.5 ]
+      [ initDate, +initValue ]
     ],
     options: {
       hAxis: {
@@ -32,52 +45,42 @@ export class DashboardChartComponent implements OnInit {
       }
     }
   };
-  lastTemperature: Temperature = {
-    date: new Date().toLocaleTimeString(),
-    digital_value: 0,
-    real_value: Number((24.5).toFixed(1)),
-    timestamp: 0
-  };
-  maxTemperature: Temperature = {
-    date: new Date().toLocaleTimeString(),
-    digital_value: 0,
-    real_value: Number((24.5).toFixed(1)),
-    timestamp: 0
-  };
-  minTemperature: Temperature = {
-    date: new Date().toLocaleTimeString(),
-    digital_value: 0,
-    real_value: Number((24.5).toFixed(1)),
-    timestamp: 0
-  };
-  avgTemperature: number = Number((24.5).toFixed(1));
+  lastTemperature: Temperature = initTemperature;
+  maxTemperature: Temperature = initTemperature;
+  minTemperature: Temperature = initTemperature;
+  avgTemperature: number = +initValue;
   nSamples: number = 1;
   refresh_time: number = 10000;
-  interval: any = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
+  interval: any;
 
   constructor(
     private arduinoService: ArduinoService
   ) { }
 
   ngOnInit() {
+    this.interval = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
+  }
 
+  ngOnDestroy() {
+    clearInterval(this.interval);
   }
 
   getCurrentTemperature() {
-      this.arduinoService.getCurrentTemperature()
-        .subscribe((temperature: Temperature) => {
-          console.log(temperature);
-          temperature.date = this.localizeTemperature(temperature.timestamp)
-          this.setStats(temperature);
-          if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
-            this.chart.dataTable.shift();
-            this.chart.dataTable.shift();
-            this.chart.dataTable.unshift(this.header);
-          }
+    this.arduinoService.getCurrentTemperature()
+      .subscribe((temperature: Temperature) => {
+        console.log(temperature);
+        temperature.date = localizeTemperature(temperature.timestamp)
+        this.setStats(temperature);
 
-          this.chart.dataTable.push([ temperature.date, temperature.real_value ]);
-          this.chart.component.draw();
-        });
+        if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
+          this.chart.dataTable.shift();
+          this.chart.dataTable.shift();
+          this.chart.dataTable.unshift(this.header);
+        }
+
+        this.chart.dataTable.push([ temperature.date, temperature.real_value ]);
+        this.chart.component.draw();
+      });
   }
 
   private setStats(temperature: Temperature) {
@@ -86,10 +89,6 @@ export class DashboardChartComponent implements OnInit {
     this.lastTemperature = temperature;
     this.maxTemperature = temperature.real_value > this.maxTemperature.real_value ? temperature : this.maxTemperature;
     this.minTemperature = temperature.real_value < this.minTemperature.real_value ? temperature : this.minTemperature;
-  }
-
-  private localizeTemperature(timestamp: number): string {
-    return new Date(timestamp).toLocaleTimeString()
   }
 
 }
