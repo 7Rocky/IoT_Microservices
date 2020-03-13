@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include <WiFiNINA.h>
 
-#include "main-iPhone.h" // Add data to main-template.h and change its name to main.h
+#include "main.h" // Add data to main-template.h and change its name to main.h
 
 #define TEMPERATURE_PIN 0
 #define HUMIDITY_PIN 1
