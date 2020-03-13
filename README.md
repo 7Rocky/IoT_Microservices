@@ -71,7 +71,7 @@ This will generate a JAR file in a directory called `target`.
 
 ## 5. Program Arduino board
 
-You will need to use Arduino IDE and open [main.ino](https://github.com/7Rocky/IoT_Microservices/tree/master/arduino-iot/main/main.ino) file.
+You will need to use Arduino IDE and open [main.ino](https://github.com/7Rocky/IoT_Microservices/tree/master/arduino-iot/main/main.ino) file. I recommend using [Arduino Uno WiFi Rev2](https://store.arduino.cc/arduino-uno-wifi-rev2) and [Grove Temperature sensor](https://store.arduino.cc/grove-temperature-sensor), which are the ones I've been using in this project. Otherwise, you may use another Arduino board that supports WiFi connection or find a WiFi module.
 
 You will have to add your WiFi SSID and password to the [main-template.h](https://github.com/7Rocky/IoT_Microservices/tree/master/arduino-iot/main/main-template.h) file, as well as the IP address and port you desire your Arduino to listen on. Then, change the filename to simply `main.h`.
 
