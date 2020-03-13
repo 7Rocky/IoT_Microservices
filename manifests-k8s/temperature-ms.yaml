@@ -31,7 +31,10 @@ spec:
       containers:
       - env:
         - name: ARDUINO
-          value: "172.20.10.3"
+          valueFrom:
+            configMapKeyRef:
+              key: arduino-ip
+              name: arduino-config
         - name: PORT
           value: "80"
         image: 7rocky/temperature-ms

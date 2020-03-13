@@ -31,7 +31,10 @@ spec:
       containers:
       - env:
         - name: ARDUINO
-          value: 192.168.1.50
+          valueFrom:
+            configMapKeyRef:
+              key: arduino-ip
+              name: arduino-config
         image: 7rocky/humidity-ms
         name: humidity-ms
         ports:
