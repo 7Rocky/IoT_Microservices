@@ -23,26 +23,14 @@ module.exports = class MongoDB {
   }
 
   async saveTemperature(object) {
-    try {
-      return await new Temperature(object).save();
-    } catch (error) {
-      throw error;
-    }
+    return await new Temperature(object).save();
   }
 
   async findAll() {
-    try {
-      return await Temperature.find();
-    } catch (error) {
-      throw error;
-    }
+    return await Temperature.find();
   }
 
   async find(object) {
-    try {
-      return await Temperature.find(object);
-    } catch (error) {
-      throw error;
-    }
+    return await Temperature.find(object);
   }
 };
