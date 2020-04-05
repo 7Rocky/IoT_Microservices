@@ -1,4 +1,4 @@
-package com.iotmicroservices;
+package com.rocky.authservice.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

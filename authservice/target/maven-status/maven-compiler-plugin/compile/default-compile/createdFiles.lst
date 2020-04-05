@@ -1,4 +1,4 @@
-com/iotmicroservices/User.class
-com/iotmicroservices/AccessingDataMysqlApplication.class
-com/iotmicroservices/MainController.class
-com/iotmicroservices/UserRepository.class
+com/rocky/authservice/AuthApplication.class
+com/rocky/authservice/repositories/UserRepository.class
+com/rocky/authservice/models/User.class
+com/rocky/authservice/controllers/UserController.class

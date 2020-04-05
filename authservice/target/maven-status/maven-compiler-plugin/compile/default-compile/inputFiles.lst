@@ -1,4 +1,4 @@
-/Users/rocky/Desktop/IoT_Microservices/authservice/src/main/java/com/iotmicroservices/AccessingDataMysqlApplication.java
-/Users/rocky/Desktop/IoT_Microservices/authservice/src/main/java/com/iotmicroservices/MainController.java
-/Users/rocky/Desktop/IoT_Microservices/authservice/src/main/java/com/iotmicroservices/User.java
-/Users/rocky/Desktop/IoT_Microservices/authservice/src/main/java/com/iotmicroservices/UserRepository.java
+/Users/rocky/Desktop/IoT_Microservices/authservice/src/main/java/com/rocky/authservice/repositories/UserRepository.java
+/Users/rocky/Desktop/IoT_Microservices/authservice/src/main/java/com/rocky/authservice/models/User.java
+/Users/rocky/Desktop/IoT_Microservices/authservice/src/main/java/com/rocky/authservice/controllers/UserController.java
+/Users/rocky/Desktop/IoT_Microservices/authservice/src/main/java/com/rocky/authservice/AuthApplication.java

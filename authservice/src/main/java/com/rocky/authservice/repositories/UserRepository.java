@@ -1,6 +1,6 @@
-package com.iotmicroservices;
+package com.rocky.authservice.repositories;
 
-import com.iotmicroservices.User;
+import com.rocky.authservice.models.User;
 
 import java.util.Optional;
 

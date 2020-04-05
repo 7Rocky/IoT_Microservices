@@ -1,12 +1,13 @@
-package com.iotmicroservices;
+package com.rocky.authservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AccessingDataMysqlApplication {
+public class AuthApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(AccessingDataMysqlApplication.class, args);
+    SpringApplication.run(AuthApplication.class, args);
   }
+
 }
