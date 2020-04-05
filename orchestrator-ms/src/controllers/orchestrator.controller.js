@@ -1,5 +1,15 @@
 const axios = require('axios');
+const crypto = require('crypto');
 const queryString = require('query-string');
+
+const JwtModule = require('../modules/jwt.module');
+const jwt = new JwtModule();
+
+const AUTH_SERVICE = process.env.AUTH_MS_HOST || 'localhost';
+
+const hashPassword = password => {
+  return crypto.createHash('sha256').update(password).digest('hex');
+};
 
 module.exports = class OrchestratorController {
 
@@ -26,13 +36,42 @@ module.exports = class OrchestratorController {
   };
 
   async login(req, res) {
-    const { host, password, username } = req.query;
-    const query = { password, username };
-    const url = `http://${host}:8080/demo/get`;
+    const query = req.query;
+    query.password = hashPassword(query.password);
+    const url = `http://${AUTH_SERVICE}:8080/login`;
+
+    console.log(query);
 
     try {
       const response = await axios.get(queryString.stringifyUrl({ url, query }));
-      res.json(response.data);
+
+      if (response.data) {
+        const token = await jwt.generateToken({ username: query.username });
+        res.json({ token });
+      } else {
+        res.sendStatus(401);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async register(req, res) {
+    const url = `http://${AUTH_SERVICE}:8080/register`;
+    const query = req.body;
+    query.password = hashPassword(query.password);
+
+    console.log(query);
+
+    try {
+      const response = await axios.post(url, queryString.stringify(query));
+
+      if (response.data) {
+        const token = await jwt.generateToken({ username: query.username });
+        res.json({ token });
+      } else {
+        res.sendStatus(401);
+      }
     } catch (error) {
       console.log(error);
     }
