@@ -32,7 +32,7 @@ public class UserController {
     @RequestParam String username,
     @RequestParam String password
   ) {
-    System.out.println(username + ' ' + password);
+
     if (userRepository.existsByUsername(username)) {
       return null;
     }
