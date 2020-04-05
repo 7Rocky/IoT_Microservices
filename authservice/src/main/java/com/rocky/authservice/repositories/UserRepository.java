@@ -14,6 +14,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
   boolean existsByUsernameAndPassword(String username, String password);
 
-  User save(User user);
+  <S extends User> S save(User user);
 
 }
