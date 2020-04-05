@@ -1,8 +1,10 @@
 const { Router } = require('express');
-const { getIndex } = require('../controllers/orchestrator');
+const OrchestratorController = require('../controllers/orchestrator.controller');
 
 const router = Router();
+const orchestratorController = new OrchestratorController();
 
-router.get('/', getIndex);
+router.get('/', orchestratorController.getIndex);
+router.get('/login', orchestratorController.login);
 
 module.exports = router;
