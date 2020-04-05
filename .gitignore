@@ -1,24 +1,25 @@
 angular-ms/iot-app/dist
 
-arduino-iot/main/main.h
-arduino-iot/main/main-iPhone.h
+arduino-iot/main/*.h
+!arduino-iot/main/main-template.h
 
 /***/node_modules/
 
 /**/*.sh
 
-humidity-ms/HELP.md
-humidity-ms/target/
-humidity-ms/!.mvn/wrapper/maven-wrapper.jar
-humidity-ms/!**/src/main/**
-humidity-ms/!**/src/test/**
+/**/HELP.md
+/**/target/
+/**/!.mvn/wrapper/maven-wrapper.jar
+/**/!**/src/main/**
+/**/!**/src/test/**
 
-humidity-ms/.apt_generated
-humidity-ms/.classpath
-humidity-ms/.factorypath
-humidity-ms/.project
-humidity-ms/.settings
-humidity-ms/.springBeans
-humidity-ms/.sts4-cache
+/**/.apt_generated
+/**/.classpath
+/**/.factorypath
+/**/.project
+/**/.settings
+/**/.springBeans
+/**/.sts4-cache
 
 .DS_Store
+/**/.DS_Store
