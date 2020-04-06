@@ -58,7 +58,7 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
   ) { }
 
   ngOnInit() {
-    this.interval = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
+    // this.interval = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
   }
 
   ngOnDestroy() {

@@ -20,6 +20,9 @@ export class ArduinoService {
     return this.http.get<any>(
       `http://${environment.ORCHESTRATOR_MS}`,
       { 
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('iot-ms-token')}`
+        },
         params: {
           host: environment.TEMPERATURE_HOST,
           port: environment.TEMPERATURE_PORT

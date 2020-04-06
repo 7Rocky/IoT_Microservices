@@ -1,0 +1,32 @@
+<h1 class="metal-mania text-center" mat-dialog-title>IoT_Microservices</h1>
+<div mat-dialog-content>
+  <mat-form-field class="login-input">
+    <mat-label>
+      <mat-icon>person</mat-icon>
+    </mat-label>
+    <input matInput [(ngModel)]="username" placeholder="Usuario" type="text">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="login-input">
+    <mat-label>
+      <mat-icon>lock</mat-icon>
+    </mat-label>
+    <input matInput [(ngModel)]="password" placeholder="Contraseña" type="password">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="login-input">
+    <mat-label>
+      <mat-icon>lock</mat-icon>
+    </mat-label>
+    <input matInput [(ngModel)]="repeatPassword" placeholder="Repetir contraseña" type="password">
+  </mat-form-field>
+</div>
+<br>
+<div mat-dialog-actions>
+  <button cdkFocusInitial class="bg-blue login-btn white" (click)="register()" mat-raised-button>Registrarse</button>
+</div>
+<br>
+<br>
+<div class="text-center" mat-dialog-content>
+  ¿Ya tienes cuenta? <a class="blue login-register-link" (click)="changeToLogin()">Inicia sesión</a>
+</div>

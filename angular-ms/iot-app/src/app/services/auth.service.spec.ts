@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ArduinoService } from './arduino.service';
+import { AuthService } from './auth.service';
 
-describe('ArduinoService', () => {
+describe('AuthService', () => {
   beforeEach(() => TestBed.configureTestingModule({ }));
 
   it('should be created', () => {
-    const service: ArduinoService = TestBed.get(ArduinoService);
+    const service: AuthService = TestBed.get(AuthService);
     expect(service).toBeTruthy();
   });
 });
