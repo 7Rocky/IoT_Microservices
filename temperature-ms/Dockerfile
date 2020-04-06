@@ -1,10 +1,10 @@
 FROM node:12.5.0-alpine
 
-ADD *.json /temperature-ms/
-ADD src /temperature-ms/src
-
 WORKDIR /temperature-ms
 
+COPY *.json ./
 RUN npm install --production
+
+COPY src src
 
 CMD [ "npm", "start" ]

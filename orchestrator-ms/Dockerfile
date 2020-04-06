@@ -1,10 +1,10 @@
 FROM node:12.5.0-alpine
 
-ADD *.json /orchestrator-ms/
-ADD src /orchestrator-ms/src
-
 WORKDIR /orchestrator-ms
 
+COPY *.json ./
 RUN npm install --production
+
+COPY src src
 
 CMD [ "npm", "start" ]
