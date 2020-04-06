@@ -36,14 +36,14 @@ module.exports = class OrchestratorController {
   };
 
   async login(req, res) {
-    const query = req.query;
-    query.password = hashPassword(query.password);
     const url = `http://${AUTH_SERVICE}:8080/login`;
+    const query = req.body;
+    query.password = hashPassword(query.password);
 
     console.log(query);
 
     try {
-      const response = await axios.get(queryString.stringifyUrl({ url, query }));
+      const response = await axios.post(url, queryString.stringify(query));
 
       if (response.data) {
         const token = await jwt.generateToken({ username: query.username });
