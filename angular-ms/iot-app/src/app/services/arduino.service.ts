@@ -18,14 +18,10 @@ export class ArduinoService {
 
   getCurrentTemperature(): Observable<Temperature> {
     return this.http.get<any>(
-      `http://${environment.ORCHESTRATOR_MS}`,
+      `http://${environment.ORCHESTRATOR_MS}/temperature`,
       { 
         headers: {
           authorization: `Bearer ${localStorage.getItem('iot-ms-token')}`
-        },
-        params: {
-          host: environment.TEMPERATURE_HOST,
-          port: environment.TEMPERATURE_PORT
         }
       }
     );
@@ -35,6 +31,18 @@ export class ArduinoService {
     let temperatures: Temperature[] = [];
     const date: Date = new Date(2019, Number((Math.random() * 11).toFixed()), Number((Math.random() * 30 + 1).toFixed()), 1);
     const time_step: number = 86400000;
+
+    this.http.get<any>(
+      `http://${environment.ORCHESTRATOR_MS}/temperature`,
+      { 
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('iot-ms-token')}`
+        },
+        params: {
+          path: '/temperatures'
+        }
+      }
+    ).subscribe(response => console.log(response));
 
     for (let i = 0; i < n; i++) {
       const digital_value: string = (Math.random() * 200 + 350).toFixed();
@@ -51,11 +59,4 @@ export class ArduinoService {
     return of(temperatures);
   }
 
-  setQuery(url: string): Observable<any> {
-    return this.http.get<any>(`http://${url}`);
-  }
-
-  postData(url: string): Observable<any> {
-    return this.http.post<any>(url, { message: 'Hello Backend' });
-  }
 }

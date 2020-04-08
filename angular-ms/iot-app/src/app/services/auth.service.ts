@@ -18,8 +18,8 @@ export class AuthService {
     return this.http.post<any>(
       `http://${environment.ORCHESTRATOR_MS}/login`,
       { 
-        username,
-        password
+        password,
+        username
       }
     );
   }
