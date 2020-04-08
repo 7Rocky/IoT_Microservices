@@ -17,7 +17,7 @@ kind: Deployment
 metadata:
   name: orchestrator-ms
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: orchestrator-ms

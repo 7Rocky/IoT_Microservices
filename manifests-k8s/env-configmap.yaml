@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  ARDUINO_IP: 192.168.1.50 # 172.20.10.3
+  MONGO_HOSTNAME: 'mongo'
+  MONGO_INITDB_ROOT_USERNAME: root
+  MONGO_INITDB_ROOT_PASSWORD: secret
+  MYSQL_HOSTNAME: 'mysql'
+  MYSQL_ROOT_PASSWORD: my-secret-pw
+  RABBITMQ_DEFAULT_USER: user
+  RABBITMQ_DEFAULT_PASS: password
+  RABBITMQ_HOSTNAME: rabbitmq
+kind: ConfigMap
+metadata:
+  name: env-configmap
+  namespace: default

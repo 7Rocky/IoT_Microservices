@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rabbitmq-dev
+  name: rabbitmq-dev
+spec:
+  ports:
+  - nodePort: 31300
+    port: 5672
+    protocol: TCP
+    targetPort: 5672
+  selector:
+    app: rabbitmq-dev
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-dev
+  serviceName: rabbitmq-dev
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-dev
+    spec:
+      containers:
+      - env:
+        - name: RABBITMQ_DEFAULT_USER
+          valueFrom:
+            configMapKeyRef:
+              key: RABBITMQ_DEFAULT_USER
+              name: env-configmap
+        - name: RABBITMQ_DEFAULT_PASS
+          valueFrom:
+            configMapKeyRef:
+              key: RABBITMQ_DEFAULT_PASS
+              name: env-configmap
+        image: rabbitmq
+        name: rabbitmq
+        ports:
+        - containerPort: 5672

@@ -33,9 +33,15 @@ spec:
       containers:
       - env:
         - name: MONGO_INITDB_ROOT_USERNAME
-          value: root
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_INITDB_ROOT_USERNAME
+              name: env-configmap
         - name: MONGO_INITDB_ROOT_PASSWORD
-          value: secret
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_INITDB_ROOT_PASSWORD
+              name: env-configmap
         image: mongo
         name: mongo
         ports:

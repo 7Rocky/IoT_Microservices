@@ -31,7 +31,10 @@ spec:
       containers:
       - env:
         - name: MYSQL_ROOT_PASSWORD
-          value: my-secret-pw
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: env-configmap
         image: mysql
         name: mysql
         ports:

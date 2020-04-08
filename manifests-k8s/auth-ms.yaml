@@ -17,7 +17,7 @@ kind: Deployment
 metadata:
   name: auth-ms
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: auth-ms
@@ -29,7 +29,18 @@ spec:
         tier: backend
     spec:
       containers:
-      - image: 7rocky/auth-ms
+      - env:
+        - name: MYSQL_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_HOSTNAME
+              name: env-configmap
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: env-configmap
+        image: 7rocky/auth-ms
         name: auth-ms
         ports:
         - containerPort: 8080
