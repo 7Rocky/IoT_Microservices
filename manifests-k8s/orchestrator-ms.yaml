@@ -36,7 +36,7 @@ spec:
               key: AUTH_MS_HOSTNAME
               name: env-configmap
         - name: PORT
-          value: "80"
+          value: '80'
         - name: TEMPERATURE_MS_HOSTNAME
           valueFrom:
             configMapKeyRef:

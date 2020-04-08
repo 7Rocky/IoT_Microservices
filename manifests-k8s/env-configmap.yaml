@@ -1,5 +1,6 @@
 apiVersion: v1
 data:
+  ANGULAR_MS_HOSTNAME: angular-ms
   ARDUINO_IP: 192.168.1.50 # 172.20.10.3
   AUTH_MS_HOSTNAME: auth-ms
   MONGO_HOSTNAME: 'mongo'
@@ -7,9 +8,11 @@ data:
   MONGO_INITDB_ROOT_PASSWORD: secret
   MYSQL_HOSTNAME: mysql
   MYSQL_ROOT_PASSWORD: my-secret-pw
+  ORCHESTRATOR_MS_HOSTNAME: orchestrator-ms
   RABBITMQ_DEFAULT_USER: user
   RABBITMQ_DEFAULT_PASS: password
   RABBITMQ_HOSTNAME: rabbitmq
+  STATS_MS_HOSTNAME: stats-ms
   TEMPERATURE_MS_HOSTNAME: temperature-ms
 kind: ConfigMap
 metadata:
