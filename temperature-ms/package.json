@@ -1,6 +1,7 @@
 {
   "author": "Rocky",
   "dependencies": {
+    "amqplib": "^0.5.5",
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -22,8 +23,8 @@
     "url": "https://github.com/7Rocky/IoT_Microservices.git"
   },
   "scripts": {
-    "dev1": "export ARDUINO=192.168.1.50 && nodemon src/index.js",
-    "dev2": "unset ARDUINO && nodemon src/index.js",
+    "dev1": "export ARDUINO_IP=192.168.1.50 && nodemon src/index.js",
+    "dev2": "unset ARDUINO_IP && nodemon src/index.js",
     "start": "node src/index.js"
   },
   "version": "1.0.0"

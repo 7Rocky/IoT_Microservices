@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getIndex, getPrueba, getTemperatures } = require('../controllers/temperature');
+const { getIndex, getPrueba, getTemperatures } = require('../controllers/temperature.controller');
 const router = Router();
 
 router.get('/', getIndex);

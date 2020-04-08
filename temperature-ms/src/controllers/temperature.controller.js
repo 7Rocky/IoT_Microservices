@@ -1,13 +1,19 @@
 const axios = require('axios');
-const { ARDUINO, REFRESH_TIME, B_TERMISTOR } = require('../constants/constants');
-const Dao = require('../database/dao');
 
+const { ARDUINO_IP, REFRESH_TIME, B_TERMISTOR } = require('../constants/constants');
+const Dao = require('../database/dao');
+const Queue = require('../modules/queue.module');
+
+const USERNAME = 'Rocky';
+const SENSOR = 'Groove - Temperature';
 const dao = new Dao();
+const queue = new Queue('temperature');
+
 dao.connect('temperature');
 
 const getIndex = async (req, res) => {
   try {
-    const response = await axios.get(`http://${ARDUINO}/temperature`);
+    const response = await axios.get(`http://${ARDUINO_IP}/temperature`);
     res.status(response.status)
       .json({
         date: new Date().toUTCString(),
@@ -27,6 +33,9 @@ const digitalToReal = digital => {
 const getTemperatures = async (req, res) => {
   try {
     const docs = await dao.findAll();
+    for (doc of docs) {
+      delete doc._id;
+    }
     res.json(docs);
   } catch (error) {
     console.log(error);
@@ -40,25 +49,25 @@ const getPrueba = (req, res) => {
   });
 };
 
-const saveTemperature = async () => {
+const publishTemperature = async () => {
   try {
-    const response = await axios.get(`http://${ARDUINO}/temperature`);
-    const temperature = response.data.temperature;
+    const response = await axios.get(`http://${ARDUINO_IP}/temperature`);
+    const temperature_message = {
+      date: new Date().toUTCString(),
+      digital_value: response.data.temperature,
+      real_value: digitalToReal(response.data.temperature),
+      sensor: SENSOR,
+      timestamp: Date.now(),
+      username: USERNAME
+    };
 
-    console.log(`${temperature} => ${digitalToReal(temperature)} ºC`);
-
-    dao.saveTemperature({
-      date: new Date(),
-      digital_value: temperature,
-      real_value: digitalToReal(temperature),
-      timestamp: Date.now()
-    });
+    queue.publish(JSON.stringify(temperature_message));
   } catch (error) {
     console.log(error);
   }
 };
 
-setInterval(saveTemperature, REFRESH_TIME);
+setInterval(publishTemperature, REFRESH_TIME);
 
 module.exports = {
   getIndex,

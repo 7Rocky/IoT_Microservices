@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const { HOST, PASSWORD, PORT, USERNAME } = require('./config/config');
-const Temperature = require('./models/Temperature');
+const { HOST, PASSWORD, PORT, USERNAME } = require('../config/mongodb.config');
+const Temperature = require('./models/temperature.model');
 
 module.exports = class MongoDB {
 
