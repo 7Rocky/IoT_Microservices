@@ -30,8 +30,18 @@ spec:
     spec:
       containers:
       - env:
+        - name: AUTH_MS_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: AUTH_MS_HOSTNAME
+              name: env-configmap
         - name: PORT
           value: "80"
+        - name: TEMPERATURE_MS_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: TEMPERATURE_MS_HOSTNAME
+              name: env-configmap
         image: 7rocky/orchestrator-ms
         name: orchestrator-ms
         ports:
