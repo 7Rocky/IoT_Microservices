@@ -69,7 +69,7 @@ This will start a process listening on port 8080.
 To build de application on a JAR file, run:
 
 ```bash
-./mvnw clean package
+./mvnw -Dmaven.test.skip=true clean package
 ```
 
 This will generate a JAR file in a directory called `target`.
