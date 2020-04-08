@@ -35,7 +35,7 @@ spec:
             configMapKeyRef:
               key: MYSQL_ROOT_PASSWORD
               name: env-configmap
-        image: mysql
+        image: mysql:8.0.19
         name: mysql
         ports:
         - containerPort: 3306
