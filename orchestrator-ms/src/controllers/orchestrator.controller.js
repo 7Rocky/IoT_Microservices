@@ -1,14 +1,19 @@
-const axios = require('axios');
 const crypto = require('crypto');
-const queryString = require('query-string');
 
-const JwtModule = require('../modules/jwt.module');
-const jwt = new JwtModule();
+const { AUTH_SERVICE, TEMPERATURE_SERVICE } = require('../config/services.config');
+const ServicesController = require('./services.controller');
 
-const AUTH_SERVICE = process.env.AUTH_MS_HOST || 'localhost';
+const servicesController = new ServicesController();
 
 const hashPassword = password => {
   return crypto.createHash('sha256').update(password).digest('hex');
+};
+
+const doAuth = async (req, res, path) => {
+  const body = req.body;
+  body.password = hashPassword(body.password);
+
+  await servicesController.postToConnectedService(res, body, AUTH_SERVICE, path);
 };
 
 module.exports = class OrchestratorController {
@@ -17,64 +22,17 @@ module.exports = class OrchestratorController {
 
   }
 
-  async getIndex(req, res) {
-    const { host, path, port } = req.query;
-    const url = `http://${host}:${port || 80}${path || '/'}`;
-
-    console.log(url);
-
-    if (host) {
-      try {
-        const response = await axios.get(url);
-        res.json(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      res.json({ message: 'No host provided', env: process.env });
-    }
+  async connectTemperatureService(req, res) {
+    const { path, port } = req.query;
+    await servicesController.getToConnectedService(res, TEMPERATURE_SERVICE, path, port);
   };
 
   async login(req, res) {
-    const url = `http://${AUTH_SERVICE}:8080/login`;
-    const query = req.body;
-    query.password = hashPassword(query.password);
-
-    console.log(query);
-
-    try {
-      const response = await axios.post(url, queryString.stringify(query));
-
-      if (response.data) {
-        const token = await jwt.generateToken({ username: query.username });
-        res.json({ token });
-      } else {
-        res.sendStatus(401);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    await doAuth(req, res, '/login');
   }
 
   async register(req, res) {
-    const url = `http://${AUTH_SERVICE}:8080/register`;
-    const query = req.body;
-    query.password = hashPassword(query.password);
-
-    console.log(query);
-
-    try {
-      const response = await axios.post(url, queryString.stringify(query));
-
-      if (response.data) {
-        const token = await jwt.generateToken({ username: query.username });
-        res.json({ token });
-      } else {
-        res.sendStatus(401);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    await doAuth(req, res, '/register');
   }
 
 };
