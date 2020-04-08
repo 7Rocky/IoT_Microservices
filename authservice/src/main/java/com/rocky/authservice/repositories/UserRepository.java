@@ -10,6 +10,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
   boolean existsByUsernameAndPassword(String username, String password);
 
-  <S extends User> S save(User user);
+  <S extends User> S save(S user);
 
 }
