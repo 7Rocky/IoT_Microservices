@@ -31,7 +31,7 @@ module.exports = class JwtModule {
 
   async generateToken(payload) {
     payload.iat = Date.now();
-    payload.exp = Date.now() + TOKEN_EXPIRATION_TIME;
+    payload.exp = payload.iat + TOKEN_EXPIRATION_TIME;
 
     const result = await jwt.encode(TOKEN_SECRET, payload);
 
