@@ -1,6 +1,6 @@
 const amqp = require('amqplib');
 
-const { HOST, PASSWORD, PORT, USERNAME } = require('../config/queue.config');
+const { PASSWORD, RABBITMQ, USERNAME } = require('../config/queue.config');
 
 module.exports = class Queue {
 
@@ -9,7 +9,7 @@ module.exports = class Queue {
   }
 
   publish(message) {
-    amqp.connect(`amqp://${USERNAME}:${PASSWORD}@${HOST}:${PORT}`)
+    amqp.connect(`amqp://${USERNAME}:${PASSWORD}@${RABBITMQ}`)
       .then(connection => {
         return connection.createChannel()
           .then(async channel => {

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const { HOST, PASSWORD, PORT, USERNAME } = require('../config/mongodb.config');
+
+const { MONGO, PASSWORD, USERNAME } = require('../config/mongodb.config');
 const Temperature = require('./models/temperature.model');
 
 module.exports = class MongoDB {
@@ -9,7 +10,7 @@ module.exports = class MongoDB {
   }
 
   connect(dbName) {
-    const url = `mongodb://${USERNAME}:${PASSWORD}@${HOST}:${PORT}`;
+    const url = `mongodb://${USERNAME}:${PASSWORD}@${MONGO}`;
     const options = {
       dbName,
       useNewUrlParser: true,
@@ -33,4 +34,5 @@ module.exports = class MongoDB {
   async find(object) {
     return await Temperature.find(object);
   }
+
 };
