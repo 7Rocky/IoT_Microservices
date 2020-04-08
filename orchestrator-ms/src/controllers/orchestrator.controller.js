@@ -1,11 +1,6 @@
 const crypto = require('crypto');
 
-const {
-  AUTH_SERVICE_HOST,
-  AUTH_SERVICE_PORT,
-  TEMPERATURE_SERVICE_HOST,
-  TEMPERATURE_SERVICE_PORT
-} = require('../config/services.config');
+const { AUTH_MS, TEMPERATURE_MS } = require('../config/services.config');
 
 const ServicesController = require('./services.controller');
 const servicesController = new ServicesController();
@@ -18,7 +13,7 @@ const doAuth = async (req, res, path) => {
   const body = req.body;
   body.password = hashPassword(body.password);
 
-  await servicesController.postToConnectedService(res, body, AUTH_SERVICE_HOST, path, AUTH_SERVICE_PORT);
+  await servicesController.postToConnectedService(res, body, AUTH_MS, path);
 };
 
 module.exports = class OrchestratorController {
@@ -29,7 +24,7 @@ module.exports = class OrchestratorController {
 
   async connectTemperatureService(req, res) {
     const { path } = req.query;
-    await servicesController.getToConnectedService(res, TEMPERATURE_SERVICE_HOST, path, TEMPERATURE_SERVICE_PORT);
+    await servicesController.getToConnectedService(res, TEMPERATURE_MS, path);
   };
 
   async login(req, res) {

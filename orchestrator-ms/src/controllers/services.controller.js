@@ -5,7 +5,6 @@ const JwtModule = require('../modules/jwt.module');
 const jwt = new JwtModule();
 
 const DEFAULT_PATH = '/';
-const DEFAULT_PORT = 80;
 
 module.exports = class ServicesController {
 
@@ -13,8 +12,8 @@ module.exports = class ServicesController {
 
   }
 
-  async getToConnectedService(res, service, path=DEFAULT_PATH, port=DEFAULT_PORT) {
-    const url = `http://${service}:${port}${path}`;
+  async getToConnectedService(res, service, path=DEFAULT_PATH) {
+    const url = `http://${service}${path}`;
   
     try {
       const response = await axios.get(url);
@@ -24,8 +23,8 @@ module.exports = class ServicesController {
     }
   }
   
-  async postToConnectedService(res, body, service, path=DEFAULT_PATH, port=DEFAULT_PORT) {
-    const url = `http://${service}:${port}${path}`;
+  async postToConnectedService(res, body, service, path=DEFAULT_PATH) {
+    const url = `http://${service}${path}`;
   
     try {
       const response = await axios.post(url, queryString.stringify(body));
