@@ -35,6 +35,11 @@ spec:
             configMapKeyRef:
               key: ARDUINO_IP
               name: env-configmap
+        - name: MONGO_DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_DATABASE_NAME
+              name: env-configmap
         - name: MONGO_HOSTNAME
           valueFrom:
             configMapKeyRef:
