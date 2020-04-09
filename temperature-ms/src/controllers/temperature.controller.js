@@ -1,15 +1,15 @@
 const axios = require('axios');
 
-const { ARDUINO_IP, REFRESH_TIME, B_TERMISTOR } = require('../constants/constants');
+const { ARDUINO_IP, B_TERMISTOR, DB_NAME, REFRESH_TIME } = require('../constants/constants');
 const Dao = require('../database/dao');
 const Queue = require('../modules/queue.module');
 
 const USERNAME = 'Rocky';
-const SENSOR = 'Groove - Temperature';
+const SENSOR = 'Grove - Temperature';
 const dao = new Dao();
 const queue = new Queue('temperature');
 
-dao.connect('temperature');
+dao.connect(DB_NAME);
 
 const getIndex = async (req, res) => {
   try {
@@ -42,13 +42,6 @@ const getTemperatures = async (req, res) => {
   }
 };
 
-const getPrueba = (req, res) => {
-  res.json({
-    message: 'GET Prueba from other backend',
-    env: process.env
-  });
-};
-
 const publishTemperature = async () => {
   try {
     const response = await axios.get(`http://${ARDUINO_IP}/temperature`);
@@ -71,6 +64,5 @@ setInterval(publishTemperature, REFRESH_TIME);
 
 module.exports = {
   getIndex,
-  getPrueba,
   getTemperatures
 };
