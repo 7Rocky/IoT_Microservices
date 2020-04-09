@@ -1,8 +1,16 @@
-from dao import Dao
+import os
+
 from humidity import Humidity
 from queue import Queue
 from temperature import Temperature
 from threading import Thread
 
-Thread(target=Queue, args=(Temperature('temperature', 'temperatures', 5), '\033[92m')).start()
-Thread(target=Queue, args=(Humidity('humidity', 'humidities', 3), '\033[95m')).start()
+DB_NAME = os.getenv('MONGO_DATABASE_NAME', 'iot')
+
+controllers = [
+    Temperature(DB_NAME, 'temperatures', 5),
+    Humidity(DB_NAME, 'humidities', 3)
+]
+
+for controller in controllers:
+    Thread(target=Queue, args=(controller, )).start()
