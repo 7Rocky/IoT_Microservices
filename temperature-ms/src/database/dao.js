@@ -23,10 +23,6 @@ module.exports = class MongoDB {
     this.db.on('error', error => console.log(error));
   }
 
-  async saveTemperature(object) {
-    return await new Temperature(object).save();
-  }
-
   async findAll() {
     return await Temperature.find();
   }
