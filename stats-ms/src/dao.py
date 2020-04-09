@@ -1,22 +1,13 @@
 import time
 
-from config import MONGO_HOSTNAME, MONGO_PASSWORD, MONGO_PORT, MONGO_USERNAME
+from config import MONGO, MONGO_PASSWORD, MONGO_USERNAME
 from pymongo import MongoClient
-
-milliseconds_now = lambda: int(round(time.time() * 1000))
 
 class Dao:
     def __init__(self, db_name, collection):
-        mongo = MongoClient(f'mongodb://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO_HOSTNAME}:{MONGO_PORT}/')
+        mongo = MongoClient(f'mongodb://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO}/')
         db = mongo[db_name]
         self.temperatures = db[collection]
-
-    def find_document(self, _date, _from):
-        return list(self.temperatures.find({
-            'timestamp': { '$lte': milliseconds_now() }
-        }, {
-            '_id': 0
-        }))
 
     def insert_document(self, doc):
         self.temperatures.insert_one(doc)
