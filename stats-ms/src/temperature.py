@@ -3,8 +3,8 @@ import numpy
 from measure import Measure
 
 class Temperature(Measure):
-    def __init__(self, queue_collection, db_name, max_items):
-        super().__init__(queue_collection, db_name, max_items)
+    def __init__(self, db_name, queue_collection, max_items):
+        super().__init__(queue_collection, max_items)
 
     def calculate_stats(self, data):
         dates = [ d.get('date') for d in data ]
@@ -22,6 +22,8 @@ class Temperature(Measure):
 
         sensor = data[0].get('sensor')
         username = data[0].get('username')
+        ip = data[0].get('ip')
+        measure = data[0].get('measure')
 
         return {
             'end_date': end_date,
@@ -30,6 +32,8 @@ class Temperature(Measure):
             'init_timestamp': init_timestamp,
             'max_value': max_value,
             'mean_value': round(mean_value, 1),
+            'measure': measure,
+            'ip': ip,
             'min_value': min_value,
             'n_samples': n_samples,
             'sensor': sensor,

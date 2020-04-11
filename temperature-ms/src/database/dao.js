@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { MONGO, PASSWORD, USERNAME } = require('../config/mongodb.config');
+const { DB_NAME, MONGO, PASSWORD, USERNAME } = require('../config/mongodb.config');
 const Temperature = require('./models/temperature.model');
 
 module.exports = class MongoDB {
@@ -9,10 +9,10 @@ module.exports = class MongoDB {
     this.db = mongoose.connection;
   }
 
-  connect(dbName) {
+  connect() {
     const url = `mongodb://${USERNAME}:${PASSWORD}@${MONGO}`;
     const options = {
-      dbName,
+      dbName: DB_NAME,
       useNewUrlParser: true,
       useUnifiedTopology: true
     };

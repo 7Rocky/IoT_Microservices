@@ -3,7 +3,6 @@ const { getIndex, getTemperatures } = require('../controllers/temperature.contro
 const router = Router();
 
 router.get('/', getIndex);
-
 router.get('/temperatures', getTemperatures);
 
 module.exports = router;

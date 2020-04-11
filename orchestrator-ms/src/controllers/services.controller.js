@@ -12,8 +12,8 @@ module.exports = class ServicesController {
 
   }
 
-  async getToConnectedService(res, service, path=DEFAULT_PATH) {
-    const url = `http://${service}${path}`;
+  async getToConnectedService(res, service, path=DEFAULT_PATH, query={ }) {
+    const url = `http://${service}${path}?${queryString.stringify(query)}`;
   
     try {
       const response = await axios.get(url);
@@ -28,7 +28,7 @@ module.exports = class ServicesController {
   
     try {
       const response = await axios.post(url, queryString.stringify(body));
-  
+
       if (response.data) {
         const token = await jwt.generateToken({ username: body.username });
         res.json({ token });

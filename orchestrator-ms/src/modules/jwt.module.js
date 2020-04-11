@@ -17,6 +17,13 @@ module.exports = class JwtModule {
 
   }
 
+  getUsernameFromToken(req) {
+    const token = getToken(req);
+    return jwt.decode(TOKEN_SECRET, token, (error, payload) => {
+      return error ? error : payload.username;
+    });
+  }
+
   verifyToken(req, res, next) {
     const token = getToken(req);
 

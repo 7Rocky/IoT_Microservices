@@ -1,12 +1,12 @@
 import time
 
-from config import MONGO, MONGO_PASSWORD, MONGO_USERNAME
+from config import DB_NAME, MONGO, MONGO_PASSWORD, MONGO_USERNAME
 from pymongo import MongoClient
 
 class Dao:
-    def __init__(self, db_name, collection):
+    def __init__(self, collection):
         mongo = MongoClient(f'mongodb://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO}/')
-        db = mongo[db_name]
+        db = mongo[DB_NAME]
         self.temperatures = db[collection]
 
     def insert_document(self, doc):

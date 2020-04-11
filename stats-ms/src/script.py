@@ -1,15 +1,12 @@
-import os
-
+from config import DB_NAME, QUEUE_NAME_HUMIDITY, QUEUE_NAME_TEMPERATURE
 from humidity import Humidity
 from queue import Queue
 from temperature import Temperature
 from threading import Thread
 
-DB_NAME = os.getenv('MONGO_DATABASE_NAME', 'iot')
-
 controllers = [
-    Temperature(DB_NAME, 'temperatures', 5),
-    Humidity(DB_NAME, 'humidities', 3)
+    Temperature(QUEUE_NAME_TEMPERATURE, 5),
+    Humidity(QUEUE_NAME_HUMIDITY, 3)
 ]
 
 for controller in controllers:
