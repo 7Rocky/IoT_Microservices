@@ -30,6 +30,11 @@ spec:
     spec:
       containers:
       - env:
+        - name: MYSQL_DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_DATABASE_NAME
+              name: env-configmap
         - name: MYSQL_HOSTNAME
           valueFrom:
             configMapKeyRef:

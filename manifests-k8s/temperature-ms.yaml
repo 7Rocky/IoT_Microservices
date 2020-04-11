@@ -30,11 +30,6 @@ spec:
     spec:
       containers:
       - env:
-        - name: ARDUINO_IP
-          valueFrom:
-            configMapKeyRef:
-              key: ARDUINO_IP
-              name: env-configmap
         - name: MONGO_DATABASE_NAME
           valueFrom:
             configMapKeyRef:
@@ -55,8 +50,18 @@ spec:
             configMapKeyRef:
               key: MONGO_INITDB_ROOT_PASSWORD
               name: env-configmap
+        - name: ORCHESTRATOR_MS_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: ORCHESTRATOR_MS_HOSTNAME
+              name: env-configmap
+        - name: QUEUE_NAME_TEMPERATURES
+          valueFrom:
+            configMapKeyRef:
+              key: QUEUE_NAME_TEMPERATURES
+              name: env-configmap
         - name: PORT
-          value: "80"
+          value: '80'
         - name: RABBITMQ_DEFAULT_USER
           valueFrom:
             configMapKeyRef:

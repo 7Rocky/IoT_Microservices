@@ -1,7 +1,7 @@
 module.exports = {
-  ARDUINO_IP: process.env.ARDUINO_IP || 'localhost',
   B_TERMISTOR: 4275,
-  DB_NAME: process.env.MONGO_DATABASE_NAME || 'iot',
+  ORCHESTRATOR_MS: process.env.ORCHESTRATOR_MS_HOSTNAME || 'localhost:3000',
   PORT: process.env.PORT || 4000,
+  QUEUE_NAME: process.env.QUEUE_NAME_TEMPERATURE || 'temperatures',
   REFRESH_TIME: 60000
 };

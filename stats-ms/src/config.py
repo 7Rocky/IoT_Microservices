@@ -1,10 +1,15 @@
 import os
 
+DB_NAME = os.getenv('MONGO_DATABASE_NAME', 'iot')
+
+MONGO_HOST = os.environ.get('MONGO_HOSTNAME', '192.168.99.100')
 MONGO_USERNAME = os.environ.get('MONGO_DEFAULT_USER', 'root')
 MONGO_PASSWORD = os.environ.get('MONGO_DEFAULT_PASS', 'secret')
-MONGO_HOST = os.environ.get('MONGO_HOSTNAME', '192.168.99.100')
 MONGO_PORT = os.environ.get('MONGO_SERVICE_PORT', 32000)
 MONGO = f'{MONGO_HOST}:{MONGO_PORT}'
+
+QUEUE_NAME_HUMIDITY = os.environ.get('QUEUE_NAME_HUMIDITY', 'humidities')
+QUEUE_NAME_TEMPERATURE = os.environ.get('QUEUE_NAME_TEMPERATURE', 'temperatures')
 
 RABBITMQ_USERNAME = os.environ.get('RABBITMQ_DEFAULT_USER', 'user')
 RABBITMQ_PASSWORD = os.environ.get('RABBITMQ_DEFAULT_PASS', 'password')
