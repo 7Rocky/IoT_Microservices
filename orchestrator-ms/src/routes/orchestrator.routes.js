@@ -1,23 +1,31 @@
 const { Router } = require('express');
+const expressJwt = require('express-jwt');
 
+const { TOKEN_SECRET } = require('../config/jwt.config');
 const OrchestratorController = require('../controllers/orchestrator.controller');
-const JwtModule = require('../modules/jwt.module');
 
-const router = Router();
+const jwtMiddleware = expressJwt({ secret: TOKEN_SECRET });
 const orchestratorController = new OrchestratorController();
-const jwt = new JwtModule();
+const router = Router();
 
-const verifyMS = (req, res, next) => {
+router.use((req, res, next) => {
   console.log(req.ip, req.hostname);
   next();
-};
+});
 
-router.get('/temperature', jwt.verifyToken, orchestratorController.connectTemperatureService);
-router.get('/microcontrollers/:measure', verifyMS, orchestratorController.getMicrocontrollers);
-router.post('/microcontrollers', verifyMS, orchestratorController.postMicrocontrollers);
-router.put('/microcontrollers', verifyMS, orchestratorController.putMicrocontrollers);
-router.delete('/microcontrollers', verifyMS, orchestratorController.deleteMicrocontrollers);
+router.get('/temperature', jwtMiddleware, orchestratorController.connectTemperatureService);
+router.get('/microcontrollers', orchestratorController.getMicrocontrollers);
+router.get('/microcontrollers/:measure', orchestratorController.getMicrocontrollersFromMS);
+router.post('/microcontrollers', orchestratorController.postMicrocontrollers);
+router.put('/microcontrollers', orchestratorController.putMicrocontrollers);
+router.delete('/microcontrollers', orchestratorController.deleteMicrocontrollers);
 router.post('/login', orchestratorController.login);
 router.post('/register', orchestratorController.register);
+
+router.use((error, req, res, next) => {
+  if (error.name === expressJwt.UnauthorizedError.name) {
+    res.sendStatus(401);
+  }
+});
 
 module.exports = router;
