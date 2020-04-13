@@ -24,6 +24,14 @@ module.exports = class Mysql {
     );
   }
 
+  findByUsername(username) {
+    return query(
+      this.db,
+      'SELECT * FROM microcontrollers WHERE username = ?',
+      [ username ]
+    );
+  }
+
   async insertMicrocontroller({ ip, measure, sensor, username }) {
     const result = await query(
       this.db,

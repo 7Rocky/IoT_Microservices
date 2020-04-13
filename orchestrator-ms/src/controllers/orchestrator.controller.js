@@ -1,14 +1,11 @@
 const crypto = require('crypto');
 
 const { AUTH_MS, TEMPERATURE_MS } = require('../config/services.config');
-
-const ServicesController = require('./services.controller');
 const Dao = require('../database/dao');
-const JwtModule = require('../modules/jwt.module');
+const ServicesController = require('./services.controller');
 
-const servicesController = new ServicesController();
 const dao = new Dao();
-const jwt = new JwtModule();
+const servicesController = new ServicesController();
 
 const hashPassword = password => {
   return crypto.createHash('sha256').update(password).digest('hex');
@@ -17,7 +14,6 @@ const hashPassword = password => {
 const doAuth = async (req, res, path) => {
   const body = req.body;
   body.password = hashPassword(body.password);
-
   await servicesController.postToConnectedService(res, body, AUTH_MS, path);
 };
 
@@ -29,7 +25,7 @@ module.exports = class OrchestratorController {
 
   async connectTemperatureService(req, res) {
     const { path } = req.query;
-    const query = { username: jwt.getUsernameFromToken(req) };
+    const query = { username: req.user.username };
     await servicesController.getToConnectedService(res, TEMPERATURE_MS, path, query);
   };
 
@@ -39,14 +35,22 @@ module.exports = class OrchestratorController {
 
   async register(req, res) {
     await doAuth(req, res, '/register');
-    await this.postMicrocontrollers()
+    //await this.postMicrocontrollers();
   }
 
+  // Send list of µC of a certain user to the webapp
   async getMicrocontrollers(req, res) {
+    const { username } = req.user;
+    return res.json(await dao.findByUsername(username));
+  }
+
+  // Send list of µC of a certain measure to the corresponding MS
+  async getMicrocontrollersFromMS(req, res) {
     const { measure } = req.params;
     return res.json(await dao.findByMeasure(measure));
   }
 
+  // User creates a new µC
   async postMicrocontrollers(req, res) {
     const microcontroller = req.body;
 
@@ -63,6 +67,7 @@ module.exports = class OrchestratorController {
     }
   }
 
+  // User updates an existing µC
   async putMicrocontrollers(req, res) {
     const updatedMicrocontroller = req.body;
 
@@ -82,6 +87,7 @@ module.exports = class OrchestratorController {
     }
   }
 
+  // User deletes an existing µC
   async deleteMicrocontrollers(req, res) {
     const microcontroller = req.body;
 

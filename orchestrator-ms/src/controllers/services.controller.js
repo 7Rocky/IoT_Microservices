@@ -4,15 +4,13 @@ const queryString = require('query-string');
 const JwtModule = require('../modules/jwt.module');
 const jwt = new JwtModule();
 
-const DEFAULT_PATH = '/';
-
 module.exports = class ServicesController {
 
   constructor() {
 
   }
 
-  async getToConnectedService(res, service, path=DEFAULT_PATH, query={ }) {
+  async getToConnectedService(res, service, path='/', query={ }) {
     const url = `http://${service}${path}?${queryString.stringify(query)}`;
   
     try {
@@ -23,14 +21,14 @@ module.exports = class ServicesController {
     }
   }
   
-  async postToConnectedService(res, body, service, path=DEFAULT_PATH) {
+  async postToConnectedService(res, body, service, path='/') {
     const url = `http://${service}${path}`;
   
     try {
       const response = await axios.post(url, queryString.stringify(body));
 
       if (response.data) {
-        const token = await jwt.generateToken({ username: body.username });
+        const token = jwt.generateToken({ username: body.username });
         res.json({ token });
       } else {
         res.sendStatus(401);
