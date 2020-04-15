@@ -8,6 +8,8 @@ arduino-iot/main/*.h
 
 __pycache__/
 /***/*pycache*/*
+/**/*pycache*/*
+*/__pycache__/*
 stats-ms/src/__pycache__/*
 stats-ms/__pycache__/*
 stats-ms/src/__pycache__
