@@ -1,23 +1,25 @@
 <h1 class="metal-mania text-center" mat-dialog-title>IoT_Microservices</h1>
-<div mat-dialog-content>
-  <mat-form-field class="login-input">
-    <mat-label>
-      <mat-icon>person</mat-icon>
-    </mat-label>
-    <input matInput [(ngModel)]="username" placeholder="Usuario" type="text">
-  </mat-form-field>
+<form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+  <div mat-dialog-content>
+    <mat-form-field class="login-register-input">
+      <mat-label>
+        <mat-icon>person</mat-icon>
+      </mat-label>
+      <input formControlName="username" matInput placeholder="Usuario"  type="text">
+    </mat-form-field>
+    <br>
+    <mat-form-field class="login-register-input">
+      <mat-label>
+        <mat-icon>lock</mat-icon>
+      </mat-label>
+      <input formControlName="password" matInput placeholder="Contraseña"  type="password">
+    </mat-form-field>
+  </div>
   <br>
-  <mat-form-field class="login-input">
-    <mat-label>
-      <mat-icon>lock</mat-icon>
-    </mat-label>
-    <input matInput [(ngModel)]="password" placeholder="Contraseña" type="password">
-  </mat-form-field>
-</div>
-<br>
-<div mat-dialog-actions>
-  <button cdkFocusInitial class="bg-blue login-btn white" (click)="login()" mat-raised-button>Iniciar sesión</button>
-</div>
+  <div mat-dialog-actions>
+    <button class="bg-blue login-register-btn white" [disabled]="loginForm.invalid" mat-raised-button type="submit">Iniciar sesión</button>
+  </div>
+</form>
 <br>
 <br>
 <div class="text-center" mat-dialog-content>

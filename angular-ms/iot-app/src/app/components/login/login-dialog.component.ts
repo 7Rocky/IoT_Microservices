@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { AuthService } from '@services/auth.service';
@@ -10,28 +11,29 @@ import { AuthService } from '@services/auth.service';
 })
 export class LoginDialogComponent {
 
-  username: string;
-  password: string;
+  loginForm: FormGroup;
 
   constructor(
     private authService: AuthService,
     public dialogRef: MatDialogRef<LoginDialogComponent>
-  ) { }
+  ) {
+    this.loginForm = new FormGroup({
+      username: new FormControl('', [ Validators.required ]),
+      password: new FormControl('', [ Validators.required ])
+    });
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  login() {
-    this.authService.login(this.username, this.password)
-      .subscribe((response: { token: string }) => {
-        localStorage.setItem('iot-ms-token', response.token);
-        localStorage.setItem('iot-ms-user', this.username);
-        this.dialogRef.close(this.username);
-      },
-      () => {
-        this.password = '';
-      });
+  login({ username, password }) {
+    console.log('login');
+    this.authService.login(username, password)
+      .subscribe(
+        () => this.dialogRef.close(username),
+        () => this.loginForm.get(['password']).reset()
+      );
   }
 
   changeToRegister() {

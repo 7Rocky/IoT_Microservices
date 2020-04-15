@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { AuthService } from '@services/auth.service';
+import { MustMatch } from '@helpers/must-match.helper';
 
 @Component({
   selector: 'app-register-dialog',
@@ -10,29 +12,43 @@ import { AuthService } from '@services/auth.service';
 })
 export class RegisterDialogComponent {
 
-  username: string;
-  password: string;
-  repeatPassword: string;
+  registerForm: FormGroup;
 
   constructor(
     private authService: AuthService,
-    public dialogRef: MatDialogRef<RegisterDialogComponent>
-  ) { }
+    public dialogRef: MatDialogRef<RegisterDialogComponent>,
+    private formBuilder: FormBuilder
+  ) {
+    this.registerForm = this.formBuilder.group(
+      {
+        username: [ '', Validators.required ],
+        password: [ '', Validators.required ],
+        repeatPassword: [ '', Validators.required ]
+      },
+      {
+        validator: MustMatch('password', 'repeatPassword')
+      }
+    );
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  register() {
-    this.authService.login(this.username, this.password)
-      .subscribe((response: { token: string }) => {
-        localStorage.setItem('iot-ms-token', response.token);
-        localStorage.setItem('iot-ms-user', this.username);
-        this.dialogRef.close(this.username);
-      },
-      () => {
-        this.password = '';
-      });
+  register({ username, password, repeatPassword }) {
+    if (password === repeatPassword) {
+      this.authService.register(username, password)
+        .subscribe(
+          () => this.dialogRef.close(username),
+          () => {
+            this.registerForm.get(['password']).reset();
+            this.registerForm.get(['repeatPassword']).reset();
+          }
+        );
+    } else {
+      this.registerForm.get(['password']).reset();
+      this.registerForm.get(['repeatPassword']).reset();
+    }
   }
 
   changeToLogin() {
