@@ -16,7 +16,7 @@ export class ArduinoService {
     private http: HttpClient
   ) { }
 
-  getCurrentTemperature(): Observable<Temperature> {
+  getCurrentTemperature(): Observable<Temperature[]> {
     return this.http.get<any>(
       `http://${environment.ORCHESTRATOR_MS}/temperature`,
       { 
@@ -46,13 +46,17 @@ export class ArduinoService {
 
     for (let i = 0; i < n; i++) {
       const digital_value: string = (Math.random() * 200 + 350).toFixed();
-      const real_value: string = (1 / (Math.log(1023 / +digital_value - 1) / 4275 + 1 / 298.15) - 273.15 /*digital_value / 10 - 25*/).toFixed(1);
+      const real_value: string = (1 / (Math.log(1023 / +digital_value - 1) / 4275 + 1 / 298.15) - 273.15).toFixed(1);
 
       temperatures.push({
         date: new Date(date.getTime() + i * time_step).toLocaleDateString(),
         digital_value: +digital_value,
+        ip: '',
+        measure: 'temperature',
         real_value: +real_value,
-        timestamp: date.getTime() + i * time_step
+        sensor: '',
+        timestamp: date.getTime() + i * time_step,
+        username: ''
       });
     }
 
