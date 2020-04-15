@@ -15,6 +15,7 @@ stats-ms/__pycache__/*
 stats-ms/src/__pycache__
 
 /**/*.sh
+/**/*.pyc
 
 
 /**/HELP.md
