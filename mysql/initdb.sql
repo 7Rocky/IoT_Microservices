@@ -14,5 +14,6 @@ CREATE TABLE iot.microcontrollers (
   ip VARCHAR(15) NOT NULL,
   measure VARCHAR(255) NOT NULL,
   sensor VARCHAR(255) NOT NULL,
-  PRIMARY KEY (ip, measure)
+  PRIMARY KEY (ip, measure),
+  FOREIGN KEY (username) REFERENCES iot.users(username)
 );
