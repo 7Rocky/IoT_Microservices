@@ -37,8 +37,8 @@ spec:
             configMapKeyRef:
               key: MYSQL_ROOT_PASSWORD
               name: env-configmap
-        image: mysql:8.0.19
-        name: mysql
+        image: 7rocky/mysql-iot
+        name: mysql-dev
         ports:
         - containerPort: 3306
         volumeMounts:
