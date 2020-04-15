@@ -5,7 +5,9 @@ arduino-iot/main/*.h
 
 /***/node_modules/
 
-/***/__pycache__/
+#/***/__pycache__/
+stats-ms/src/__pycache__/
+stats-ms/__pycache__/
 
 /**/*.sh
 
