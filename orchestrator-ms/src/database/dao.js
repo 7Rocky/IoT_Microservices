@@ -35,7 +35,7 @@ module.exports = class Mysql {
   async insertMicrocontroller({ ip, measure, sensor, username }) {
     const result = await query(
       this.db,
-      'INSERT INTO microcontrollers VALUES (?, ?, ?, ?)',
+      'INSERT INTO microcontrollers(ip, measure, sensor, username) VALUES (?, ?, ?, ?)',
       [ ip, measure, sensor, username ]
     );
     return !!result.affectedRows;
