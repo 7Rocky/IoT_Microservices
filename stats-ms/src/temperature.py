@@ -3,7 +3,7 @@ import numpy
 from measure import Measure
 
 class Temperature(Measure):
-    def __init__(self, db_name, queue_collection, max_items):
+    def __init__(self, queue_collection, max_items):
         super().__init__(queue_collection, max_items)
 
     def calculate_stats(self, data):
