@@ -5,7 +5,6 @@ arduino-iot/main/*.h
 
 /***/node_modules/
 
-
 __pycache__/
 /***/*pycache*/*
 /**/*pycache*/*
@@ -16,7 +15,6 @@ stats-ms/src/__pycache__
 
 /**/*.sh
 /**/*.pyc
-
 
 /**/HELP.md
 /***/target/
