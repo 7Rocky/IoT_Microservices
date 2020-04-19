@@ -1,5 +1,5 @@
-ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'my-secret-pw';
-FLUSH PRIVILEGES;
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'my-secret-pw';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 
 CREATE DATABASE iot;
 
@@ -16,4 +16,16 @@ CREATE TABLE iot.microcontrollers (
   sensor VARCHAR(255) NOT NULL,
   PRIMARY KEY (ip, measure),
   FOREIGN KEY (username) REFERENCES iot.users(username)
+);
+
+INSERT INTO iot.users VALUES (
+  'Rocky',
+  'Rocky'
+);
+
+INSERT INTO iot.microcontrollers VALUES (
+  'Rocky',
+  '192.168.1.50',
+  'temperature',
+  'Grove - Temperature'
 );
