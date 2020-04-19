@@ -13,7 +13,7 @@ dao.connect();
 const getIndex = async (req, res) => {
   const { username } = req.query;
   const userMicros = microcontrollers.filter(micro => micro.username === username);
-  console.log(userMicros);
+  //console.log(userMicros);
   const responses = [];
 
   for (micro of userMicros) {
@@ -40,13 +40,33 @@ const digitalToReal = (digital, sensor) => {
 
 const getTemperatures = async (req, res) => {
   try {
-    const docs = await dao.findAll();
-    for (doc of docs) {
-      delete doc._id;
+    //const docs = await dao.findAll();
+    console.log(req.query);
+    let { end_date, end_timestamp, init_date, init_timestamp, ip, username } = req.query;
+
+    if (!init_timestamp) {
+      init_timestamp = new Date(init_date).getTime();
     }
+
+    if (!end_timestamp) {
+      end_timestamp = new Date(end_date).getTime();
+    }
+
+    console.log(init_timestamp, end_timestamp);
+
+    const docs = await dao.find(
+      {
+        ip,
+        username,
+        init_timestamp: { '$gte': init_timestamp },
+        end_timestamp: { '$lte': end_timestamp }
+      }
+    );
+
     res.json(docs);
   } catch (error) {
     console.log(error);
+    res.sendStatus(400);
   }
 };
 
@@ -85,7 +105,41 @@ const getMicrocontrollers = async () => {
 setInterval(publishTemperature, REFRESH_TIME);
 setTimeout(getMicrocontrollers, REFRESH_TIME / 5);
 
+const insertTemperatures = async (req, res) => {
+  const objects = [];
+  const date = new Date(2020, 2, 1);
+  console.log(date);
+
+  for (let d = 1; d <= 31; d++) {
+    for (let h = 0; h < 24; h++) {
+      date.setHours(h);
+      date.setDate(d);
+
+      objects.push({
+        end_date: new Date(date.getTime() - (-3600000)).toJSON(),
+        end_timestamp: new Date(date.getTime() - (-3600000)).getTime(),
+        init_date: date.toJSON(),
+        init_timestamp: date.getTime(),
+        ip: '192.168.1.50',
+        max_value: Number((Math.random() * 7 + 24).toFixed(1)),
+        mean_value: Number((Math.random() * 7 + 17).toFixed(1)),
+        measure: 'temperature',
+        min_value: Number((Math.random() * 7 + 10).toFixed(1)),
+        n_samples: 60,
+        sensor: 'Grove - Temperature',
+        std_deviation: Number((Math.random() * 5).toFixed(1)),
+        time_span: 3600000,
+        username: 'Rocky'
+      });
+    }
+  }
+  //console.log(objects);
+  //await dao.insertMany(objects);
+  res.json(objects);
+};
+
 module.exports = {
   getIndex,
-  getTemperatures
+  getTemperatures,
+  insertTemperatures
 };

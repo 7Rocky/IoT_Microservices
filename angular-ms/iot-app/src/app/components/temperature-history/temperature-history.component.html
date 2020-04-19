@@ -1,21 +1,46 @@
-<main class="container">
-  <h1>Temperatura</h1>
-  <div>
-    <button (click)="getPreviousTemperatures()" [color]="'primary'" mat-raised-button type="button">
+<main class="container" *ngIf="micro">
+  <h1 class="topic-title white">
+    <span>
+      {{ micro.measure }}: micro.name,
+      <i>{{ micro.sensor }}</i>
+    </span>
+    <span class="float-right">
+      <mat-icon style="position: relative; top: 4px;">wifi</mat-icon>
+      &nbsp;{{ micro.ip }}&nbsp;
+    </span>
+  </h1>
+  <form [formGroup]="historyForm" (ngSubmit)="getPreviousTemperatures(historyForm.value)">
+    <mat-form-field>
+      <mat-label>Fecha inicial</mat-label>
+      <input formControlName="init_date" matInput [matDatepicker]="init_datepicker">
+      <mat-datepicker-toggle matSuffix [for]="init_datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #init_datepicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field style="margin-left: 5%;">
+      <mat-label>Fecha final</mat-label>
+      <input formControlName="end_date" matInput [matDatepicker]="end_datepicker">
+      <mat-datepicker-toggle matSuffix [for]="end_datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #end_datepicker></mat-datepicker>
+    </mat-form-field>
+    <button [color]="'primary'" [disabled]="historyForm.invalid" mat-raised-button type="submit" style="margin-left: 5%;">
       <mat-label>Cargar</mat-label>
       <mat-icon>history</mat-icon>
     </button>
-    <br>
-    <mat-card>
-      <mat-card-content>
-        <google-chart [data]="chart" style="width: 100%"></google-chart>
-      </mat-card-content>
-    </mat-card>
+  </form>
+  <div>
     <mat-form-field>
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
+      <mat-label>Ver:</mat-label>
+      <mat-select (selectionChange)="selectChanged()" multiple [(ngModel)]="currentStats" [value]="currentStats">
+        <mat-option *ngFor="let stat of stats" [value]="stat.value">
+          {{ stat.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
+  <br>
+  <mat-card>
+    <mat-card-content>
+      <google-chart [data]="chart" style="width: 100%"></google-chart>
+    </mat-card-content>
+  </mat-card>
 </main>

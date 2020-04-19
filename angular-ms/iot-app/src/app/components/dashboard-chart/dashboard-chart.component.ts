@@ -6,13 +6,17 @@ import { ArduinoService } from '@services/arduino.service';
 
 import { Temperature } from '@models/temperature.model';
 
-const initDate: string = new Date().toLocaleTimeString();
+const initDate: string = new Date().toJSON();
 const initValue: string = (24.5).toFixed(1);
 const initTemperature: Temperature = {
   date: initDate,
   digital_value: 0,
+  ip: '',
+  measure: 'temperature',
   real_value: +initValue,
-  timestamp: 0
+  sensor: '',
+  timestamp: 0,
+  username: ''
 };
 const localizeTemperature = (timestamp: number): string => {
   return new Date(timestamp).toLocaleTimeString();
@@ -29,10 +33,6 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
   header: string[] = [ 'Tiempo', 'Temperatura' ];
   chart: GoogleChartInterface = {
     chartType: 'AreaChart',
-    dataTable: [
-      this.header,
-      [ initDate, +initValue ]
-    ],
     options: {
       hAxis: {
         viewWindow: {
@@ -57,7 +57,12 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
     private arduinoService: ArduinoService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const temperature: Temperature = await this.arduinoService.getCurrentTemperature('192.168.1.50', 'temperature');
+    this.chart.dataTable = [
+      this.header,
+      [ new Date(temperature.date).toLocaleTimeString(), temperature.real_value ]
+    ];
     // this.interval = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
   }
 
@@ -65,11 +70,11 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
     clearInterval(this.interval);
   }
 
-  getCurrentTemperature() {
-    this.arduinoService.getCurrentTemperature()
-      .subscribe((temperature: Temperature) => {
+  async getCurrentTemperature() {
+    const temperature: Temperature = await this.arduinoService.getCurrentTemperature('192.168.1.50', 'temperature');
+      //.subscribe((temperatures: Temperature[]) => {
         console.log(temperature);
-        temperature.date = localizeTemperature(temperature.timestamp)
+        //temperature.date = localizeTemperature(temperature.timestamp)
         this.setStats(temperature);
 
         if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
@@ -78,9 +83,9 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
           this.chart.dataTable.unshift(this.header);
         }
 
-        this.chart.dataTable.push([ temperature.date, temperature.real_value ]);
+        this.chart.dataTable.push([ new Date(temperature.date), temperature.real_value ]);
         this.chart.component.draw();
-      });
+      //});
   }
 
   private setStats(temperature: Temperature) {

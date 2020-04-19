@@ -1,4 +1,4 @@
-const MYSQL_HOST = process.env.MYSQL_HOSTNAME || '192.168.99.100';
+const MYSQL_HOST = process.env.MYSQL_HOSTNAME || '192.168.1.222'; // '192.168.99.100';
 const MYSQL_PORT = process.env.MYSQL_SERVICE_PORT || 31000;
 
 module.exports = {

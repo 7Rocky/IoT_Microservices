@@ -2,65 +2,68 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 
+import { Microcontroller } from '@models/microcontroller.model';
 import { Temperature } from '@models/temperature.model';
+import { TemperatureStats } from '@models/temperature-stats.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArduinoService {
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  microcontrollers: Microcontroller[] = [];
 
-  getCurrentTemperature(): Observable<Temperature[]> {
-    return this.http.get<any>(
-      `http://${environment.ORCHESTRATOR_MS}/temperature`,
-      { 
-        headers: {
-          authorization: `Bearer ${localStorage.getItem('iot-ms-token')}`
-        }
-      }
-    );
+  constructor(private http: HttpClient) { }
+
+  getMicrocontrollers(): Observable<Microcontroller[]> {
+    if (this.microcontrollers.length) {
+      return of(this.microcontrollers);
+    } else {
+      return this.http.get<Microcontroller[]>(`http://${environment.ORCHESTRATOR_MS}/microcontrollers`)
+        .pipe(
+          tap(response => this.microcontrollers = response)
+        );
+    }
   }
 
-  getPreviousTemperatures(n: number): Observable<Temperature[]> {
-    let temperatures: Temperature[] = [];
-    const date: Date = new Date(2019, Number((Math.random() * 11).toFixed()), Number((Math.random() * 30 + 1).toFixed()), 1);
-    const time_step: number = 86400000;
+  async getMicrocontroller(ip: string, measure: string): Promise<Microcontroller> {
+    const findMicrocontroller = (microcontrollers: Microcontroller[]): Microcontroller => {
+      return microcontrollers.filter(micro => micro.ip === ip && micro.measure === measure)[0];
+    };
 
-    this.http.get<any>(
-      `http://${environment.ORCHESTRATOR_MS}/temperature`,
-      { 
-        headers: {
-          authorization: `Bearer ${localStorage.getItem('iot-ms-token')}`
-        },
-        params: {
-          path: '/temperatures'
-        }
-      }
-    ).subscribe(response => console.log(response));
-
-    for (let i = 0; i < n; i++) {
-      const digital_value: string = (Math.random() * 200 + 350).toFixed();
-      const real_value: string = (1 / (Math.log(1023 / +digital_value - 1) / 4275 + 1 / 298.15) - 273.15).toFixed(1);
-
-      temperatures.push({
-        date: new Date(date.getTime() + i * time_step).toLocaleDateString(),
-        digital_value: +digital_value,
-        ip: '',
-        measure: 'temperature',
-        real_value: +real_value,
-        sensor: '',
-        timestamp: date.getTime() + i * time_step,
-        username: ''
-      });
+    if (this.microcontrollers.length) {
+      return of(findMicrocontroller(this.microcontrollers)).toPromise();
+    } else {
+      console.log('getMicrocontrollers');
+      return findMicrocontroller(await this.getMicrocontrollers().toPromise());
     }
+  }
 
-    return of(temperatures);
+  getCurrentTemperatures(measure: string): Observable<Temperature[]> {
+    return this.http.get<Temperature[]>(`http://${environment.ORCHESTRATOR_MS}/${measure}`);
+  }
+
+  async getCurrentTemperature(ip: string, measure: string): Promise<Temperature> {
+    const temperatures = await this.getCurrentTemperatures(measure).toPromise();
+    return temperatures.filter(temperature => temperature.ip === ip)[0];
+  }
+
+  getPreviousTemperatures(ip: string, init_date: string, end_date: string): Observable<TemperatureStats[]> {
+    return this.http.get<TemperatureStats[]>(
+        `http://${environment.ORCHESTRATOR_MS}/temperature`,
+        { 
+          params: {
+            path: 'temperatures',
+            ip,
+            init_date,
+            end_date
+          }
+        }
+      );
   }
 
 }

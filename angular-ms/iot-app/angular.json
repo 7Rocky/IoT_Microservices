@@ -50,6 +50,11 @@
             "outputPath": "dist/iot-app",
             "polyfills": "src/polyfills.ts",
             "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src"
+              ]
+            },
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.less"

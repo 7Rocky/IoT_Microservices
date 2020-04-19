@@ -6,17 +6,15 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { LoginComponent } from '@components/login/login.component';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(
-    private router: Router
-  ) { }
+  constructor(private loginComponent: LoginComponent) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('iot-ms-token');
@@ -30,9 +28,10 @@ export class AuthInterceptor implements HttpInterceptor {
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 401) {
-            // TODO
-            alert('Not Authenticated');
-            // this.router.navigateByUrl('/login');
+            console.log('Not Authenticated');
+            localStorage.removeItem('iot-ms-token');
+            localStorage.removeItem('iot-ms-user');
+            this.loginComponent.openDialog();
           }
 
           return throwError(error);

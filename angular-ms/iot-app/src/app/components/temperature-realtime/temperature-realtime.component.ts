@@ -16,10 +16,6 @@ export class TemperatureRealtimeComponent implements OnDestroy, OnInit {
   header: string[] = [ 'Tiempo', 'Temperatura' ];
   chart: GoogleChartInterface = {
     chartType: 'AreaChart',
-    dataTable: [
-      this.header,
-      [ new Date().toLocaleTimeString(), 24 ]
-    ],
     options: {
       hAxis: {
         viewWindow: {
@@ -38,11 +34,14 @@ export class TemperatureRealtimeComponent implements OnDestroy, OnInit {
   checked: boolean = true;
   refresh_times: number[] = [ 5000, 10000, 30000, 60000 ];
 
-  constructor(
-    private arduinoService: ArduinoService
-  ) { }
+  constructor(private arduinoService: ArduinoService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const temperature: Temperature = await this.arduinoService.getCurrentTemperature('192.168.1.50', 'temperature');
+    this.chart.dataTable = [
+      this.header,
+      [ new Date(temperature.date).toLocaleTimeString(), temperature.real_value ]
+    ];
     this.interval = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
   }
 
@@ -50,25 +49,17 @@ export class TemperatureRealtimeComponent implements OnDestroy, OnInit {
     clearInterval(this.interval);
   }
 
-  getCurrentTemperature() {
-    this.arduinoService.getCurrentTemperature()
-      .subscribe((temperature: Temperature) => {
-        console.log(temperature);
-        if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
-          this.chart.dataTable.shift();
-          this.chart.dataTable.shift();
-          this.chart.dataTable.unshift(this.header);
-        }
+  async getCurrentTemperature() {
+    const temperature: Temperature = await this.arduinoService.getCurrentTemperature('192.168.1.50', 'temperature');
 
-        this.chart.dataTable.push([ new Date(temperature.date).toLocaleTimeString(), temperature.real_value ]);
-        this.chart.component.draw();
-      });
-  }
+    if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
+      this.chart.dataTable.shift();
+      this.chart.dataTable.shift();
+      this.chart.dataTable.unshift(this.header);
+    }
 
-  setQuery() {
-    console.log(this.input);
-    this.arduinoService.setQuery(this.input)
-      .subscribe(response => console.log(response));
+    this.chart.dataTable.push([ new Date(temperature.date).toLocaleTimeString(), temperature.real_value ]);
+    this.chart.component.draw();
   }
 
   checkboxClicked() {

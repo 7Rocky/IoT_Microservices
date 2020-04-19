@@ -10,9 +10,9 @@ module.exports = class ServicesController {
 
   }
 
-  async getToConnectedService(res, service, path='/', query={ }) {
-    const url = `http://${service}${path}?${queryString.stringify(query)}`;
-  
+  async getToConnectedService(res, service, path='', query={ }) {
+    const url = `http://${service}/${path}?${queryString.stringify(query)}`;
+  console.log(url);
     try {
       const response = await axios.get(url);
       res.json(response.data);
@@ -25,16 +25,17 @@ module.exports = class ServicesController {
     const url = `http://${service}${path}`;
   
     try {
-      const response = await axios.post(url, queryString.stringify(body));
-
-      if (response.data) {
-        const token = jwt.generateToken({ username: body.username });
+      //const response = await axios.post(url, queryString.stringify(body));
+//console.log(response.data);
+      if (true || response.data) {
+        const token = jwt.generateToken({ username: 'Rocky' || body.username });
         res.json({ token });
       } else {
         res.sendStatus(401);
       }
     } catch (error) {
       console.log(error);
+      res.sendStatus(401);
     }
   }
 

@@ -61,7 +61,6 @@ export class LoginComponent implements OnInit {
     if (typeof result === 'boolean') {
       if (result) {
         this.dialogRef = this.dialog.open(RegisterDialogComponent, this.dialogConf);
-
       } else {
         this.dialogRef = this.dialog.open(LoginDialogComponent, this.dialogConf);
       }

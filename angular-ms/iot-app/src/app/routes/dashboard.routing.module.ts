@@ -8,7 +8,7 @@ import { TemperatureHistoryComponent } from '@components/temperature-history/tem
 const routes: Routes = [
   { component: DashboardComponent, path: '' },
   { component: TemperatureRealtimeComponent, path: 'temperature/realtime' },
-  { component: TemperatureHistoryComponent, path: 'temperature/history' }
+  { component: TemperatureHistoryComponent, path: 'temperature/history/:ip/:measure' }
 ];
 
 @NgModule({

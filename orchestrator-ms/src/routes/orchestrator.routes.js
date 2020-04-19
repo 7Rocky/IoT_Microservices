@@ -14,7 +14,7 @@ router.use((req, res, next) => {
 });
 
 router.get('/temperature', jwtMiddleware, orchestratorController.connectTemperatureService);
-router.get('/microcontrollers', orchestratorController.getMicrocontrollers);
+router.get('/microcontrollers', jwtMiddleware, orchestratorController.getMicrocontrollers);
 router.get('/microcontrollers/:measure', orchestratorController.getMicrocontrollersFromMS);
 router.post('/microcontrollers', orchestratorController.postMicrocontrollers);
 router.put('/microcontrollers', orchestratorController.putMicrocontrollers);

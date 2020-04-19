@@ -24,11 +24,15 @@ module.exports = class MongoDB {
   }
 
   async findAll() {
-    return await Temperature.find();
+    return await Temperature.find({ }, { _id: 0, __v: 0 });
   }
 
   async find(object) {
-    return await Temperature.find(object);
+    return await Temperature.find(object, { _id: 0, __v: 0 });
+  }
+
+  async insertMany(objects) {
+    return await Temperature.insertMany(objects);
   }
 
 };

@@ -8,11 +8,13 @@ const dao = new Dao();
 const servicesController = new ServicesController();
 
 const hashPassword = password => {
+  console.log(password);
   return crypto.createHash('sha256').update(password).digest('hex');
 };
 
 const doAuth = async (req, res, path) => {
   const body = req.body;
+  console.log(body);
   body.password = hashPassword(body.password);
   await servicesController.postToConnectedService(res, body, AUTH_MS, path);
 };
@@ -24,8 +26,9 @@ module.exports = class OrchestratorController {
   }
 
   async connectTemperatureService(req, res) {
-    const { path } = req.query;
-    const query = { username: req.user.username };
+    const { path, ...query } = req.query;
+    query.username = req.user.username;
+    console.log(query);
     await servicesController.getToConnectedService(res, TEMPERATURE_MS, path, query);
   };
 
