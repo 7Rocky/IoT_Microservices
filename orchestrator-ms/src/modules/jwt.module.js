@@ -4,10 +4,6 @@ const { TOKEN_SECRET, TOKEN_EXPIRATION_TIME } = require('../config/jwt.config');
 
 module.exports = class JwtModule {
 
-  constructor() {
-
-  }
-
   generateToken(payload) {
     return jwt.sign(payload, TOKEN_SECRET, { expiresIn: TOKEN_EXPIRATION_TIME });
   }
