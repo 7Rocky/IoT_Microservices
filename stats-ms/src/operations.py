@@ -5,4 +5,4 @@ def mean(a):
 
 def std(a):
     _mean = mean(a)
-    return sqrt(sum(map(lambda x: x ** 2, a))) / len(a) - _mean ** 2)
+    return sqrt(sum(map(lambda x: x ** 2, a)) / len(a) - _mean ** 2)
