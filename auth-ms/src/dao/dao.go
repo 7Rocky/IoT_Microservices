@@ -1,12 +1,12 @@
 package dao
 
 import (
+	"auth-ms/helper"
+	"auth-ms/model"
+
 	"database/sql"
 	"fmt"
 	"log"
-
-	"auth-ms/helper"
-	"auth-ms/model"
 )
 
 // connect Connect to MySQL Server

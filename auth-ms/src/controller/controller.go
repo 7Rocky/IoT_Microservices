@@ -1,14 +1,13 @@
 package controller
 
 import (
+	"auth-ms/dao"
+	"auth-ms/model"
+
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-
-	"auth-ms/model"
-
-	"auth-ms/dao"
 )
 
 // getBodyContent Parse application/json to model.User struct
