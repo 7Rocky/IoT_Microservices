@@ -4,9 +4,8 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 CREATE DATABASE iot;
 
 CREATE TABLE iot.users (
-  username VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  PRIMARY KEY (username, password)
+  username VARCHAR(255) NOT NULL PRIMARY KEY,
+  password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE iot.microcontrollers (
