@@ -1,5 +1,12 @@
-FROM openjdk:8-jre-alpine
+FROM golang:1.14.2-alpine
 
-COPY ./target/auth-ms-0.0.1-SNAPSHOT.jar auth-ms.jar
+WORKDIR /go/src
 
-CMD [ "java", "-jar", "auth-ms.jar" ]
+COPY src/go.mod ./
+COPY src/go.sum ./
+RUN go mod download
+
+COPY src ./
+RUN go build -o main .
+
+CMD [ "./main" ]
