@@ -1,6 +1,6 @@
 package model
 
-// User User logged in DB
+// User Credentials of a certain user
 type User struct {
 	Username string
 	Password string

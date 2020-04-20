@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// App app
+// App Initialize routes for auth-ms app
 func App(port string) {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/login", controller.Login).Methods("POST")

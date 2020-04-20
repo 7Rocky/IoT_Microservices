@@ -9,6 +9,7 @@ import (
 	"auth-ms/model"
 )
 
+// connect Connect to MySQL Server
 func connect() *sql.DB {
 	user := "root"
 	password := helper.GetEnv("MYSQL_ROOT_PASSWORD", "my-secret-pw")
@@ -25,7 +26,7 @@ func connect() *sql.DB {
 	return db
 }
 
-// Exists exists
+// Exists Exists user credentials in the DB
 func Exists(user model.User) bool {
 	db := connect()
 	pStmt, err := db.Prepare("SELECT * FROM iot.users WHERE username = ? AND password = ?")
@@ -49,7 +50,7 @@ func Exists(user model.User) bool {
 	return existUser
 }
 
-// Insert insert
+// Insert Insert new user credentials in the DB
 func Insert(user model.User) bool {
 	db := connect()
 	pStmt, err := db.Prepare("INSERT INTO iot.users VALUES (?, ?)")

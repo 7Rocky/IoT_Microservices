@@ -11,6 +11,7 @@ import (
 	"auth-ms/dao"
 )
 
+// getBodyContent Parse application/json to model.User struct
 func getBodyContent(r *http.Request) model.User {
 	var user model.User
 	reqBody, err := ioutil.ReadAll(r.Body)
@@ -24,7 +25,7 @@ func getBodyContent(r *http.Request) model.User {
 	return user
 }
 
-// Login login
+// Login Login into IoT_Microservices app
 func Login(w http.ResponseWriter, r *http.Request) {
 	user := getBodyContent(r)
 	existsUser := dao.Exists(user)
@@ -32,7 +33,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, fmt.Sprintf("%t", existsUser))
 }
 
-// Register register
+// Register Register into IoT_Microservices app
 func Register(w http.ResponseWriter, r *http.Request) {
 	user := getBodyContent(r)
 	success := dao.Insert(user)
