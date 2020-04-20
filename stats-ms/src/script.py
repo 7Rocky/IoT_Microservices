@@ -5,8 +5,8 @@ from temperature import Temperature
 from threading import Thread
 
 controllers = [
-    Temperature(QUEUE_NAME_TEMPERATURE, 5),
-    Humidity(QUEUE_NAME_HUMIDITY, 3)
+    Temperature(QUEUE_NAME_TEMPERATURE, 60) # ,
+    # Humidity(QUEUE_NAME_HUMIDITY, 3)
 ]
 
 for controller in controllers:
