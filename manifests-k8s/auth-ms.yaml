@@ -46,6 +46,7 @@ spec:
               key: MYSQL_ROOT_PASSWORD
               name: env-configmap
         image: 7rocky/auth-ms
+        imagePullPolicy: Always
         name: auth-ms
         ports:
         - containerPort: 8080

@@ -32,6 +32,7 @@ spec:
     spec:
       containers:
       - image: 7rocky/angular-ms
+        imagePullPolicy: Always
         name: angular-ms
         ports:
         - containerPort: 80

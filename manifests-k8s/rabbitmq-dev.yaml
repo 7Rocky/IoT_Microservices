@@ -43,6 +43,7 @@ spec:
               key: RABBITMQ_DEFAULT_PASS
               name: env-configmap
         image: rabbitmq:3.8.3-alpine
+        imagePullPolicy: Always
         name: rabbitmq
         ports:
         - containerPort: 5672

@@ -43,6 +43,7 @@ spec:
               key: MONGO_INITDB_ROOT_PASSWORD
               name: env-configmap
         image: mongo:4.2.5
+        imagePullPolicy: Always
         name: mongo
         ports:
         - containerPort: 27017

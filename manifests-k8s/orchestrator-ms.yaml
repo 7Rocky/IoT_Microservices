@@ -58,6 +58,7 @@ spec:
               key: TEMPERATURE_MS_HOSTNAME
               name: env-configmap
         image: 7rocky/orchestrator-ms
+        imagePullPolicy: Always
         name: orchestrator-ms
         ports:
         - containerPort: 80

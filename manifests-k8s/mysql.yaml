@@ -36,6 +36,7 @@ spec:
               key: MYSQL_ROOT_PASSWORD
               name: env-configmap
         image: 7rocky/mysql-iot
+        imagePullPolicy: Always
         name: mysql
         ports:
         - containerPort: 3306
