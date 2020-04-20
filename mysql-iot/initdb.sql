@@ -19,7 +19,7 @@ CREATE TABLE iot.microcontrollers (
 
 INSERT INTO iot.users VALUES (
   'Rocky',
-  'Rocky'
+  'e7f5d4066c9f8195959866aa6915027679384f97ed822a03b8b1b3ce4ecfae5b'
 );
 
 INSERT INTO iot.microcontrollers VALUES (
