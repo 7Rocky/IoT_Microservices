@@ -1,9 +1,6 @@
 const axios = require('axios');
 const queryString = require('query-string');
 
-const JwtModule = require('../modules/jwt.module');
-const jwt = new JwtModule();
-
 module.exports = class ServicesController {
 
   async getToConnectedService(res, service, path='', query={ }) {
@@ -16,19 +13,12 @@ module.exports = class ServicesController {
       console.log(error);
     }
   }
-  
+
   async postToConnectedService(res, body, service, path='/') {
     const url = `http://${service}${path}`;
   
     try {
-      const response = await axios.post(url, body);
-
-      if (response.data) {
-        const token = jwt.generateToken({ username: body.username });
-        res.json({ token });
-      } else {
-        res.sendStatus(401);
-      }
+      return await axios.post(url, body);
     } catch (error) {
       console.log(error);
       res.sendStatus(401);
