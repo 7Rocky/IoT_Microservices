@@ -25,4 +25,6 @@ arduino-iot/main/*.h
 /**/.sts4-cache
 
 .DS_Store
+/***/.vscode/
 /**/.DS_Store
+auth-ms/src/.vscode/settings.json
