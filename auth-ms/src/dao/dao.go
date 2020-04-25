@@ -38,22 +38,35 @@ func Exists(user model.User) bool {
 	defer pStmt.Close()
 	var dbUser model.User
 
-	err = pStmt.QueryRow(user.Username, user.Password).Scan(&dbUser.Username, &dbUser.Password)
+	err = pStmt.QueryRow(user.Username, user.Password).Scan(&dbUser.Username, &dbUser.Password, &dbUser.RefreshToken)
 
-	existUser := user == dbUser
+	existUser := user.Username == dbUser.Username && user.Password == dbUser.Password
 
 	if err != nil {
 		existUser = false
 		log.Println("User '" + user.Username + "' and password '***' not found in the DB")
 	}
 
-	return existUser
+	var updateCredential model.Credential = model.Credential{
+		Username:        user.Username,
+		RefreshToken:    dbUser.RefreshToken,
+		NewRefreshToken: user.RefreshToken,
+	}
+
+	success := Update(updateCredential)
+
+	if err != nil {
+		success = false
+		log.Println("Error updating refresh token")
+	}
+
+	return existUser && success
 }
 
 // Insert Insert new user credentials in the DB
 func Insert(user model.User) bool {
 	db := connect()
-	pStmt, err := db.Prepare("INSERT INTO iot.users VALUES (?, ?)")
+	pStmt, err := db.Prepare("INSERT INTO iot.users VALUES (?, ?, ?)")
 
 	if err != nil {
 		panic(err.Error())
@@ -61,7 +74,7 @@ func Insert(user model.User) bool {
 
 	defer pStmt.Close()
 
-	_, err = pStmt.Exec(user.Username, user.Password)
+	_, err = pStmt.Exec(user.Username, user.Password, user.RefreshToken)
 
 	if err != nil {
 		log.Println("The user inserted is already registered")
@@ -69,4 +82,27 @@ func Insert(user model.User) bool {
 	}
 
 	return true
+}
+
+// Update Update user credentials in the DB
+func Update(credentials model.Credential) bool {
+	db := connect()
+	pStmt, err := db.Prepare("UPDATE iot.users SET refresh_token = ? WHERE refresh_token = ? AND username = ?")
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer pStmt.Close()
+
+	result, err := pStmt.Exec(credentials.NewRefreshToken, credentials.RefreshToken, credentials.Username)
+
+	if err != nil {
+		log.Println("The transaction failed")
+		return false
+	}
+
+	rows, _ := result.RowsAffected()
+
+	return rows == 1
 }

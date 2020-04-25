@@ -14,6 +14,7 @@ func App(port string) {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/login", controller.Login).Methods("POST")
 	router.HandleFunc("/register", controller.Register).Methods("POST")
+	router.HandleFunc("/refresh", controller.Refresh).Methods("POST")
 
 	log.Println("Starting GO server on port " + port)
 	http.ListenAndServe(port, router)

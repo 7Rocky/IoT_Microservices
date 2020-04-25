@@ -39,3 +39,19 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, fmt.Sprintf("%t", success))
 }
+
+// Refresh Refresh token into IoT_Microservices DB
+func Refresh(w http.ResponseWriter, r *http.Request) {
+	var credentials model.Credential
+	reqBody, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	json.Unmarshal(reqBody, &credentials)
+
+	success := dao.Update(credentials)
+
+	fmt.Fprintf(w, fmt.Sprintf("%t", success))
+}
