@@ -10,7 +10,7 @@ If you want to modify the application, you may need to install the following:
 * [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 * Docker ([Docker Desktop](https://www.docker.com/products/docker-desktop) and a [Docker Hub](https://hub.docker.com) account)
 * [Node.js](https://nodejs.org/en/download/) and [npm](https://www.npmjs.com/get-npm)
-* Java Development Kit: [jdk8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* [Go](https://golang.org/dl/)
 * [Python](https://www.python.org/downloads/)
 * [Arduino IDE](https://www.arduino.cc/en/main/software)
 
@@ -28,12 +28,10 @@ There are two microservices developed on Node.js: [temperature-ms](https://githu
 ```bash
 cd temperature-ms
 npm install
-npm run dev1
+npm run dev
 ```
 
-The `dev1` script sets an environment variable called `ARDUINO_IP` to 192.168.1.50. You may need to fix if necessary.
-
-If you are not using an Arduino board, you can mock it using the _fake-arduino-iot_ Node.js application. For this task, run `npm install` and `npm start` at the `fake-arduino-iot` directory. Then, run `npm run dev2` at the `temperature-ms` directory.
+If you are not using an Arduino board, you can mock it using the _fake-arduino-iot_ Node.js application. For this task, run `npm install` and `npm start` at the `fake-arduino-iot` directory.
 
 ## 3. Develop Angular microservice
 
@@ -55,24 +53,23 @@ npm run build
 
 This command will generate bundle files on a `dist` folder.
 
-## 4. Develop Java microservice
+## 4. Develop Go microservice
 
-There is one microservice developed on Java using SpringBoot: [auth-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/auth-ms). You will need to execute the following commands to run the microservice locally:
-
-```bash
-cd humidity-ms
-./mvnw spring-boot:run
-```
-
-This will start a process listening on port 8080.
-
-To build de application on a JAR file, run:
+There is one microservice developed in Go: [auth-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/auth-ms). You will need to execute the following commands to run the microservice locally:
 
 ```bash
-./mvnw -Dmaven.test.skip=true clean package
+cd auth-ms/src
+go mod download
+go run main.go
 ```
 
-This will generate a JAR file in a directory called `target`.
+This will start a process listening on port 5000.
+
+To build de application on a executable file, run:
+
+```bash
+go build -o main
+```
 
 ## 5. Develop Python microservice
 
@@ -86,7 +83,7 @@ pip install -r requirements
 And then, run the application:
 
 ```bash
-python script.py
+python src/script.py
 ```
 
 ## 6. Program Arduino board
@@ -133,19 +130,24 @@ kubectl apply -f pvc-k8s/mongo-pv-claim.yaml
 kubectl apply -f pvc-k8s/mysql-pv-claim.yaml
 kubectl apply -f mongo.yaml
 kubectl apply -f mysql.yaml
-kubectl apply -f auth-ms.yaml
 kubectl apply -f rabbitmq.yaml
+kubectl apply -f auth-ms.yaml
 kubectl apply -f stats-ms
 kubectl apply -f temperature-ms.yaml
 kubectl apply -f angular-ms.yaml
+kubectl apply -f angular-ingress.yaml
 ```
 
-**Note**: The order is important because som microservices depend on others existence.
+**Note**: The order is important because some microservices depend on others existence.
 
-If you go now to `http://192.168.99.100:31600/` you will see the Angular application. In case your Minikube IP address is different, you can run the following command:
+If you go now to `http://192.168.99.100:31600/` you will see the Angular application. In case your Minikube IP address is different, you can run the following commands:
 
 ```bash
 minikube service angular-ms
+```
+
+```bash
+minikube ip
 ```
 
 To use database services locally, there are `mongo-dev.yaml`, `mysql-dev.yaml` and `rabbitmq-dev.yaml`, which can be accessed from a NodePort. The microservices code are aware of dev/prod environments, you will not need to configure anything presumably.
@@ -156,9 +158,7 @@ Take a look at the YAML files and note that there is a property called `image: 7
 
 However, if you just want to try the application, you are allowed to use the images that are already set, because they are accesible from Docker Hub.
 
-There are some microservices that need the Arduino IP address. For that, Kubernetes offers the possibility to configure environment variables. All relevant environment variables are placed in [env-configmap.yaml](https://github.com/7Rocky/IoT_Microservices/tree/master/manifests-k8s/env-configmap.yaml).
-
-So, if you modify the IP address on the Arduino project, do not forget to change it on the YAML files.
+Kubernetes offers the possibility to configure environment variables. All relevant environment variables are placed in [env-configmap.yaml](https://github.com/7Rocky/IoT_Microservices/tree/master/manifests-k8s/env-configmap.yaml).
 
 ## 10. Stop the application
 
@@ -174,6 +174,7 @@ kubectl delete -f rabbitmq.yaml
 kubectl delete -f stats-ms
 kubectl delete -f temperature-ms.yaml
 kubectl delete -f angular-ms.yaml
+kubectl delete -f angular-ingress.yaml
 ```
 
 **Note**: If you delete [pvc-k8s](https://github.com/7Rocky/IoT_Microservices/tree/master/manifests-k8s/pvc-k8s) files, the data stored in the corresponding database will be erased. Deleting its Service or StatefulSet will not affect to the data storage.
@@ -201,6 +202,6 @@ For developing and producing this application, [Visual Studio Code](https://code
 * [Anaconda Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-python.anaconda-extension-pack)
 * [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)
 * [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
+* [Go](https://marketplace.visualstudio.com/items?itemName=ms-vscode.Go)
 * [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
-* [Spring Boot Tools](https://marketplace.visualstudio.com/items?itemName=Pivotal.vscode-spring-boot) and [Spring Initializr](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-spring-initializr)
 * [YAML](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
