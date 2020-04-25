@@ -21,6 +21,7 @@ router.put('/microcontrollers', orchestratorController.putMicrocontrollers);
 router.delete('/microcontrollers', orchestratorController.deleteMicrocontrollers);
 router.post('/login', orchestratorController.login);
 router.post('/register', orchestratorController.register);
+router.post('/refresh', orchestratorController.refresh);
 
 router.use((error, req, res, next) => {
   if (error.name === expressJwt.UnauthorizedError.name) {

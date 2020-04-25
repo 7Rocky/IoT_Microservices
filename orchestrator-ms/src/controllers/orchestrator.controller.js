@@ -2,9 +2,11 @@ const crypto = require('crypto');
 
 const { AUTH_MS, TEMPERATURE_MS } = require('../config/services.config');
 const Dao = require('../database/dao');
+const JwtModule = require('../modules/jwt.module');
 const ServicesController = require('./services.controller');
 
 const dao = new Dao();
+const jwt = new JwtModule();
 const servicesController = new ServicesController();
 
 const hashPassword = password => {
@@ -13,9 +15,17 @@ const hashPassword = password => {
 
 const doAuth = async (req, res, path) => {
   const body = req.body;
-  console.log(body);
   body.password = hashPassword(body.password);
-  await servicesController.postToConnectedService(res, body, AUTH_MS, path);
+  body.refreshToken = jwt.generateRefreshToken();
+
+  const response = await servicesController.postToConnectedService(res, body, AUTH_MS, path);
+
+  if (response.data) {
+    const token = jwt.generateToken({ username: body.username });
+    return res.json({ refreshToken: body.refreshToken, token });
+  } else {
+    return res.sendStatus(401);
+  }
 };
 
 module.exports = class OrchestratorController {
@@ -34,6 +44,29 @@ module.exports = class OrchestratorController {
   async register(req, res) {
     await doAuth(req, res, '/register');
     //await this.postMicrocontrollers();
+  }
+
+  async refresh(req, res) {
+    const token = req.headers.authorization.substring(7);
+    const { refreshToken } = req.body;
+    const { username } = jwt.getPayload(token);
+    const newRefreshToken = jwt.generateRefreshToken();
+
+    const response = await servicesController.postToConnectedService(
+      res,
+      { newRefreshToken, refreshToken, username },
+      AUTH_MS,
+      '/refresh'
+    );
+
+    if (response.data) {
+      return res.json({
+        refreshToken: newRefreshToken,
+        token: jwt.generateToken({ username })
+      });
+    }
+
+    return res.sendStatus(401);
   }
 
   // Send list of µC of a certain user to the webapp
