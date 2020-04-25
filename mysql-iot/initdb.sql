@@ -4,22 +4,24 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 CREATE DATABASE iot;
 
 CREATE TABLE iot.users (
-  username VARCHAR(255) NOT NULL PRIMARY KEY,
-  password VARCHAR(255) NOT NULL
+  username VARCHAR(256) NOT NULL PRIMARY KEY,
+  password VARCHAR(256) NOT NULL,
+  refresh_token VARCHAR(256) NOT NULL
 );
 
 CREATE TABLE iot.microcontrollers (
-  username VARCHAR(255) NOT NULL,
+  username VARCHAR(256) NOT NULL,
   ip VARCHAR(15) NOT NULL,
-  measure VARCHAR(255) NOT NULL,
-  sensor VARCHAR(255) NOT NULL,
+  measure VARCHAR(256) NOT NULL,
+  sensor VARCHAR(256) NOT NULL,
   PRIMARY KEY (ip, measure),
   FOREIGN KEY (username) REFERENCES iot.users(username)
 );
 
 INSERT INTO iot.users VALUES (
   'Rocky',
-  'e7f5d4066c9f8195959866aa6915027679384f97ed822a03b8b1b3ce4ecfae5b'
+  'e7f5d4066c9f8195959866aa6915027679384f97ed822a03b8b1b3ce4ecfae5b',
+  ''
 );
 
 INSERT INTO iot.microcontrollers VALUES (
