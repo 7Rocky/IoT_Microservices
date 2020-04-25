@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  name: angular-ingress
+spec:
+  rules:
+  - host: iot-microservices.com
+    http:
+      paths:
+      - backend:
+          serviceName: angular-ms
+          servicePort: 80
+        path: /(.*)
