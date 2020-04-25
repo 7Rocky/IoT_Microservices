@@ -10,7 +10,7 @@ int status = WL_IDLE_STATUS;
 
 WiFiServer server(PORT);
 
-void setup() {  
+void setup() {
   int ip_address[4];
 
   getIpNumbers(IP_ADDRESS, ip_address);
@@ -101,7 +101,7 @@ void printHttpHeaders(WiFiClient client, int status) {
     default:
       client.println("HTTP/1.1 404 Not Found");
       break;
-  } 
+  }
 
   client.println("Content-Tupe: application/json");
   client.println("Connection: keep-alive");
