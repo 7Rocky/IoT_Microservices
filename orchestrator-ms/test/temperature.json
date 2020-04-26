@@ -1,0 +1,22 @@
+[
+  {
+    "date": "Sun, 26 Apr 2020 13:21:34 GMT",
+    "digital_value": 516,
+    "ip": "192.168.1.50",
+    "measure": "temperature",
+    "real_value": 25.4,
+    "sensor": "Grove - Temperature",
+    "timestamp": 1587907294530,
+    "username": "Rocky"
+  },
+  {
+    "date": "Sun, 26 Apr 2020 13:21:35 GMT",
+    "digital_value": 470,
+    "ip": "192.168.1.222",
+    "measure": "temperature",
+    "real_value": 22.4,
+    "sensor": "Fake Grove - Temperature",
+    "timestamp": 1587907295530,
+    "username": "Rocky"
+  }
+]
