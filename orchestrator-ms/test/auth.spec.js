@@ -70,7 +70,7 @@ describe('Refresh token endpoint', () => {
   });
 
   it('should change refresh token and access token', async () => {
-    await new Promise(r => setTimeout(r, 1000))
+    await new Promise(r => setTimeout(r, 1000));
     const res = await request(app).post('/refresh').send({ refreshToken }).set('Authorization', `Bearer ${token}`);
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual(

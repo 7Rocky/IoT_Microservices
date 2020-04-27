@@ -2,7 +2,7 @@
   {
     "end_date": "Sat, 25 Apr 2020 23:59:33 GMT",
     "end_timestamp": 1587859173978,
-    "init_date": "Sat, 25 Apr 2020 23:00:34 GMT",
+    "init_date": "Sat, 26 Apr 2020 00:00:34 GMT",
     "init_timestamp": 1587855634077,
     "max_value": 24.7,
     "mean_value": 24.4,
@@ -16,9 +16,9 @@
     "username": "Rocky"
   },
   {
-    "end_date": "Sat, 25 Apr 2020 23:00:34 GMT",
+    "end_date": "Sat, 26 Apr 2020 00:00:34 GMT",
     "end_timestamp": 1587862713879,
-    "init_date": "Sat, 25 Apr 2020 23:01:35 GMT",
+    "init_date": "Sat, 26 Apr 2020 00:01:35 GMT",
     "init_timestamp": 1587859173978,
     "max_value": 24.5,
     "mean_value": 24.1,
