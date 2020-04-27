@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 const { B_TERMISTOR, ORCHESTRATOR_MS, QUEUE_NAME, REFRESH_TIME } = require('../constants/constants');
-const Dao = require('../database/dao');
-const Queue = require('../modules/queue.module');
+const Dao = require('../../database/dao');
+const Queue = require('../../modules/queue.module');
 
 const dao = new Dao();
 const queue = new Queue(QUEUE_NAME);
@@ -40,7 +40,6 @@ const digitalToReal = (digital, sensor) => {
 
 const getTemperatures = async (req, res) => {
   try {
-    //const docs = await dao.findAll();
     console.log(req.query);
     let { end_date, end_timestamp, init_date, init_timestamp, ip, username } = req.query;
 
@@ -105,7 +104,7 @@ const getMicrocontrollers = async () => {
 setInterval(publishTemperature, REFRESH_TIME);
 setTimeout(getMicrocontrollers, REFRESH_TIME / 5);
 
-const insertTemperatures = async (req, res) => {
+/*const insertTemperatures = async (req, res) => {
   const objects = [];
   const date = new Date(2020, 2, 1);
   console.log(date);
@@ -136,10 +135,10 @@ const insertTemperatures = async (req, res) => {
   //console.log(objects);
   //await dao.insertMany(objects);
   res.json(objects);
-};
+};*/
 
 module.exports = {
   getIndex,
   getTemperatures,
-  insertTemperatures
+  //insertTemperatures
 };
