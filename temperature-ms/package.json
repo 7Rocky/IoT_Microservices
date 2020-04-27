@@ -9,7 +9,9 @@
   },
   "description": "Temperature microservice",
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "jest": "^25.4.0",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2"
   },
   "engines": {
     "node": "12.6.1",
@@ -24,7 +26,8 @@
   },
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test": "jest"
   },
   "version": "1.0.0"
 }
