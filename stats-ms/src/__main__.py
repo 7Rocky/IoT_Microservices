@@ -4,9 +4,6 @@ from src.queue.queue import Queue
 from src.measures.temperature import Temperature
 from threading import Thread
 
-def a():
-    return 1
-
 controllers = [
     Temperature(QUEUE_NAME_TEMPERATURE, 60) # ,
     # Humidity(QUEUE_NAME_HUMIDITY, 3)

@@ -3,14 +3,10 @@ import os
 import unittest
 
 from math import sqrt
-from src.__main__ import a
 from src.measures.operations import mean, std
 from src.measures.temperature import Temperature
 
 class TestStatsMS(unittest.TestCase):
-    def test_a(self):
-        self.assertEqual(a(), 1)
-
     def test_mean(self):
         self.assertEqual(mean([1, 2, 3, 4]), 2.5)
 
