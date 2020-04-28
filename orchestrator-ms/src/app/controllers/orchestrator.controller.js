@@ -1,5 +1,6 @@
 const { AUTH_MS, TEMPERATURE_MS } = require('../../config/services.config');
 const { hashPassword, isValidMicrocontroller } = require('../../helpers/helpers');
+const { MAX_EXP_TIME } = require('../../config/jwt.config');
 const Dao = require('../../database/dao');
 const JwtModule = require('../../modules/jwt.module');
 const ServicesController = require('./services.controller');
@@ -53,19 +54,21 @@ module.exports = class OrchestratorController {
       const newRefreshToken = jwt.generateRefreshToken();
 
       if (refreshToken && token && payload && payload.username) {
-        const { username } = payload;
-        const response = await servicesController.postToConnectedService(
-          res,
-          { newRefreshToken, refreshToken, username },
-          AUTH_MS,
-          '/refresh'
-        );
+        if (payload.iat > Number((Date.now() / 1000 - MAX_EXP_TIME).toFixed())) {
+          const { username } = payload;
+          const response = await servicesController.postToConnectedService(
+            res,
+            { newRefreshToken, refreshToken, username },
+            AUTH_MS,
+            '/refresh'
+          );
 
-        if (response.data) {
-          return res.json({
-            refreshToken: newRefreshToken,
-            token: jwt.generateToken({ username })
-          });
+          if (response.data) {
+            return res.json({
+              refreshToken: newRefreshToken,
+              token: jwt.generateToken({ username })
+            });
+          }
         }
 
         return res.sendStatus(401);

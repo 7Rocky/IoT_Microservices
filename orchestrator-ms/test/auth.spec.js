@@ -1,5 +1,7 @@
 const request = require('supertest');
 const app = require('../src/app/app');
+const jwt = require('jsonwebtoken');
+const { MAX_EXP_TIME, TOKEN_EXPIRATION_TIME, TOKEN_SECRET } = require('../src/config/jwt.config');
 
 let refreshToken;
 let token;
@@ -97,5 +99,33 @@ describe('Refresh token endpoint', () => {
       .set('Authorization', `Bearer this-is-not-a-token`);
 
     expect(res.statusCode).toBe(400);
+  });
+
+  it('should refresh token', async () => {
+    const iat = Number((Date.now() / 1000 - MAX_EXP_TIME + 1).toFixed());
+    console.log(iat);
+    const exp = iat + TOKEN_EXPIRATION_TIME
+    const token = jwt.sign({ username, iat, exp }, TOKEN_SECRET);
+
+    const res = await request(app)
+      .post('/refresh')
+      .send({ refreshToken })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(200);
+  });
+
+  it('should not refresh token because of time limit', async () => {
+    const iat = Number((Date.now() / 1000 - MAX_EXP_TIME - 1).toFixed());
+    console.log(iat);
+    const exp = iat + TOKEN_EXPIRATION_TIME
+    const token = jwt.sign({ username, iat, exp }, TOKEN_SECRET);
+
+    const res = await request(app)
+      .post('/refresh')
+      .send({ refreshToken })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(401);
   });
 });
