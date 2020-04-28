@@ -1,6 +1,6 @@
 import json
 
-from rabbitmq import get_channel
+from src.queue.rabbitmq import get_channel
 
 class Queue():
     def __init__(self, controller):
@@ -12,7 +12,6 @@ class Queue():
             data = json.loads(body.decode())
             stream = streams.get(data['ip'])
             print(data)
-            print(stream)
 
             if stream is not None:
                 if len(stream) < controller.max_items:

@@ -1,5 +1,5 @@
-from measure import Measure
-from operations import mean, std
+from src.measures.measure import Measure
+from src.measures.operations import mean, std
 
 class Temperature(Measure):
     def __init__(self, queue_collection, max_items):
