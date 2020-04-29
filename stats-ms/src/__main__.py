@@ -1,7 +1,7 @@
-from src.config.config import DB_NAME, QUEUE_NAME_HUMIDITY, QUEUE_NAME_TEMPERATURE
-from src.measures.humidity import Humidity
-from src.queue.queue import Queue
-from src.measures.temperature import Temperature
+from config.config import DB_NAME, QUEUE_NAME_HUMIDITY, QUEUE_NAME_TEMPERATURE
+from measures.humidity import Humidity
+from queue.queue import Queue
+from measures.temperature import Temperature
 from threading import Thread
 
 controllers = [

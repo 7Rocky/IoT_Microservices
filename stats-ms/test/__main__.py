@@ -3,8 +3,8 @@ import os
 import unittest
 
 from math import sqrt
-from src.measures.operations import mean, std
-from src.measures.temperature import Temperature
+from measures.operations import mean, std
+from measures.temperature import Temperature
 
 class TestStatsMS(unittest.TestCase):
     def test_mean(self):

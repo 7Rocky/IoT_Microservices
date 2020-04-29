@@ -1,4 +1,4 @@
-from src.measures.measure import Measure
+from measures.measure import Measure
 
 class Humidity(Measure):
     def __init__(self, queue_collection, max_items):

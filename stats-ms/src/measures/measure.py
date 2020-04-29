@@ -1,4 +1,4 @@
-from src.database.dao import Dao
+from database.dao import Dao
 
 class Measure():
     def __init__(self, queue_collection, max_items):

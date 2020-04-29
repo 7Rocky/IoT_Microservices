@@ -1,6 +1,6 @@
 import json
 
-from src.queue.rabbitmq import get_channel
+from queue.rabbitmq import get_channel
 
 class Queue():
     def __init__(self, controller):
