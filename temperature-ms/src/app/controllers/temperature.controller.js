@@ -13,19 +13,22 @@ dao.connect();
 const getIndex = async (req, res) => {
   const { username } = req.query;
   const userMicros = microcontrollers.filter(micro => micro.username === username);
+  console.log(userMicros);
   const responses = [];
 
-  userMicros.forEach(async micro => {
+  for (micro of userMicros) {
     if (!micro.isInactive) {
       try {
         const response = await axios.get(`http://${micro.ip}/temperature`);
         responses.push(getTemperatureMessage(response.data, micro));
       } catch (error) {
-        micro.isInactive = true;
-        pingMicro(micro);
+        if (!micro.isInactive) {
+          micro.isInactive = true;
+          pingMicro(micro);
+        }
       }
     }
-  });
+  }
 
   res.status(200).json(responses);
 };
@@ -34,14 +37,15 @@ const pingMicro = micro => {
   const inactiveInterval = setInterval(async () => {
     try {
       await axios.get(`http://${micro.ip}/temperature`);
-      const idx = microcontrollers.indexOf(micro);
+      console.log('micro is no more inactive');
+      //const idx = microcontrollers.indexOf(micro);
       micro.isInactive = false;
-      microcontrollers[idx] = micro;
+      //microcontrollers[idx] = micro;
       clearInterval(inactiveInterval);
     } catch (error) {
       console.log('micro is still inactive');
     }
-  }, REFRESH_TIME);
+  }, REFRESH_TIME / 2);
 }
 
 const digitalToReal = (digital, sensor) => {
@@ -67,8 +71,6 @@ const getTemperatures = async (req, res) => {
       end_timestamp = new Date(end_date).getTime();
     }
 
-    console.log(init_timestamp, end_timestamp);
-
     const docs = await dao.find(
       {
         ip,
@@ -93,7 +95,7 @@ const getTemperatureMessage = (data, micro) => {
     digital_value: data.temperature,
     ip: micro.ip,
     measure: micro.measure,
-    real_value: digitalToReal(data.temperature),
+    real_value: digitalToReal(data.temperature, micro.sensor),
     sensor: micro.sensor,
     timestamp: date.getTime(),
     username: micro.username
@@ -107,8 +109,12 @@ const publishTemperature = () => {
         const response = await axios.get(`http://${micro.ip}/temperature`);
         queue.publish(JSON.stringify(getTemperatureMessage(response.data, micro)));
       } catch (error) {
-        micro.isInactive = true;
-        pingMicro(micro);
+        if (!micro.isInactive) {
+          //const idx = microcontrollers.indexOf(micro);
+          micro.isInactive = true;
+          //microcontrollers[idx] = micro;
+          pingMicro(micro);
+        }
       }
     }
   });
@@ -117,6 +123,7 @@ const publishTemperature = () => {
 const getMicrocontrollers = async () => {
   const response = await axios.get(`http://${ORCHESTRATOR_MS}/microcontrollers/temperature`);
   microcontrollers = response.data;
+  microcontrollers.forEach(micro => micro.isInactive = false);
   console.log(microcontrollers);
 };
 
