@@ -1,6 +1,3 @@
-ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'my-secret-pw';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
-
 CREATE DATABASE iot;
 
 CREATE TABLE iot.users (
@@ -30,3 +27,9 @@ INSERT INTO iot.microcontrollers VALUES (
   'temperature',
   'Grove - Temperature'
 );
+
+CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'my-secret-pw';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+
+CREATE USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'my-secret-pw';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
