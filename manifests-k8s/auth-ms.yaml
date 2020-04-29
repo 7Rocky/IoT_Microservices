@@ -6,7 +6,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 8080
+    targetPort: 80
   selector:
     app: auth-ms
     tier: backend
@@ -45,11 +45,13 @@ spec:
             configMapKeyRef:
               key: MYSQL_ROOT_PASSWORD
               name: env-configmap
+        - name: PORT
+          value: '80'
         image: 7rocky/auth-ms
         imagePullPolicy: Always
         name: auth-ms
         ports:
-        - containerPort: 8080
+        - containerPort: 80
         resources:
           limits:
             cpu: 100m
