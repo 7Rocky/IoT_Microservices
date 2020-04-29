@@ -15,11 +15,11 @@ export class LoginDialogComponent {
 
   constructor(
     private authService: AuthService,
-    public dialogRef: MatDialogRef<LoginDialogComponent>
+    private dialogRef: MatDialogRef<LoginDialogComponent>
   ) {
     this.loginForm = new FormGroup({
-      username: new FormControl('', [ Validators.required ]),
-      password: new FormControl('', [ Validators.required ])
+      username: new FormControl('', [ Validators.required, Validators.maxLength(30) ]),
+      password: new FormControl('', [ Validators.required, Validators.maxLength(30) ])
     });
   }
 
@@ -28,7 +28,6 @@ export class LoginDialogComponent {
   }
 
   login({ username, password }) {
-    console.log('login');
     this.authService.login(username, password)
       .subscribe(
         () => this.dialogRef.close(username),
