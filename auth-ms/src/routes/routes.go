@@ -3,7 +3,6 @@ package routes
 import (
 	"auth-ms/controller"
 
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -16,6 +15,5 @@ func App(port string) {
 	router.HandleFunc("/register", controller.Register).Methods("POST")
 	router.HandleFunc("/refresh", controller.Refresh).Methods("POST")
 
-	log.Println("Starting GO server on port " + port)
 	http.ListenAndServe(port, router)
 }

@@ -3,6 +3,7 @@ package controller
 import (
 	"auth-ms/dao"
 	"auth-ms/model"
+	"log"
 
 	"encoding/json"
 	"fmt"
@@ -26,6 +27,8 @@ func getBodyContent(r *http.Request) model.User {
 
 // Login Login into IoT_Microservices app
 func Login(w http.ResponseWriter, r *http.Request) {
+	log.Println("POST /login")
+
 	user := getBodyContent(r)
 	existsUser := dao.Exists(user)
 
@@ -34,6 +37,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 // Register Register into IoT_Microservices app
 func Register(w http.ResponseWriter, r *http.Request) {
+	log.Println("POST /register")
+
 	user := getBodyContent(r)
 	success := dao.Insert(user)
 
@@ -42,6 +47,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 // Refresh Refresh token into IoT_Microservices DB
 func Refresh(w http.ResponseWriter, r *http.Request) {
+	log.Println("POST /refresh")
+
 	var credentials model.Credential
 	reqBody, err := ioutil.ReadAll(r.Body)
 
