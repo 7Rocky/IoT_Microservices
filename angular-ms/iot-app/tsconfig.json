@@ -28,6 +28,9 @@
       "@interceptors/*": [
         "src/app/interceptors/*"
       ],
+      "@mocks/*": [
+        "src/app/mocks/*"
+      ],
       "@models/*": [
         "src/app/models/*"
       ],
@@ -42,6 +45,9 @@
       ],
       "@shared/*": [
         "src/app/shared/*"
+      ],
+      "@stubs/*": [
+        "src/app/stubs/*"
       ]
     },
     "sourceMap": true,
