@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ArduinoService } from '@services/arduino.service';
+import { AuthService } from '@services/auth.service';
+import { Microcontroller } from '@models/microcontroller.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,23 +11,29 @@ import { ArduinoService } from '@services/arduino.service';
 })
 export class DashboardComponent implements OnInit {
 
-  microcontrollers = [
-    /*{ ip: '192.168.1.50', measure: 'Temperatura', name: 'Arduino', sensor: 'Grove - Temperature' },
-    { ip: '192.168.1.222', measure: 'Temperatura', name: 'Fake Arduino', sensor: 'Fake Grove - Temperature' },
-    { ip: '192.168.1.39', measure: 'Temperatura', name: 'Fake Arduino 2', sensor: 'Fake Grove - Temperature' }*/
-  ];
+  microcontrollers: Microcontroller[] = [];
 
-  constructor(private arduinoService: ArduinoService) { }
+  constructor(
+    private arduinoService: ArduinoService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.arduinoService.getMicrocontrollers()
       .subscribe(
         response => {
-          console.log(response);
-          this.microcontrollers = response
+          this.microcontrollers = response;
+          this.microcontrollers.forEach(micro => {
+            micro.isInactive = false;
+          })
         },
-        () => console.log('Not authenticated')
+        () => this.authService.removeTokens()
       );
+  }
+
+  changeActivity(micro: Microcontroller) {
+    const idx = this.microcontrollers.indexOf(micro);
+    this.microcontrollers[idx] = micro;
   }
 
 }
