@@ -13,20 +13,36 @@ dao.connect();
 const getIndex = async (req, res) => {
   const { username } = req.query;
   const userMicros = microcontrollers.filter(micro => micro.username === username);
-  //console.log(userMicros);
   const responses = [];
 
-  for (micro of userMicros) {
-    try {
-      const response = await axios.get(`http://${micro.ip}/temperature`);
-      responses.push(getTemperatureMessage(response.data, micro));
-    } catch (error) {
-      console.log(error);
+  userMicros.forEach(async micro => {
+    if (!micro.isInactive) {
+      try {
+        const response = await axios.get(`http://${micro.ip}/temperature`);
+        responses.push(getTemperatureMessage(response.data, micro));
+      } catch (error) {
+        micro.isInactive = true;
+        pingMicro(micro);
+      }
     }
-  }
+  });
 
   res.status(200).json(responses);
 };
+
+const pingMicro = micro => {
+  const inactiveInterval = setInterval(async () => {
+    try {
+      await axios.get(`http://${micro.ip}/temperature`);
+      const idx = microcontrollers.indexOf(micro);
+      micro.isInactive = false;
+      microcontrollers[idx] = micro;
+      clearInterval(inactiveInterval);
+    } catch (error) {
+      console.log('micro is still inactive');
+    }
+  }, REFRESH_TIME);
+}
 
 const digitalToReal = (digital, sensor) => {
   switch (sensor) {
@@ -86,11 +102,14 @@ const getTemperatureMessage = (data, micro) => {
 
 const publishTemperature = () => {
   microcontrollers.forEach(async micro => {
-    try {
-      const response = await axios.get(`http://${micro.ip}/${micro.measure}`);
-      queue.publish(JSON.stringify(getTemperatureMessage(response.data, micro)));
-    } catch (error) {
-      //console.log(error);
+    if (!micro.isInactive) {
+      try {
+        const response = await axios.get(`http://${micro.ip}/temperature`);
+        queue.publish(JSON.stringify(getTemperatureMessage(response.data, micro)));
+      } catch (error) {
+        micro.isInactive = true;
+        pingMicro(micro);
+      }
     }
   });
 };
