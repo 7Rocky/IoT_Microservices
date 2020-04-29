@@ -10,10 +10,8 @@ import { TemperatureStats } from '@models/temperature-stats.model';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MustBeOrderedDates } from '@helpers/must-be-ordered-dates.helper';
-import { LoginComponent } from '@components/login/login.component';
 
 @Component({
-  providers: [LoginComponent],
   selector: 'app-temperature-history',
   styleUrls: [ './temperature-history.component.less' ],
   templateUrl: './temperature-history.component.html'
