@@ -1,6 +1,6 @@
 # Use Kubernetes cluster on a Raspberry Pi
 
-Download the following program: [Raspberry Pi Imager](https://downloads.raspberrypi.org/imager/imager.dmg)
+Download the following program: [Raspberry Pi Imager](https://downloads.raspberrypi.org/imager/imager.dmg).
 
 This program will be used to generate a bootable OS image for the Raspberry Pi. Select this OS: Ubuntu server 20.04 LTS 64 bits (Raspberri Pi 3 / 4). Teh select the SD card to flash de OS.
 
@@ -17,7 +17,7 @@ sudo apt install net-tools
 ifconfig
 ```
 
-Use the following YAML file to setup a static IP addres on your Raspberry Pi, so that every time it boots it has the same IP and you can connect via SSH.
+Use the following YAML file to setup a static IP address on your Raspberry Pi, so that every time it boots it has the same IP address and you can connect via SSH.
 
 ```yaml
 network:
