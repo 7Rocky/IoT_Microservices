@@ -32,19 +32,16 @@ export class TemperatureHistoryComponent implements OnInit {
           hours: {
             format: [ "HH 'h'" ]
           }
-          //months: {format: ['dd/MM/yyyy']},
         }
       },
       minorGridlines: {
         units: {
-          //days: {format: ['dd']},
           hours: {
             format: [ "HH 'h'" ]
           },
         }
       }
     },
-    //legend: 'none'
     legend: {
       alignment: 'end',
       position: 'top'
@@ -61,19 +58,18 @@ export class TemperatureHistoryComponent implements OnInit {
   micro: Microcontroller;
   historyForm: FormGroup;
   temperatures: TemperatureStats[] = [];
-  stat: string = 'Mean';
+  stat = 'Mean';
   stats = [
     { color: 'blue', isSelected: false, name: 'Min', value: 'min_value' },
     { color: 'green', isSelected: true, name: 'Mean', value: 'mean_value' },
     { color: 'red', isSelected: false, name: 'Max', value: 'max_value' }
   ];
-  currentStats: string[] = ['mean_value'];
+  currentStats: string[] = [ 'mean_value' ];
 
   constructor(
     private route: ActivatedRoute,
     private arduinoService: ArduinoService,
-    private formBuilder: FormBuilder,
-    private loginComponent: LoginComponent
+    private formBuilder: FormBuilder
   ) {
     this.historyForm = this.formBuilder.group(
       {
@@ -99,8 +95,6 @@ export class TemperatureHistoryComponent implements OnInit {
   }
 
   selectChanged() {
-    console.log('change', this.currentStats);
-
     for (const stat of this.stats) {
       stat.isSelected = this.currentStats.indexOf(stat.value) !== -1;
     }
@@ -123,8 +117,6 @@ export class TemperatureHistoryComponent implements OnInit {
       this.chart.dataTable = [ [ this.header[0], ...names ] ];
       this.options.colors = stats.filter(stat => stat.color);
       this.chart.options = this.options;
-
-      console.log(stats, this.chart.dataTable);
 
       temperatures.forEach(temperature => {
         this.chart.dataTable.push([
