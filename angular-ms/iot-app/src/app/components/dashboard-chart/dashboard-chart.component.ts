@@ -1,26 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 
 import { ArduinoService } from '@services/arduino.service';
 
+import { Microcontroller } from '@models/microcontroller.model';
 import { Temperature } from '@models/temperature.model';
-
-const initDate: string = new Date().toJSON();
-const initValue: string = (24.5).toFixed(1);
-const initTemperature: Temperature = {
-  date: initDate,
-  digital_value: 0,
-  ip: '',
-  measure: 'temperature',
-  real_value: +initValue,
-  sensor: '',
-  timestamp: 0,
-  username: ''
-};
-const localizeTemperature = (timestamp: number): string => {
-  return new Date(timestamp).toLocaleTimeString();
-}
 
 @Component({
   selector: 'app-dashboard-chart',
@@ -29,7 +14,7 @@ const localizeTemperature = (timestamp: number): string => {
 })
 export class DashboardChartComponent implements OnDestroy, OnInit {
 
-  H_AXIS_MAX: number = 20;
+  H_AXIS_MAX = 10;
   header: string[] = [ 'Tiempo', 'Temperatura' ];
   chart: GoogleChartInterface = {
     chartType: 'AreaChart',
@@ -45,12 +30,15 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
       }
     }
   };
-  lastTemperature: Temperature = initTemperature;
-  maxTemperature: Temperature = initTemperature;
-  minTemperature: Temperature = initTemperature;
-  avgTemperature: number = +initValue;
-  nSamples: number = 1;
-  refresh_time: number = 10000;
+  @Input() micro: Microcontroller;
+  @Output() inactivity = new EventEmitter<Microcontroller>();
+  isChartReady = false;
+  lastTemperature: Temperature;
+  maxTemperature: Temperature;
+  minTemperature: Temperature;
+  avgTemperature: number;
+  nSamples = 1;
+  refresh_time = 10000;
   interval: any;
 
   constructor(
@@ -58,12 +46,26 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
   ) { }
 
   async ngOnInit() {
-    const temperature: Temperature = await this.arduinoService.getCurrentTemperature('192.168.1.50', 'temperature');
-    this.chart.dataTable = [
-      this.header,
-      [ new Date(temperature.date).toLocaleTimeString(), temperature.real_value ]
-    ];
-    // this.interval = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
+    const temperature = await this.arduinoService.getCurrentTemperature(this.micro.ip, this.micro.measure);
+
+    if (temperature) {
+      this.chart.dataTable = [
+        this.header,
+        [ new Date(temperature.date).toLocaleTimeString(), temperature.real_value ]
+      ];
+
+      this.lastTemperature = temperature;
+      this.maxTemperature = temperature;
+      this.minTemperature = temperature;
+      this.avgTemperature = temperature.real_value;
+
+      this.chart.component?.draw();
+      this.isChartReady = true;
+
+      this.interval = setInterval(() => this.getCurrentTemperature(), this.refresh_time);
+    } else {
+      this.setInactivity(true);
+    }
   }
 
   ngOnDestroy() {
@@ -71,21 +73,34 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
   }
 
   async getCurrentTemperature() {
-    const temperature: Temperature = await this.arduinoService.getCurrentTemperature('192.168.1.50', 'temperature');
-      //.subscribe((temperatures: Temperature[]) => {
-        console.log(temperature);
-        //temperature.date = localizeTemperature(temperature.timestamp)
-        this.setStats(temperature);
+    const temperature = await this.arduinoService.getCurrentTemperature(this.micro.ip, this.micro.measure);
 
-        if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
-          this.chart.dataTable.shift();
-          this.chart.dataTable.shift();
-          this.chart.dataTable.unshift(this.header);
-        }
+    if (temperature) {
+      if (this.micro.isInactive) {
+        this.setInactivity(false);
+      }
 
-        this.chart.dataTable.push([ new Date(temperature.date), temperature.real_value ]);
+      this.setStats(temperature);
+
+      if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
+        this.chart.dataTable.shift();
+        this.chart.dataTable.shift();
+        this.chart.dataTable.unshift(this.header);
+      }
+
+      this.chart.dataTable.push([ new Date(temperature.date).toLocaleTimeString(), temperature.real_value ]);
+
+      if (this.chart) {
         this.chart.component.draw();
-      //});
+      }
+    } else if (!this.micro.isInactive) {
+      this.setInactivity(true);
+    }
+  }
+
+  private setInactivity(isInactive: boolean) {
+    this.micro.isInactive = isInactive;
+    this.inactivity.emit(this.micro);
   }
 
   private setStats(temperature: Temperature) {
