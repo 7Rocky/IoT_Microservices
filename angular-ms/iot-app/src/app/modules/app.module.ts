@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from '@components/app/app.component';
-import { DropdownMenuComponent } from '@components/dropdown-menu/dropdown-menu.component';
+import { IndexComponent } from '@components/index/index.component';
 import { LoginComponent } from '@components/login/login.component';
 import { LoginDialogComponent } from '@components/login/login-dialog.component';
 import { RegisterDialogComponent } from '@components/login/register-dialog.component';
@@ -24,9 +24,9 @@ import { AppRoutingModule } from '@routes/app-routing.module';
   ],
   declarations: [
     AppComponent,
-    LoginDialogComponent,
-    DropdownMenuComponent,
+    IndexComponent,
     LoginComponent,
+    LoginDialogComponent,
     NavbarComponent,
     RegisterDialogComponent,
   ],
