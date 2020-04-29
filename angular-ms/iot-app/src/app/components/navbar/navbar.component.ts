@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DropdownMenuOption } from '@shared/dropdown-menu-option';
-
 @Component({
   selector: 'app-navbar',
   styleUrls: [ './navbar.component.less' ],
@@ -9,13 +7,6 @@ import { DropdownMenuOption } from '@shared/dropdown-menu-option';
 })
 export class NavbarComponent implements OnInit {
 
-  icon: string = 'keyboard_arrow_down';
-  options: DropdownMenuOption[] = [
-    { link: '/temperature/realtime', name: 'Tiempo real' },
-    { link: '/temperature/history', name: 'Historial' },
-    { link: '#', name: 'Estadísticas' },
-    { link: '#', name: 'Predicciones' }
-  ];
   today: string = this.getToday();
 
   constructor() { }
@@ -33,14 +24,6 @@ export class NavbarComponent implements OnInit {
     const correct = (n: number): string => n < 10 ? `0${n}` : `${n}`;
 
     return `${correct(day)}/${correct(month)}/${year}`;
-  }
-
-  menuClosed() {
-    this.icon = 'keyboard_arrow_down';
-  }
-
-  menuOpened() {
-    this.icon = 'keyboard_arrow_up';
   }
 
 }
