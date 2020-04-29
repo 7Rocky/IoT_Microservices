@@ -17,7 +17,9 @@ export class ArduinoService {
 
   microcontrollers: Microcontroller[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   getMicrocontrollers(): Observable<Microcontroller[]> {
     if (this.microcontrollers.length) {
@@ -25,7 +27,10 @@ export class ArduinoService {
     } else {
       return this.http.get<Microcontroller[]>(`http://${environment.ORCHESTRATOR_MS}/microcontrollers`)
         .pipe(
-          tap(response => this.microcontrollers = response)
+          tap(response => {
+            this.microcontrollers = response;
+            this.microcontrollers.forEach(micro => micro.isInactive = false);
+          })
         );
     }
   }
@@ -38,18 +43,18 @@ export class ArduinoService {
     if (this.microcontrollers.length) {
       return of(findMicrocontroller(this.microcontrollers)).toPromise();
     } else {
-      console.log('getMicrocontrollers');
       return findMicrocontroller(await this.getMicrocontrollers().toPromise());
     }
   }
 
-  getCurrentTemperatures(measure: string): Observable<Temperature[]> {
+  private getCurrentTemperatures(measure: string): Observable<Temperature[]> {
     return this.http.get<Temperature[]>(`http://${environment.ORCHESTRATOR_MS}/${measure}`);
   }
 
   async getCurrentTemperature(ip: string, measure: string): Promise<Temperature> {
     const temperatures = await this.getCurrentTemperatures(measure).toPromise();
-    return temperatures.filter(temperature => temperature.ip === ip)[0];
+    const filteredTemperatures = temperatures.filter(temperature => temperature.ip === ip);
+    return filteredTemperatures.length ? filteredTemperatures[0] : null;
   }
 
   getPreviousTemperatures(ip: string, init_date: string, end_date: string): Observable<TemperatureStats[]> {
