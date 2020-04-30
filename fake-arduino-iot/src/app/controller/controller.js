@@ -1,13 +1,13 @@
-const randomArduinoValue = () => Number((Math.random() * 100 + 400).toFixed());
+const randomArduinoValue = () => Number((Math.random() * 100 + 400).toFixed())
 
 module.exports = class Controller {
 
   getHumidity(req, res) {
-    return res.json({ humidity: randomArduinoValue() });
+    return res.json({ humidity: randomArduinoValue() })
   }
 
   getTemperature(req, res) {
-    return res.json({ temperature: randomArduinoValue() });
+    return res.json({ temperature: randomArduinoValue() })
   }
 
-};
+}
