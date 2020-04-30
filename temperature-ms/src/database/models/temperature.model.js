@@ -1,4 +1,4 @@
-const { model, Schema } = require('mongoose');
+const { model, Schema } = require('mongoose')
 
 module.exports = model(
   'Temperature',
@@ -18,4 +18,4 @@ module.exports = model(
     time_span: Number,
     username: String
   })
-);
+)

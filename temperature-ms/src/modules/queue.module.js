@@ -1,27 +1,28 @@
-const amqp = require('amqplib');
+const amqp = require('amqplib')
 
-const { PASSWORD, RABBITMQ, USERNAME } = require('../config/queue.config');
+const { PASSWORD, RABBITMQ, USERNAME } = require('../config/queue.config')
 
 module.exports = class Queue {
 
   constructor(queue) {
-    this.queue = queue;
+    this.queue = queue
   }
 
-  publish(message) {
-    amqp.connect(`amqp://${USERNAME}:${PASSWORD}@${RABBITMQ}`)
-      .then(connection => {
-        return connection.createChannel()
-          .then(async channel => {
-            await channel.assertQueue(this.queue, { durable: true });
-            channel.sendToQueue(this.queue, Buffer.from(message));
-            console.log(`Sent message: ${message}`);
-
-            return channel.close();
-          })
-          .finally(() => connection.close());
-      })
-      .catch(console.warn);
+  async publish(message) {
+    try {
+      const connection = await amqp.connect(`amqp://${USERNAME}:${PASSWORD}@${RABBITMQ}`)
+      try {
+        const channel = await connection.createChannel()
+        await channel.assertQueue(this.queue, { durable: true })
+        channel.sendToQueue(this.queue, Buffer.from(message))
+        console.log(`Sent message: ${message}`)
+        channel.close()
+      } finally { 
+        connection.close()
+      }
+    } catch (error) {
+      console.warn(error)
+    }
   }
 
-};
+}

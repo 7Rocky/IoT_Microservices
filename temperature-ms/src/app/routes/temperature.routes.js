@@ -1,9 +1,10 @@
-const { Router } = require('express');
-const { getIndex, getTemperatures, insertTemperatures } = require('../controllers/temperature.controller');
-const router = Router();
+const { Router } = require('express')
+const TemperatureController = require('../controllers/temperature.controller')
+const router = Router()
+const temperatureController = new TemperatureController()
 
-router.get('/', getIndex);
-router.get('/temperatures', getTemperatures);
-//router.get('/insert', insertTemperatures);
+router.get('/', temperatureController.getIndex)
+router.get('/temperatures', temperatureController.getTemperatures)
+//router.get('/insert', temperatureController.insertTemperatures)
 
-module.exports = router;
+module.exports = router
