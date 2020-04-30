@@ -1,10 +1,10 @@
-const request = require('supertest');
-const app = require('../src/app/app');
+const request = require('supertest')
+const app = require('../src/app/app')
 
-let refreshToken;
-let token;
-const username = 'Rocky';
-const password = 'password';
+let refreshToken
+let token
+const username = 'Rocky'
+const password = 'password'
 
 describe('Measure endpoints', () => {
   beforeAll(done => {
@@ -17,22 +17,22 @@ describe('Measure endpoints', () => {
             refreshToken: expect.any(String),
             token: expect.any(String)
           })
-        );
+        )
 
-        refreshToken = res.body.refreshToken;
-        token = res.body.token;
-        done();
-      });
-  });
+        refreshToken = res.body.refreshToken
+        token = res.body.token
+        done()
+      })
+  })
 
   it('Get temperature without access token', async () => {
-    const res = await request(app).get('/temperature');
-    expect(res.statusCode).toEqual(401);
-  });
+    const res = await request(app).get('/temperature')
+    expect(res.statusCode).toEqual(401)
+  })
 
   it('Get temperature with access token', async () => {
-    const res = await request(app).get('/temperature').set('Authorization', `Bearer ${token}`);
-    expect(res.statusCode).toEqual(200);
+    const res = await request(app).get('/temperature').set('Authorization', `Bearer ${token}`)
+    expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -46,12 +46,12 @@ describe('Measure endpoints', () => {
           username: expect.any(String)
         })
       ])
-    );
-  }, 10000);
+    )
+  }, 10000)
 
   it('Get temperatures with access token', async () => {
-    const res = await request(app).get('/temperature?path=temperatures').set('Authorization', `Bearer ${token}`);
-    expect(res.statusCode).toEqual(200);
+    const res = await request(app).get('/temperature?path=temperatures').set('Authorization', `Bearer ${token}`)
+    expect(res.statusCode).toEqual(200)
     expect(res.body).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -71,11 +71,11 @@ describe('Measure endpoints', () => {
           username: expect.any(String)
         })
       ])
-    );
-  }, 10000);
+    )
+  }, 10000)
 
   it('Get temperatures without access token', async () => {
-    const res = await request(app).get('/temperature?path=temperatures');
-    expect(res.statusCode).toEqual(401);
-  }, 10000);
-});
+    const res = await request(app).get('/temperature?path=temperatures')
+    expect(res.statusCode).toEqual(401)
+  }, 10000)
+})
