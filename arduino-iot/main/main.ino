@@ -3,17 +3,16 @@
 
 #include "main-template.h" // Add data to main-template.h and change its name to main.h
 
-#define TEMPERATURE_PIN 0
-#define HUMIDITY_PIN 1
-
-int status = WL_IDLE_STATUS;
+const int NUM_ENDPOINTS = 2;
+const String MEASURES[] = { "temperature", "humidity" };
+const int MEASURE_PINS[] = { 0, 1 };
 
 WiFiServer server(PORT);
 
 void setup() {
-  int ip_address[4];
+  int wifiStatus = WL_IDLE_STATUS, ip_address[4];
 
-  getIpNumbers(IP_ADDRESS, ip_address);
+  setIp(IP_ADDRESS, ip_address);
   IPAddress ip(ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
 
   Serial.begin(9600);
@@ -24,33 +23,24 @@ void setup() {
     while (true);
   }
 
-  String fv = WiFi.firmwareVersion();
-
-  if (fv < "1.0.0") {
-    Serial.println("Please upgrade the firmware");
-  }
+  String firmware = WiFi.firmwareVersion();
+  if (firmware < "1.0.0") Serial.println("Please upgrade the firmware");
 
   WiFi.config(ip);
 
-  while (status != WL_CONNECTED) {
-    Serial.print("Attempting to connect to SSID: ");
-    Serial.println(WIFI_SSID);
-
-    status = WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-    delay(10000);
+  while (wifiStatus != WL_CONNECTED) {
+    wifiStatus = WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    delay(5000);
   }
 
   server.begin();
-  printWifiStatus();
 }
 
 void loop() {
   WiFiClient client = server.available();
 
   if (client) {
-    Serial.println("New client");
-    int analogInputPin = -1;
-    String analogInputName = "";
+    int analogInputPin = -1, measureIndex;
     String currentLine = "";
 
     while (client.connected()) {
@@ -59,26 +49,10 @@ void loop() {
 
         if (c == '\n') {
           if (currentLine.length() == 0) {
-            if (analogInputPin == -1) {
-              printHttpError(client, 404);
-            } else {
-              printHttpHeaders(client, 200);
-              printHttpResponse(client, analogInputPin, analogInputName);
-            }
-
+            sendResponse(client, analogInputPin, MEASURES[measureIndex]);
             break;
           } else {
-            if (currentLine.equals("GET /temperature HTTP/1.1")) {
-              analogInputPin = TEMPERATURE_PIN;
-              analogInputName = "temperature";
-              Serial.println("Temperature endpoint requested");
-            } else if (currentLine.equals("GET /humidity HTTP/1.1")) {
-              analogInputPin = HUMIDITY_PIN;
-              analogInputName = "humidity";
-              Serial.println("Humidity endpoint requested");
-            }
-
-            Serial.println(currentLine);
+            handleRequest(currentLine, &analogInputPin, &measureIndex);
             currentLine = "";
           }
         } else if (c != '\r') {
@@ -89,39 +63,44 @@ void loop() {
 
     delay(1);
     client.stop();
-    Serial.println("client disonnected");
   }
 }
 
-void printHttpHeaders(WiFiClient client, int status) {
-  switch (status) {
-    case 200:
-      client.println("HTTP/1.1 200 OK");
+void handleRequest(String line, int* ppin, int* pindex) {
+  for (int i = 0; i < NUM_ENDPOINTS; i++) {
+    if (line.equals("GET /" + MEASURES[i] + " HTTP/1.1")) {
+      *ppin = MEASURE_PINS[i];
+      *pindex = i;
       break;
-    default:
-      client.println("HTTP/1.1 404 Not Found");
-      break;
+    }
   }
+}
 
-  client.println("Content-Tupe: application/json");
+void sendResponse(WiFiClient client, int pin, String measure) {
+  if (pin == -1) printHttpError(client);
+  else printHttpResponse(client, analogRead(pin), measure);
+}
+
+void printHttpHeaders(WiFiClient client, int httpStatus) {
+  if (httpStatus == 200) client.println("HTTP/1.1 200 OK");
+  if (httpStatus == 404) client.println("HTTP/1.1 404 Not Found");
+
+  client.println("Content-Type: application/json");
   client.println("Connection: keep-alive");
   client.println("Access-Control-Allow-Origin: *\n");
 }
 
-void printHttpError(WiFiClient client, int status) {
+void printHttpError(WiFiClient client) {
   printHttpHeaders(client, 404);
   client.println("{\"error\":404,\"message\":\"Not Found\"}");
 }
 
-void printHttpResponse(WiFiClient client, int pin, String name) {
-  client.print("{\"");
-  client.print(name);
-  client.print("\":");
-  client.print(analogRead(pin));
-  client.println("}\n");
+void printHttpResponse(WiFiClient client, int value, String measure) {
+  printHttpHeaders(client, 200);
+  client.print("{\"" + measure + "\":" + value + "}");
 }
 
-void getIpNumbers(char* ip, int* numbers) {
+void setIp(char* ip, int* numbers) {
   char* octet = strtok(ip, ".");
 
   while (octet != NULL) {
@@ -129,16 +108,4 @@ void getIpNumbers(char* ip, int* numbers) {
     octet = strtok(NULL, ".");
     numbers++;
   }
-}
-
-void printWifiStatus() {
-  Serial.print("SSID: ");
-  Serial.println(WiFi.SSID());
-
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP());
-
-  Serial.print("Signal strength (RSSI): ");
-  Serial.print(WiFi.RSSI());
-  Serial.println(" dBm");
 }
