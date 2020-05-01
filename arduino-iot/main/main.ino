@@ -85,9 +85,9 @@ void printHttpHeaders(WiFiClient client, int httpStatus) {
   if (httpStatus == 200) client.println("HTTP/1.1 200 OK");
   if (httpStatus == 404) client.println("HTTP/1.1 404 Not Found");
 
-  client.println("Content-Type: application/json");
+  client.println("Access-Control-Allow-Origin: *");
   client.println("Connection: keep-alive");
-  client.println("Access-Control-Allow-Origin: *\n");
+  client.println("Content-Type: application/json\n");
 }
 
 void printHttpError(WiFiClient client) {
