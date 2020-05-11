@@ -1,6 +1,7 @@
 const axios = require('axios')
 
-const { QUEUE_NAME, REFRESH_TIME } = require('../constants/constants')
+const { QUEUE_NAME } = require('../../config/queue.config')
+const { PING_TIMEOUT, REFRESH_TIME } = require('../constants/constants')
 const Dao = require('../../database/dao')
 const Queue = require('../../modules/queue.module')
 const MicrocontrollersModule = require('../../modules/microcontrollers.module')
@@ -35,13 +36,11 @@ const publishTemperature = async () => {
   micros.forEach(async micro => {
     if (micro.isInactive) return
     try {
-      const response = await axios.get(`http://${micro.ip}/temperature`)
+      const response = await axios.get(`http://${micro.ip}/temperature`, { timeout: PING_TIMEOUT })
       queue.publish(JSON.stringify(getTemperatureMessage(response.data, micro)))
     } catch (error) {
       if (micro.isInactive) return
-      //const idx = microcontrollers.indexOf(micro)
       micro.isInactive = true
-      //microcontrollers[idx] = micro
       microsModule.pingMicro(micro)
     }
   })
@@ -59,12 +58,14 @@ module.exports = class TemperatureController {
     const responses = []
   
     for (const micro of userMicros) {
+      console.log(micro.isInactive)
       if (micro.isInactive) continue
       try {
-        const response = await axios.get(`http://${micro.ip}/temperature`)
+        const response = await axios.get(`http://${micro.ip}/temperature`, { timeout: PING_TIMEOUT })
         responses.push(getTemperatureMessage(response.data, micro))
       } catch (error) {
-      if (micro.isInactive) continue
+        console.log(error)
+        if (micro.isInactive) continue
         micro.isInactive = true
         microsModule.pingMicro(micro)
       }

@@ -3,6 +3,7 @@ const RABBITMQ_PORT = process.env.RABBITMQ_SERVICE_PORT || 31300
 
 module.exports = {
   PASSWORD: process.env.RABBITMQ_DEFAULT_PASS || 'password',
+  QUEUE_NAME: process.env.QUEUE_NAME_TEMPERATURE || 'temperatures',
   RABBITMQ: `${RABBITMQ_HOST}:${RABBITMQ_PORT}`,
   USERNAME: process.env.RABBITMQ_DEFAULT_USER || 'user',
 }

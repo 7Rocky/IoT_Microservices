@@ -1,8 +1,6 @@
 const axios = require('axios')
 
-const { B_TERMISTOR, ORCHESTRATOR_MS, REFRESH_TIME } = require('../app/constants/constants')
-
-const PING_TIMEOUT = REFRESH_TIME / 2
+const { B_TERMISTOR, MICROCONTROLLERS_MS, PING_TIMEOUT } = require('../app/constants/constants')
 
 module.exports = class MicrocontrollersModule {
 
@@ -13,16 +11,14 @@ module.exports = class MicrocontrollersModule {
   pingMicro(micro) {
     const inactiveInterval = setInterval(async () => {
       try {
-        await axios.get(`http://${micro.ip}/temperature`)
+        await axios.get(`http://${micro.ip}/temperature`, { timeout: PING_TIMEOUT })
         console.log('micro is no more inactive')
-        //const idx = microcontrollers.indexOf(micro)
         micro.isInactive = false
-        //microcontrollers[idx] = micro
         clearInterval(inactiveInterval)
       } catch (error) {
         console.log('micro is still inactive')
       }
-    }, PING_TIMEOUT)
+    }, PING_TIMEOUT + 1000)
   }
 
   digitalToReal(digital, sensor) {
@@ -38,7 +34,7 @@ module.exports = class MicrocontrollersModule {
   async getMicrocontrollers() {
     if (this.microcontrollers && this.microcontrollers.length) return Promise.resolve(this.microcontrollers);
 
-    const response = await axios.get(`http://${ORCHESTRATOR_MS}/microcontrollers/temperature`)
+    const response = await axios.get(`http://${MICROCONTROLLERS_MS}/temperature`)
     this.microcontrollers = response.data
     this.microcontrollers.forEach(micro => micro.isInactive = false)
     return this.microcontrollers

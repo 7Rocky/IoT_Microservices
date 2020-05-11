@@ -1,9 +1,9 @@
-const { ORCHESTRATOR_MS } = require('../../src/app/constants/constants');
+const { MICROCONTROLLERS_MS } = require('../../src/app/constants/constants');
 
 module.exports = {
   get: (url='') => {
     console.log(url);
-    if (url.includes(`${ORCHESTRATOR_MS}`)) {
+    if (url.includes(`${MICROCONTROLLERS_MS}`)) {
       return Promise.resolve({ 
         data: require('../microcontrollers.json')
       });

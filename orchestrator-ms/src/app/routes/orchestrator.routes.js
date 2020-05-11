@@ -8,14 +8,8 @@ const jwtMiddleware = expressJwt({ secret: TOKEN_SECRET })
 const orchestratorController = new OrchestratorController()
 const router = Router()
 
-router.use((req, res, next) => {
-  console.log(req.ip, req.hostname)
-  next()
-})
-
 router.get('/temperature', jwtMiddleware, orchestratorController.connectTemperatureService)
 router.get('/microcontrollers', jwtMiddleware, orchestratorController.getMicrocontrollers)
-router.get('/microcontrollers/:measure', orchestratorController.getMicrocontrollersFromMS)
 router.post('/microcontrollers', jwtMiddleware, orchestratorController.postMicrocontrollers)
 router.put('/microcontrollers', jwtMiddleware, orchestratorController.putMicrocontrollers)
 router.delete('/microcontrollers', jwtMiddleware, orchestratorController.deleteMicrocontrollers)
