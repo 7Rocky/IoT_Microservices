@@ -1,73 +1,14 @@
 <main class="container">
   <div class="measure-block" *ngFor="let micro of microcontrollers">
     <h1 class="topic-title white">
-      <span>
-        {{ micro.measure }}:&nbsp;
-        <i>{{ micro.sensor }}</i>
-      </span>
-      <span class="float-right">
-        <mat-icon class="connection-icon" *ngIf="!micro.isInactive">wifi</mat-icon>
-        <mat-icon class="connection-icon yellow" *ngIf="micro.isInactive">wifi_off</mat-icon>
-        &nbsp;{{ micro.ip }}&nbsp;
-        <button class="arrow-btn" mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>keyboard_arrow_down</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item [routerLink]="['/temperature/realtime', micro.ip, micro.measure]">
-            <mat-icon>timelapse</mat-icon>
-            <span>Tiempo real</span>
-          </button>
-          <button mat-menu-item [routerLink]="['/temperature/history', micro.ip, micro.measure]">
-            <mat-icon>bar_chart</mat-icon>
-            <span>Estadísticas</span>
-          </button>
-          <button mat-menu-item [routerLink]="'#'">
-            <mat-icon>edit</mat-icon>
-            <span>Editar</span>
-          </button>
-        </mat-menu>
-      </span>
+      <app-dashboard-microcontroller [micro]="micro"></app-dashboard-microcontroller>
     </h1>
     <div class="cards-container">
       <div class="card card-left">
         <app-dashboard-chart #temperature [micro]="micro" (isInactive)="changeActivity($event)"></app-dashboard-chart>
       </div>
-      <div class="card card-right">
-        <mat-card class="stats float-right">
-          <mat-card-title>Estadísticas</mat-card-title>
-          <mat-card-content>
-            <ul>
-              <li *ngIf="temperature.lastTemperature">
-                <div class="measure-name">Último valor: </div>
-                <span class="black measure-value">{{ temperature.lastTemperature.real_value }} ºC</span>
-                <span>
-                  <mat-icon class="stats-arrow-icon">keyboard_arrow_right</mat-icon>
-                  {{ temperature.lastTemperature.date.substring(17, 25) }}
-                </span>
-              </li>
-              <li *ngIf="temperature.maxTemperature">
-                <div class="measure-name">Máxima: </div>
-                <span class="bg-light-red measure-value">{{ temperature.maxTemperature.real_value }} ºC</span>
-                <span>
-                  <mat-icon class="stats-arrow-icon">keyboard_arrow_right</mat-icon>
-                  {{ temperature.maxTemperature.date.substring(17, 25) }}
-                </span>
-              </li>
-              <li *ngIf="temperature.minTemperature">
-                <div class="measure-name">Mínima: </div>
-                <span class="bg-light-blue measure-value">{{ temperature.minTemperature.real_value }} ºC</span>
-                <span>
-                  <mat-icon class="stats-arrow-icon">keyboard_arrow_right</mat-icon>
-                  {{ temperature.minTemperature.date.substring(17, 25) }}
-                </span>
-              </li>
-              <li *ngIf="temperature.avgTemperature">
-                <div class="measure-name">Media: </div>
-                <span class="bg-gray measure-value">{{ temperature.avgTemperature }} ºC</span>
-              </li>
-            </ul>
-          </mat-card-content>
-        </mat-card>
+      <div class="card card-right" *ngIf="temperature.stats">
+        <app-dashboard-stats [stats]="temperature.stats"></app-dashboard-stats>
       </div>
     </div>
   </div>

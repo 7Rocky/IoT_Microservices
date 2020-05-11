@@ -1,0 +1,35 @@
+<mat-card class="stats float-right">
+  <mat-card-title>Estadísticas</mat-card-title>
+  <mat-card-content>
+    <ul *ngIf="stats">
+      <li *ngIf="stats.lastTemperature">
+        <div class="measure-name">Último valor: </div>
+        <span class="black measure-value">{{ stats.lastTemperature.real_value }} ºC</span>
+        <span>
+          <mat-icon class="stats-arrow-icon">keyboard_arrow_right</mat-icon>
+          {{ stats.lastTemperature.date.substring(17, 25) }}
+        </span>
+      </li>
+      <li *ngIf="stats.maxTemperature">
+        <div class="measure-name">Máxima: </div>
+        <span class="bg-light-red measure-value white">{{ stats.maxTemperature.real_value }} ºC</span>
+        <span>
+          <mat-icon class="stats-arrow-icon">keyboard_arrow_right</mat-icon>
+          {{ stats.maxTemperature.date.substring(17, 25) }}
+        </span>
+      </li>
+      <li *ngIf="stats.minTemperature">
+        <div class="measure-name">Mínima: </div>
+        <span class="bg-light-blue measure-value white">{{ stats.minTemperature.real_value }} ºC</span>
+        <span>
+          <mat-icon class="stats-arrow-icon">keyboard_arrow_right</mat-icon>
+          {{ stats.minTemperature.date.substring(17, 25) }}
+        </span>
+      </li>
+      <li *ngIf="stats.avgTemperature">
+        <div class="measure-name">Media: </div>
+        <span class="bg-gray measure-value white">{{ stats.avgTemperature }} ºC</span>
+      </li>
+    </ul>
+  </mat-card-content>
+</mat-card>

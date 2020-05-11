@@ -4,4 +4,4 @@ export interface Microcontroller {
   measure: string,
   sensor: string,
   username: string
-};
+}

@@ -1,0 +1,26 @@
+<span>
+  {{ micro.measure }}:&nbsp;
+  <i>{{ micro.sensor }}</i>
+</span>
+<span class="float-right">
+  <mat-icon class="connection-icon" *ngIf="!micro.isInactive">wifi</mat-icon>
+  <mat-icon class="connection-icon yellow" *ngIf="micro.isInactive">wifi_off</mat-icon>
+  &nbsp;{{ micro.ip }}&nbsp;
+  <button class="arrow-btn" mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item [routerLink]="['/temperature/realtime', micro.ip, micro.measure]">
+      <mat-icon>timelapse</mat-icon>
+      <span>Tiempo real</span>
+    </button>
+    <button mat-menu-item [routerLink]="['/temperature/history', micro.ip, micro.measure]">
+      <mat-icon>bar_chart</mat-icon>
+      <span>Estadísticas</span>
+    </button>
+    <button mat-menu-item [routerLink]="'#'">
+      <mat-icon>edit</mat-icon>
+      <span>Editar</span>
+    </button>
+  </mat-menu>
+</span>

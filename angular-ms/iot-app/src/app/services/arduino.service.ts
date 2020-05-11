@@ -1,21 +1,22 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
 
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs'
+import { tap, catchError } from 'rxjs/operators'
 
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment'
 
-import { Microcontroller } from '@models/microcontroller.model';
-import { Temperature } from '@models/temperature.model';
-import { TemperatureStats } from '@models/temperature-stats.model';
+import { Microcontroller } from '@models/microcontroller.model'
+import { Temperature } from '@models/temperature.model'
+import { TemperatureStats } from '@models/temperature-stats.model'
+import { rejects } from 'assert';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArduinoService {
 
-  microcontrollers: Microcontroller[] = [];
+  microcontrollers: Microcontroller[] = []
 
   constructor(
     private http: HttpClient
@@ -23,38 +24,42 @@ export class ArduinoService {
 
   getMicrocontrollers(): Observable<Microcontroller[]> {
     if (this.microcontrollers.length) {
-      return of(this.microcontrollers);
+      return of(this.microcontrollers)
     } else {
       return this.http.get<Microcontroller[]>(`http://${environment.ORCHESTRATOR_MS}/microcontrollers`)
         .pipe(
           tap(response => {
-            this.microcontrollers = response;
-            this.microcontrollers.forEach(micro => micro.isInactive = false);
+            this.microcontrollers = response
+            this.microcontrollers.forEach(micro => micro.isInactive = false)
           })
-        );
+        )
     }
   }
 
   async getMicrocontroller(ip: string, measure: string): Promise<Microcontroller> {
     const findMicrocontroller = (microcontrollers: Microcontroller[]): Microcontroller => {
-      return microcontrollers.filter(micro => micro.ip === ip && micro.measure === measure)[0];
-    };
+      return microcontrollers.filter(micro => micro.ip === ip && micro.measure === measure)[0]
+    }
 
     if (this.microcontrollers.length) {
-      return of(findMicrocontroller(this.microcontrollers)).toPromise();
+      return of(findMicrocontroller(this.microcontrollers)).toPromise()
     } else {
-      return findMicrocontroller(await this.getMicrocontrollers().toPromise());
+      return findMicrocontroller(await this.getMicrocontrollers().toPromise())
     }
   }
 
   private getCurrentTemperatures(measure: string): Observable<Temperature[]> {
-    return this.http.get<Temperature[]>(`http://${environment.ORCHESTRATOR_MS}/${measure}`);
+    return this.http.get<Temperature[]>(`http://${environment.ORCHESTRATOR_MS}/${measure}`)
   }
 
   async getCurrentTemperature(ip: string, measure: string): Promise<Temperature> {
-    const temperatures = await this.getCurrentTemperatures(measure).toPromise();
-    const filteredTemperatures = temperatures.filter(temperature => temperature.ip === ip);
-    return filteredTemperatures.length ? filteredTemperatures[0] : null;
+    return new Promise<Temperature>(resolve => {
+      this.getCurrentTemperatures(measure)
+        .subscribe(temperatures => {
+          const filteredTemperatures = temperatures.filter(temperature => temperature.ip === ip)
+          resolve(filteredTemperatures.length ? filteredTemperatures[0] : null)
+        })
+      })
   }
 
   getPreviousTemperatures(ip: string, init_date: string, end_date: string): Observable<TemperatureStats[]> {
@@ -68,7 +73,7 @@ export class ArduinoService {
             end_date
           }
         }
-      );
+      )
   }
 
 }
