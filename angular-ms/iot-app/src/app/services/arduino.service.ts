@@ -2,14 +2,13 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 
 import { Observable, of } from 'rxjs'
-import { tap, catchError } from 'rxjs/operators'
+import { tap } from 'rxjs/operators'
 
 import { environment } from 'src/environments/environment'
 
 import { Microcontroller } from '@models/microcontroller.model'
 import { Temperature } from '@models/temperature.model'
 import { TemperatureStats } from '@models/temperature-stats.model'
-import { rejects } from 'assert';
 
 @Injectable({
   providedIn: 'root'

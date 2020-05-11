@@ -5,10 +5,15 @@
     </h1>
     <div class="cards-container">
       <div class="card card-left">
-        <app-dashboard-chart #temperature [micro]="micro" (isInactive)="changeActivity($event)"></app-dashboard-chart>
+        <app-dashboard-chart
+          (inactivity)="changeActivity($event)"
+          (measure)="stats.newMeasure($event)"
+          [micro]="micro"
+          *ngIf="stats"
+        ></app-dashboard-chart>
       </div>
-      <div class="card card-right" *ngIf="temperature.stats">
-        <app-dashboard-stats [stats]="temperature.stats"></app-dashboard-stats>
+      <div class="card card-right">
+        <app-dashboard-stats #stats></app-dashboard-stats>
       </div>
     </div>
   </div>

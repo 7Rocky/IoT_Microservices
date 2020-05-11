@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 
 import { Temperature } from '@models/temperature.model'
 
@@ -9,12 +9,11 @@ import { Temperature } from '@models/temperature.model'
 })
 export class DashboardStatsComponent implements OnInit {
 
-  @Input() stats: {
-    lastTemperature: Temperature,
-    maxTemperature: Temperature,
-    minTemperature: Temperature,
-    avgTemperature: number
-  }
+  nSamples = 0
+  lastTemperature: Temperature
+  maxTemperature: Temperature
+  minTemperature: Temperature
+  avgTemperature: number
 
   constructor() {
 
@@ -22,6 +21,25 @@ export class DashboardStatsComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  newMeasure(temperature: Temperature) {
+    this.nSamples++
+    this.avgTemperature = Number(
+      ((this.avgTemperature * (this.nSamples - 1) + temperature.real_value) / this.nSamples).toFixed(1)
+    )
+
+    if (this.lastTemperature && this.maxTemperature && this.minTemperature) {
+      this.lastTemperature = temperature
+      this.maxTemperature = temperature.real_value > this.maxTemperature.real_value ?
+        temperature : this.maxTemperature
+      this.minTemperature = temperature.real_value < this.minTemperature.real_value ?
+        temperature : this.minTemperature
+    } else {
+      this.lastTemperature = temperature
+      this.maxTemperature = temperature
+      this.minTemperature = temperature
+    }
   }
 
 }

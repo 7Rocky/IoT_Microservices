@@ -15,7 +15,6 @@ import { Temperature } from '@models/temperature.model'
 export class DashboardChartComponent implements OnDestroy, OnInit {
 
   H_AXIS_MAX = 10
-  header: string[] = [ 'Tiempo', 'Temperatura' ]
   chart: GoogleChartInterface = {
     chartType: 'AreaChart',
     options: {
@@ -30,21 +29,11 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
       }
     }
   }
+  header: string[] = [ 'Tiempo', 'Temperatura' ]
   @Input() micro: Microcontroller
   @Output() inactivity = new EventEmitter<Microcontroller>()
+  @Output() measure = new EventEmitter<Temperature>()
   isChartReady = false
-  stats: {
-    lastTemperature: Temperature,
-    maxTemperature: Temperature,
-    minTemperature: Temperature,
-    avgTemperature: number
-  } = {
-    lastTemperature: null,
-    maxTemperature: null,
-    minTemperature: null,
-    avgTemperature: 0
-  }
-  nSamples = 1
   refresh_time = 10000
   interval: any
 
@@ -61,10 +50,7 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
         [ new Date(temperature.date).toLocaleTimeString(), temperature.real_value ]
       ]
 
-      this.stats.lastTemperature = temperature
-      this.stats.maxTemperature = temperature
-      this.stats.minTemperature = temperature
-      this.stats.avgTemperature = temperature.real_value
+      this.measure.emit(temperature)
 
       this.chart.component?.draw()
       this.isChartReady = true
@@ -87,7 +73,7 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
         this.setInactivity(false)
       }
 
-      this.setStats(temperature)
+      this.measure.emit(temperature)
 
       if (this.chart.dataTable.length === this.H_AXIS_MAX + 1) {
         this.chart.dataTable.shift()
@@ -108,18 +94,6 @@ export class DashboardChartComponent implements OnDestroy, OnInit {
   private setInactivity(isInactive: boolean) {
     this.micro.isInactive = isInactive
     this.inactivity.emit(this.micro)
-  }
-
-  private setStats(temperature: Temperature) {
-    this.nSamples++
-    this.stats.avgTemperature = Number(
-      ((this.stats.avgTemperature * (this.nSamples - 1) + temperature.real_value) / this.nSamples).toFixed(1)
-    )
-    this.stats.lastTemperature = temperature
-    this.stats.maxTemperature = temperature.real_value > this.stats.maxTemperature.real_value ?
-      temperature : this.stats.maxTemperature
-    this.stats.minTemperature = temperature.real_value < this.stats.minTemperature.real_value ?
-      temperature : this.stats.minTemperature
   }
 
 }

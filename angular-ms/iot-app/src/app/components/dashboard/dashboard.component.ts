@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
-import { ArduinoService } from '@services/arduino.service';
-import { AuthService } from '@services/auth.service';
-import { Microcontroller } from '@models/microcontroller.model';
+import { Microcontroller } from '@models/microcontroller.model'
+
+import { ArduinoService } from '@services/arduino.service'
+import { AuthService } from '@services/auth.service'
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,7 @@ import { Microcontroller } from '@models/microcontroller.model';
 })
 export class DashboardComponent implements OnInit {
 
-  microcontrollers: Microcontroller[] = [];
+  microcontrollers: Microcontroller[] = []
 
   constructor(
     private arduinoService: ArduinoService,
@@ -22,18 +23,18 @@ export class DashboardComponent implements OnInit {
     this.arduinoService.getMicrocontrollers()
       .subscribe(
         response => {
-          this.microcontrollers = response;
+          this.microcontrollers = response
           this.microcontrollers.forEach(micro => {
-            micro.isInactive = false;
+            micro.isInactive = false
           })
         },
         () => this.authService.removeTokens()
-      );
+      )
   }
 
   changeActivity(micro: Microcontroller) {
-    const idx = this.microcontrollers.indexOf(micro);
-    this.microcontrollers[idx] = micro;
+    const idx = this.microcontrollers.indexOf(micro)
+    this.microcontrollers[idx] = micro
   }
 
 }
