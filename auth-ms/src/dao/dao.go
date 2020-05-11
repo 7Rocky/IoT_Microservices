@@ -27,18 +27,14 @@ func connect() *sql.DB {
 }
 
 // Exists Exists user credentials in the DB
-func Exists(user model.User) bool {
+func Exists(user model.User) (bool, model.User) {
 	db := connect()
-	pStmt, err := db.Prepare("SELECT * FROM iot.users WHERE username = ? AND password = ?")
-
-	if err != nil {
-		panic(err.Error())
-	}
-
+	pStmt, _ := db.Prepare("SELECT * FROM iot.users WHERE username = ? AND password = ?")
 	defer pStmt.Close()
+
 	var dbUser model.User
 
-	err = pStmt.QueryRow(user.Username, user.Password).Scan(&dbUser.Username, &dbUser.Password, &dbUser.RefreshToken)
+	err := pStmt.QueryRow(user.Username, user.Password).Scan(&dbUser.Username, &dbUser.Password, &dbUser.RefreshToken)
 
 	existUser := user.Username == dbUser.Username && user.Password == dbUser.Password
 
@@ -47,34 +43,16 @@ func Exists(user model.User) bool {
 		log.Println("User '" + user.Username + "' and password '***' not found in the DB")
 	}
 
-	var updateCredential model.Credential = model.Credential{
-		Username:        user.Username,
-		RefreshToken:    dbUser.RefreshToken,
-		NewRefreshToken: user.RefreshToken,
-	}
-
-	success := Update(updateCredential)
-
-	if err != nil {
-		success = false
-		log.Println("Error updating refresh token")
-	}
-
-	return existUser && success
+	return existUser, dbUser
 }
 
 // Insert Insert new user credentials in the DB
 func Insert(user model.User) bool {
 	db := connect()
-	pStmt, err := db.Prepare("INSERT INTO iot.users VALUES (?, ?, ?)")
-
-	if err != nil {
-		panic(err.Error())
-	}
-
+	pStmt, _ := db.Prepare("INSERT INTO iot.users VALUES (?, ?, ?)")
 	defer pStmt.Close()
 
-	_, err = pStmt.Exec(user.Username, user.Password, user.RefreshToken)
+	_, err := pStmt.Exec(user.Username, user.Password, user.RefreshToken)
 
 	if err != nil {
 		log.Println("The user inserted is already registered")
@@ -85,24 +63,19 @@ func Insert(user model.User) bool {
 }
 
 // Update Update user credentials in the DB
-func Update(credentials model.Credential) bool {
+func Update(credentials model.Credential) int64 {
 	db := connect()
-	pStmt, err := db.Prepare("UPDATE iot.users SET refresh_token = ? WHERE refresh_token = ? AND username = ?")
-
-	if err != nil {
-		panic(err.Error())
-	}
-
+	pStmt, _ := db.Prepare("UPDATE iot.users SET refresh_token = ? WHERE refresh_token = ? AND username = ?")
 	defer pStmt.Close()
 
 	result, err := pStmt.Exec(credentials.NewRefreshToken, credentials.RefreshToken, credentials.Username)
 
 	if err != nil {
 		log.Println("The transaction failed")
-		return false
+		return 0
 	}
 
 	rows, _ := result.RowsAffected()
 
-	return rows == 1
+	return rows
 }

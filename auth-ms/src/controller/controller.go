@@ -30,9 +30,21 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	log.Println("POST /login")
 
 	user := getBodyContent(r)
-	existsUser := dao.Exists(user)
+	existsUser, dbUser := dao.Exists(user)
+	loginCorrect := false
 
-	fmt.Fprintf(w, fmt.Sprintf("%t", existsUser))
+	if existsUser {
+		var updateCredential model.Credential = model.Credential{
+			Username:        user.Username,
+			RefreshToken:    dbUser.RefreshToken,
+			NewRefreshToken: user.RefreshToken,
+		}
+
+		rows := dao.Update(updateCredential)
+		loginCorrect = rows == 1
+	}
+
+	fmt.Fprintf(w, fmt.Sprintf("%t", loginCorrect))
 }
 
 // Register Register into IoT_Microservices app
@@ -58,7 +70,8 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 
 	json.Unmarshal(reqBody, &credentials)
 
-	success := dao.Update(credentials)
+	rows := dao.Update(credentials)
+	success := rows == 1
 
 	fmt.Fprintf(w, fmt.Sprintf("%t", success))
 }
