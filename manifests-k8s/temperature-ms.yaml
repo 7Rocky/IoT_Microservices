@@ -50,10 +50,10 @@ spec:
             configMapKeyRef:
               key: MONGO_INITDB_ROOT_PASSWORD
               name: env-configmap
-        - name: ORCHESTRATOR_MS_HOSTNAME
+        - name: MICROCONTROLLERS_MS_HOSTNAME
           valueFrom:
             configMapKeyRef:
-              key: ORCHESTRATOR_MS_HOSTNAME
+              key: MICROCONTROLLERS_MS_HOSTNAME
               name: env-configmap
         - name: QUEUE_NAME_TEMPERATURE
           valueFrom:
