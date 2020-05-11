@@ -83,7 +83,7 @@ pip install -r requirements
 And then, run the application:
 
 ```bash
-python src/script.py
+python src
 ```
 
 ## 6. Program Arduino board
@@ -124,18 +124,8 @@ There is a directory called [manifests-k8s](https://github.com/7Rocky/IoT_Micros
 
 ```bash
 cd manifests-k8s
-kubectl apply -f env-configmap.yaml
-kubectl apply -f orchestrator-ms.yaml
-kubectl apply -f pvc-k8s/mongo-pv-claim.yaml
-kubectl apply -f pvc-k8s/mysql-pv-claim.yaml
-kubectl apply -f mongo.yaml
-kubectl apply -f mysql.yaml
-kubectl apply -f rabbitmq.yaml
-kubectl apply -f auth-ms.yaml
-kubectl apply -f stats-ms
-kubectl apply -f temperature-ms.yaml
-kubectl apply -f angular-ms.yaml
-kubectl apply -f angular-ingress.yaml
+kubectl apply -f config
+kubectl apply -f prod
 ```
 
 **Note**: The order is important because some microservices depend on others existence.
@@ -150,7 +140,7 @@ minikube service angular-ms
 minikube ip
 ```
 
-To use database services locally, there are `mongo-dev.yaml`, `mysql-dev.yaml` and `rabbitmq-dev.yaml`, which can be accessed from a NodePort. The microservices code are aware of dev/prod environments, you will not need to configure anything presumably.
+To use database services locally, there are `mongo-dev.yaml`, `mysql-dev.yaml` and `rabbitmq-dev.yaml` (in a folder called `/dev`), which can be accessed from a NodePort. The microservices code are aware of dev/prod environments, you will not need to configure anything presumably.
 
 ## 9. Deploy your own Docker images on Kubernetes
 
@@ -158,26 +148,17 @@ Take a look at the YAML files and note that there is a property called `image: 7
 
 However, if you just want to try the application, you are allowed to use the images that are already set, because they are accesible from Docker Hub.
 
-Kubernetes offers the possibility to configure environment variables. All relevant environment variables are placed in [env-configmap.yaml](https://github.com/7Rocky/IoT_Microservices/tree/master/manifests-k8s/env-configmap.yaml).
+Kubernetes offers the possibility to configure environment variables. All relevant environment variables are placed in [env-configmap.yaml](https://github.com/7Rocky/IoT_Microservices/tree/master/manifests-k8s/config/env-configmap.yaml).
 
 ## 10. Stop the application
 
 First, delete all deployments and services running on Kubernetes:
 
 ```bash
-kubectl delete -f env-configmap.yaml
-kubectl delete -f orchestrator-ms.yaml
-kubectl delete -f mongo.yaml
-kubectl delete -f mysql.yaml
-kubectl delete -f auth-ms.yaml
-kubectl delete -f rabbitmq.yaml
-kubectl delete -f stats-ms
-kubectl delete -f temperature-ms.yaml
-kubectl delete -f angular-ms.yaml
-kubectl delete -f angular-ingress.yaml
+kubectl delete -f prod
 ```
 
-**Note**: If you delete [pvc-k8s](https://github.com/7Rocky/IoT_Microservices/tree/master/manifests-k8s/pvc-k8s) files, the data stored in the corresponding database will be erased. Deleting its Service or StatefulSet will not affect to the data storage.
+**Note**: If you delete [pvc-k8s](https://github.com/7Rocky/IoT_Microservices/tree/master/manifests-k8s/config/pvc-k8s) files, the data stored in the corresponding database will be erased. Deleting its Service or StatefulSet will not affect to the data storage.
 
 Use `kubectl get all` to check there are no instances running.
 
