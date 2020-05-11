@@ -42,3 +42,13 @@ spec:
             memory: 64Mi
           requests:
             memory: 8Mi
+      initContainers:
+      - command: [ 'sh', '-c', 'until nslookup $ORCHESTRATOR_MS_HOSTNAME; do echo waiting; sleep 2; done;' ]
+        env:
+        - name: ORCHESTRATOR_MS_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: ORCHESTRATOR_MS_HOSTNAME
+              name: env-configmap
+        image: busybox:1.28
+        name: init-angular-ms
