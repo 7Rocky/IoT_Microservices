@@ -11,7 +11,7 @@ class Queue():
         def queue_callback(channel, method, properties, body):
             data = json.loads(body.decode())
             stream = streams.get(data['ip'])
-            print(data)
+            print(data, len(stream) if stream is not None else 0)
 
             if stream is not None:
                 stream.append(data)
