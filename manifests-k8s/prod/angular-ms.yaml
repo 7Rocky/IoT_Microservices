@@ -43,7 +43,10 @@ spec:
           requests:
             memory: 8Mi
       initContainers:
-      - command: [ 'sh', '-c', 'until nslookup $ORCHESTRATOR_MS_HOSTNAME; do echo waiting; sleep 2; done;' ]
+      - command:
+        - 'sh'
+        - '-c'
+        - 'until nslookup $ORCHESTRATOR_MS_HOSTNAME; do :; sleep 2; done;'
         env:
         - name: ORCHESTRATOR_MS_HOSTNAME
           valueFrom:

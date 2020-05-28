@@ -14,14 +14,14 @@ class Queue():
             print(data)
 
             if stream is not None:
-                if len(stream) < controller.max_items:
-                    stream.append(data)
-                else:
+                stream.append(data)
+
+                if len(stream) == controller.max_items:
                     stats = controller.calculate_stats(stream.copy())
                     stream.clear()
                     print(f'{stats}')
-                    print(f'************{stats.get("ip")}*********')
-                    print(f'------------{streams.keys()}---------')
+                    print(f'************{stats.get("ip")}************')
+                    print(f'------------{streams.keys()}------------')
                     controller.dao.insert_document(stats)
             else:
                 streams[data['ip']] = [ data ]
