@@ -4,7 +4,7 @@ const app = require('../src/app/app');
 process.env.NODE_ENV = 'test';
 
 const { REFRESH_TIME } = require('../src/app/constants/constants');
-const amqplib = require('./__mocks__/amqplib');
+const amqplib = require('./__mocks__/amqplib/callback_api');
 
 describe('Auth endpoints', () => {
   it('should return current temperature', async () => {
