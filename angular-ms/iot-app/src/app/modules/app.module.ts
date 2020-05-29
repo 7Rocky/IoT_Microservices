@@ -1,22 +1,26 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { LOCALE_ID, NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
+import { LOCALE_ID, NgModule } from '@angular/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { BrowserModule } from '@angular/platform-browser'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
-import { AppComponent } from '@components/app/app.component';
-import { IndexComponent } from '@components/index/index.component';
-import { LoginComponent } from '@components/login/login.component';
-import { LoginDialogComponent } from '@components/login/login-dialog.component';
-import { RegisterDialogComponent } from '@components/login/register-dialog.component';
-import { NavbarComponent } from '@components/navbar/navbar.component';
+import { DashboardModule } from '@modules/dashboard.module'
+import { MatModule } from '@modules/mat.module'
 
-import { AuthInterceptor } from '@interceptors/auth.interceptor';
+import { AppRoutingModule } from '@routes/app-routing.module'
 
-import { DashboardModule } from '@modules/dashboard.module';
-import { MatModule } from '@modules/mat.module';
+import { AuthGuard } from '../guards/auth.guard'
 
-import { AppRoutingModule } from '@routes/app-routing.module';
+import { TokenInterceptor } from '@interceptors/token.interceptor'
+
+import { AppComponent } from '@components/app/app.component'
+import { IndexComponent } from '@components/index/index.component'
+import { LoginComponent } from '@components/login/login.component'
+import { LoginDialogComponent } from '@components/login/login-dialog.component'
+import { RegisterDialogComponent } from '@components/login/register-dialog.component'
+import { NavbarComponent } from '@components/navbar/navbar.component'
+import { AuthService } from '@services/auth.service';
+
 
 @NgModule({
   bootstrap: [
@@ -41,6 +45,8 @@ import { AppRoutingModule } from '@routes/app-routing.module';
     ReactiveFormsModule
   ],
   providers: [
+    AuthGuard,
+    AuthService,
     {
       provide: LOCALE_ID,
       useValue: 'es'
@@ -48,7 +54,7 @@ import { AppRoutingModule } from '@routes/app-routing.module';
     {
       multi: true,
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor
+      useClass: TokenInterceptor
     },
     LoginComponent
   ]

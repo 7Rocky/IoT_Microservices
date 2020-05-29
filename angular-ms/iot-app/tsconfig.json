@@ -22,6 +22,9 @@
       "@components/*": [
         "src/app/components/*"
       ],
+      "@guards/*": [
+        "src/app/guards/*"
+      ],
       "@helpers/*": [
         "src/app/helpers/*"
       ],

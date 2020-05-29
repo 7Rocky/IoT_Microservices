@@ -1,29 +1,33 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
 
-import { Observable, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subject, empty } from 'rxjs'
+import { tap, catchError } from 'rxjs/operators'
 
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private logged = new Subject<boolean>();
+  private logged: Subject<boolean> = new Subject<boolean>()
+  private isLogged: boolean = false
+  private username: string = ''
 
-  logInAnnounced$ = this.logged.asObservable();
-  isLoggedIn: boolean = !!localStorage.getItem('iot-ms-token');
-  username: string = '';
-
-  announceLogIn(logged: boolean) {
-    this.logged.next(logged);
-  }
+  logInAnnounced$: Observable<boolean> = this.logged.asObservable()
 
   constructor(
     private http: HttpClient
   ) { }
+
+  announceLogIn(logged: boolean) {
+    this.logged.next(logged)
+  }
+
+  isLoggedIn(): boolean {
+    return this.isLogged
+  }
 
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(
@@ -34,13 +38,16 @@ export class AuthService {
         }
       )
       .pipe(
-        tap(
-          (response: { refreshToken: string, token: string }) => {
-            this.setTokens(response.refreshToken, response.token, username)
-          },
-          () => this.removeTokens()
-        )
-      );
+        tap((response: { accessToken: string, refreshToken: string }) => {
+          this.isLogged = true
+          this.setTokens(response.accessToken, response.refreshToken)
+        }),
+        catchError(() => {
+          console.log('catchError')
+          this.isLogged = false
+          return empty()
+        })
+      )
   }
 
   register(username: string, password: string): Observable<any> {
@@ -54,67 +61,70 @@ export class AuthService {
       .pipe(
         tap(
           (response: { refreshToken: string, token: string }) => {
-            this.setTokens(response.refreshToken, response.token, username)
-          },
-          () => this.removeTokens()
-        )
-      );
-  }
-
-  refresh(refreshToken: string): Promise<any> {
-    return this.http.post<any>(
-        `http://${environment.ORCHESTRATOR_MS}/refresh`,
-        { 
-          refreshToken
-        }
-      )
-      .pipe(
-        tap(
-          (response: { refreshToken: string, token: string }) => {
             this.setTokens(response.refreshToken, response.token)
           },
           () => this.removeTokens()
         )
       )
-      .toPromise();
   }
 
-  setTokens(refreshToken: string, token: string, username?: string) {
-    localStorage.setItem('iot-ms-refresh-token', refreshToken);
-    localStorage.setItem('iot-ms-token', token);
-    this.isLoggedIn = true;
+  refresh(): Observable<any> {
+    const refreshToken = this.getRefreshToken()
+    return this.http.post<any>(`http://${environment.ORCHESTRATOR_MS}/refresh`, { refreshToken })
+      .pipe(
+        tap((response: { accessToken: string, refreshToken: string }) => {
+          this.setTokens(response.accessToken, response.refreshToken)
+        }),
+        catchError(() => {
+          this.removeTokens()
+          return empty()
+        })
+      )
+  }
 
-    if (username) {
-      this.username = username;
-      localStorage.setItem('iot-ms-user', username);
-      this.announceLogIn(true);
-    }
+  setTokens(accessToken: string, refreshToken: string) {
+    localStorage.setItem('iot-ms-token', accessToken)
+    localStorage.setItem('iot-ms-refresh-token', refreshToken)
+    this.isLogged = true
+    this.announceLogIn(true)
   }
 
   removeTokens() {
-    localStorage.removeItem('iot-ms-refresh-token');
-    localStorage.removeItem('iot-ms-token');
-    localStorage.removeItem('iot-ms-user');
-    this.isLoggedIn = false;
-    this.announceLogIn(false);
+    localStorage.removeItem('iot-ms-token')
+    localStorage.removeItem('iot-ms-refresh-token')
+    this.isLogged = false
+    this.announceLogIn(false)
   }
 
-  hasExpired(token: string): boolean {
-    if (token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  decodeToken(token: string): { exp: number, iat: number, username: string } {
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    )
 
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
-      );
+    return JSON.parse(jsonPayload)
+  }
 
-      return JSON.parse(jsonPayload).exp - Date.now() / 1000 < 20;
-    }
+  getAccessUserFromToken(): string {
+    const accessToken = this.getAccessToken()
+    if (!accessToken) return ''
+    return this.decodeToken(accessToken).username
+  }
 
-    return false;
+  getUser(): string {
+    return this.username || this.getAccessUserFromToken()
+  }
+
+  getAccessToken(): string {
+    return localStorage.getItem('iot-ms-token')
+  }
+
+  getRefreshToken(): string {
+    return localStorage.getItem('iot-ms-refresh-token')
   }
 
 }
