@@ -23,7 +23,7 @@ export class LoginDialogComponent {
     });
   }
 
-  onNoClick(): void {
+  onNoClick() {
     this.dialogRef.close();
   }
 

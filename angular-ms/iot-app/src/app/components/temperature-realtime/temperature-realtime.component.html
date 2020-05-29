@@ -11,10 +11,19 @@
         <google-chart [data]="chart" style="width: 100%"></google-chart>
       </mat-card-content>
     </mat-card>
-    <mat-checkbox (click)="checkboxClicked()" [color]="'primary'" [(ngModel)]="checked">Actualizar automáticamente cada</mat-checkbox>
+    <mat-checkbox
+      (click)="checkboxClicked()"
+      [color]="'primary'"
+      [(ngModel)]="checked"
+    >Actualizar automáticamente cada</mat-checkbox>
     <br>
     <mat-form-field>
-      <mat-select [disabled]="!checked" [(ngModel)]="refresh_time" (selectionChange)="selectChanged()" [(value)]="refresh_time">
+      <mat-select
+        [disabled]="!checked"
+        [(ngModel)]="refresh_time"
+        (selectionChange)="selectChanged()"
+        [(value)]="refresh_time"
+      >
         <mat-option *ngFor="let time of refresh_times" [value]="time">
           {{ time / 1000 }} segundos
         </mat-option>

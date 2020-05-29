@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 
-import { Microcontroller } from '@models/microcontroller.model'
-
 import { ArduinoService } from '@services/arduino.service'
 import { AuthService } from '@services/auth.service'
+
+import { Microcontroller } from '@models/microcontroller.model'
 
 @Component({
   selector: 'app-dashboard',

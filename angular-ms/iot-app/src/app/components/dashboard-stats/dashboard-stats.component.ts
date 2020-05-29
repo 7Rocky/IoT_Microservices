@@ -9,15 +9,13 @@ import { Temperature } from '@models/temperature.model'
 })
 export class DashboardStatsComponent implements OnInit {
 
-  nSamples = 0
+  nSamples: number = 0
   lastTemperature: Temperature
   maxTemperature: Temperature
   minTemperature: Temperature
-  avgTemperature: number
+  avgTemperature: number = 0
 
-  constructor() {
-
-  }
+  constructor() { }
 
   ngOnInit() {
 

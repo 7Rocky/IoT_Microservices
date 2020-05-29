@@ -7,4 +7,4 @@ export interface Temperature {
   sensor: string,
   timestamp: number,
   username: string
-};
+}

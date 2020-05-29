@@ -13,4 +13,4 @@ export interface TemperatureStats {
   std_deviation: number,
   time_span: number,
   username: string
-};
+}

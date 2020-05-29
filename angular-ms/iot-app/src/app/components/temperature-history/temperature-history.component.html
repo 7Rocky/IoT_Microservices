@@ -22,7 +22,13 @@
       <mat-datepicker-toggle matSuffix [for]="end_datepicker"></mat-datepicker-toggle>
       <mat-datepicker #end_datepicker></mat-datepicker>
     </mat-form-field>
-    <button [color]="'primary'" [disabled]="historyForm.invalid" mat-raised-button type="submit" style="margin-left: 5%;">
+    <button
+      [color]="'primary'"
+      [disabled]="historyForm.invalid"
+      mat-raised-button
+      style="margin-left: 5%;"
+      type="submit"
+    >
       <mat-label>Cargar</mat-label>
       <mat-icon>history</mat-icon>
     </button>
