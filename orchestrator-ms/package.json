@@ -16,7 +16,7 @@
     "supertest": "^4.0.2"
   },
   "engines": {
-    "node": "12.17.0",
+    "node": "12.18.0",
     "npm": "6.14.5"
   },
   "license": "ISC",
