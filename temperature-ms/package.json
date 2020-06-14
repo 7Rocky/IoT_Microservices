@@ -1,16 +1,16 @@
 {
   "author": "Rocky",
   "dependencies": {
-    "amqplib": "^0.5.5",
+    "amqplib": "^0.5.6",
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.9.13"
+    "mongoose": "^5.9.18"
   },
   "description": "Temperature microservice",
   "devDependencies": {
     "jest": "^25.5.4",
-    "nodemon": "^2.0.3",
+    "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
   },
   "engines": {

@@ -9,7 +9,7 @@
   "description": "Microcontrollers microservice",
   "devDependencies": {
     "jest": "^25.5.4",
-    "nodemon": "^2.0.3",
+    "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
   },
   "engines": {
