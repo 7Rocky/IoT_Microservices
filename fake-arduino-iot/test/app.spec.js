@@ -19,4 +19,36 @@ describe('Fake-arduino endpoints', () => {
     expect(res.body.humidity).toBeGreaterThan(0)
     expect(res.body.humidity).toBeLessThan(1023)
   })
+
+  it('Get light', async () => {
+    const res = await request(app).get('/light')
+
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toHaveProperty('light')
+    expect(res.body.light).toEqual(0)
+  })
+
+  it('Turn light on', async () => {
+    const res = await request(app).post('/light/on')
+
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toHaveProperty('light')
+    expect(res.body.light).toEqual(1)
+  })
+
+  it('Get light', async () => {
+    const res = await request(app).get('/light')
+
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toHaveProperty('light')
+    expect(res.body.light).toEqual(1)
+  })
+
+  it('Turn light off', async () => {
+    const res = await request(app).post('/light/off')
+
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toHaveProperty('light')
+    expect(res.body.light).toEqual(0)
+  })
 })
