@@ -1,0 +1,33 @@
+{
+  "author": "Rocky",
+  "dependencies": {
+    "amqplib": "^0.5.6",
+    "axios": "^0.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.18"
+  },
+  "description": "Measure microservice",
+  "devDependencies": {
+    "jest": "^25.5.4",
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
+  },
+  "engines": {
+    "node": "12.18.0",
+    "npm": "6.14.5"
+  },
+  "license": "ISC",
+  "main": "src/index.js",
+  "name": "measure-ms",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/7Rocky/IoT_Microservices.git"
+  },
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "test": "jest"
+  },
+  "version": "1.0.0"
+}
