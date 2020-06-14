@@ -9,7 +9,7 @@ import { AuthService } from '@services/auth.service'
 import { LoginDialogComponent } from '@components/login/login-dialog.component'
 import { RegisterDialogComponent } from '@components/login/register-dialog.component'
 
-import { DropdownMenuOption } from '@shared/dropdown-menu-option'
+import { AuthGuard } from '@guards/auth.guard'
 
 @Component({
   selector: 'app-login',
@@ -20,10 +20,10 @@ export class LoginComponent implements OnDestroy, OnInit {
 
   dialogConf = { data: { }, width: '500px' }
   dialogRef: MatDialogRef<LoginDialogComponent | RegisterDialogComponent>
-  icon: string = 'keyboard_arrow_down'
-  isDialogOpen: boolean = false
+  icon = 'keyboard_arrow_down'
+  isDialogOpen = false
   isLogged: boolean
-  options: DropdownMenuOption[] = [
+  options: { link: string, name: string }[] = [
     { link: '/', name: 'Mi perfil' },
     { link: '/', name: 'Configuración' }
   ]
@@ -32,14 +32,15 @@ export class LoginComponent implements OnDestroy, OnInit {
   subs: Subscription
 
   constructor(
+    private authGuard: AuthGuard,
     private authService: AuthService,
     private dialog: MatDialog,
     private router: Router
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.username = this.authService.getUser()
-    this.isLogged = this.username ? this.authService.isLoggedIn() : false
+    this.isLogged = !!this.username
 
     this.subs = this.authService.logInAnnounced$
       .subscribe((login: boolean) => {
@@ -47,7 +48,7 @@ export class LoginComponent implements OnDestroy, OnInit {
         this.username = this.authService.getUser()
 
         if (login) {
-          this.router.navigate(['/dashboard'])
+          this.router.navigateByUrl(this.authGuard.getLastUrl())
         } else {
           this.openDialog()
         }

@@ -8,6 +8,8 @@ import { AuthService } from '@services/auth.service'
 })
 export class AuthGuard implements CanActivate {
 
+  private lastUrl: string
+
   constructor(
     private authService: AuthService
   ) { }
@@ -18,6 +20,7 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isLoggedIn()) return true
 
     if (refreshToken) {
+      this.setLastUrl(next)
       try {
         await this.authService.refresh().toPromise()
         return true
@@ -26,6 +29,14 @@ export class AuthGuard implements CanActivate {
 
     this.authService.removeTokens()
     return false
+  }
+
+  getLastUrl() {
+    return this.lastUrl || '/'
+  }
+
+  setLastUrl(next: ActivatedRouteSnapshot) {
+    this.lastUrl = '/' + next.url.map(url => url.path).join('/')
   }
 
 }

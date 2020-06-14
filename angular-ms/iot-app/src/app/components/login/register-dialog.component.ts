@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MatDialogRef } from '@angular/material/dialog'
 
-import { AuthService } from '@services/auth.service';
-import { MustMatch } from '@helpers/must-match.helper';
+import { AuthService } from '@services/auth.service'
+
+import { MustMatch } from '@helpers/must-match.helper'
 
 @Component({
   selector: 'app-register-dialog',
@@ -12,7 +13,7 @@ import { MustMatch } from '@helpers/must-match.helper';
 })
 export class RegisterDialogComponent {
 
-  registerForm: FormGroup;
+  registerForm: FormGroup
 
   constructor(
     private authService: AuthService,
@@ -28,31 +29,31 @@ export class RegisterDialogComponent {
       {
         validator: MustMatch('password', 'repeatPassword')
       }
-    );
+    )
   }
 
   onNoClick() {
-    this.dialogRef.close();
+    this.dialogRef.close()
   }
 
-  register({ username, password, repeatPassword }) {
+  register({ username, password, repeatPassword }: { username: string, password: string, repeatPassword: string }) {
     if (password === repeatPassword) {
       this.authService.register(username, password)
         .subscribe(
           () => this.dialogRef.close(username),
           () => {
-            this.registerForm.get(['password']).reset();
-            this.registerForm.get(['repeatPassword']).reset();
+            this.registerForm.get(['password']).reset()
+            this.registerForm.get(['repeatPassword']).reset()
           }
-        );
+        )
     } else {
-      this.registerForm.get(['password']).reset();
-      this.registerForm.get(['repeatPassword']).reset();
+      this.registerForm.get(['password']).reset()
+      this.registerForm.get(['repeatPassword']).reset()
     }
   }
 
   changeToLogin() {
-    this.dialogRef.close(false);
+    this.dialogRef.close(false)
   }
 
 }

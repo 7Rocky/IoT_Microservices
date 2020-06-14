@@ -2,18 +2,20 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 
 import { Observable, Subject, empty } from 'rxjs'
-import { tap, catchError } from 'rxjs/operators'
+import { catchError, tap } from 'rxjs/operators'
 
 import { environment } from 'src/environments/environment'
+
+import { AuthResponse } from '@models/auth-response.model'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private logged: Subject<boolean> = new Subject<boolean>()
-  private isLogged: boolean = false
-  private username: string = ''
+  private logged = new Subject<boolean>()
+  private isLogged = false
+  private username = ''
 
   logInAnnounced$: Observable<boolean> = this.logged.asObservable()
 
@@ -25,12 +27,12 @@ export class AuthService {
     this.logged.next(logged)
   }
 
-  isLoggedIn(): boolean {
+  isLoggedIn() {
     return this.isLogged
   }
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(
+  login(username: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
         `http://${environment.ORCHESTRATOR_MS}/login`,
         { 
           password,
@@ -38,9 +40,9 @@ export class AuthService {
         }
       )
       .pipe(
-        tap((response: { accessToken: string, refreshToken: string }) => {
+        tap((response: AuthResponse) => {
           this.isLogged = true
-          this.setTokens(response.accessToken, response.refreshToken)
+          this.setTokens(response)
         }),
         catchError(() => {
           console.log('catchError')
@@ -50,8 +52,8 @@ export class AuthService {
       )
   }
 
-  register(username: string, password: string): Observable<any> {
-    return this.http.post<any>(
+  register(username: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
         `http://${environment.ORCHESTRATOR_MS}/register`,
         { 
           password,
@@ -60,20 +62,20 @@ export class AuthService {
       )
       .pipe(
         tap(
-          (response: { refreshToken: string, token: string }) => {
-            this.setTokens(response.refreshToken, response.token)
+          (response: AuthResponse) => {
+            this.setTokens(response)
           },
           () => this.removeTokens()
         )
       )
   }
 
-  refresh(): Observable<any> {
+  refresh(): Observable<AuthResponse> {
     const refreshToken = this.getRefreshToken()
-    return this.http.post<any>(`http://${environment.ORCHESTRATOR_MS}/refresh`, { refreshToken })
+    return this.http.post<AuthResponse>(`http://${environment.ORCHESTRATOR_MS}/refresh`, { refreshToken })
       .pipe(
-        tap((response: { accessToken: string, refreshToken: string }) => {
-          this.setTokens(response.accessToken, response.refreshToken)
+        tap((response: AuthResponse) => {
+          this.setTokens(response)
         }),
         catchError(() => {
           this.removeTokens()
@@ -82,9 +84,9 @@ export class AuthService {
       )
   }
 
-  setTokens(accessToken: string, refreshToken: string) {
-    localStorage.setItem('iot-ms-token', accessToken)
-    localStorage.setItem('iot-ms-refresh-token', refreshToken)
+  setTokens(tokens: AuthResponse) {
+    localStorage.setItem('iot-ms-token', tokens.accessToken)
+    localStorage.setItem('iot-ms-refresh-token', tokens.refreshToken)
     this.isLogged = true
     this.announceLogIn(true)
   }
@@ -109,21 +111,21 @@ export class AuthService {
     return JSON.parse(jsonPayload)
   }
 
-  getAccessUserFromToken(): string {
+  getAccessUserFromToken() {
     const accessToken = this.getAccessToken()
     if (!accessToken) return ''
     return this.decodeToken(accessToken).username
   }
 
-  getUser(): string {
+  getUser() {
     return this.username || this.getAccessUserFromToken()
   }
 
-  getAccessToken(): string {
+  getAccessToken() {
     return localStorage.getItem('iot-ms-token')
   }
 
-  getRefreshToken(): string {
+  getRefreshToken() {
     return localStorage.getItem('iot-ms-refresh-token')
   }
 
