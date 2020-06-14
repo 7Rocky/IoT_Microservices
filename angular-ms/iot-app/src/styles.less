@@ -10,6 +10,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   margin: 0;
 }
+
+.absolute {
+  position: absolute;
+}
 .bg-blue {
   background-color: @blue;
 }
@@ -44,7 +48,7 @@ body {
   user-select: none;
 }
 .white {
-  color: @white;
+  color: @white !important;
 }
 .yellow {
   color: @yellow;
@@ -55,10 +59,13 @@ body {
   border-radius: 10px;
   box-sizing: border-box;
   font-size: 24px;
-  margin-top: 1%;// !important;
+  margin-top: 1%;
   padding: 16px;
   width: 100%;
 }
 .container {
   padding: 0 32px;
+}
+.make-visible * {
+  overflow: visible !important;
 }
