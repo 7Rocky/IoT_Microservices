@@ -1,4 +1,4 @@
-export interface TemperatureStats {
+export interface HumidityStats {
   end_date: string,
   end_timestamp: number,
   init_date: string,
