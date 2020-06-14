@@ -1,6 +1,6 @@
 export interface Microcontroller {
   ip: string,
-  isInactive: boolean,
+  isInactive?: boolean,
   measure: string,
   sensor: string,
   username: string

@@ -1,0 +1,15 @@
+<ul>
+  <li *ngFor="let micro of microcontrollers">
+    {{ micro.ip }}
+    <br>
+    {{ micro.measure }}
+    <br>
+    {{ micro.isInactive }}
+    <br>
+    {{ micro.sensor }}
+    <br>
+    {{ micro.username }}
+  </li>
+</ul>
+<img src="assets/images/microcontroller.jpg">
+<button mat-raised-button (click)="newMicro()">Añadir nuevo microcontrolador</button>
