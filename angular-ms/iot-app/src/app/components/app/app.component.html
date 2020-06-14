@@ -1,2 +1,54 @@
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<app-navbar (opened)="toggle($event)"></app-navbar>
+<nav>
+  <div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
+    <mat-sidenav-container [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+      <mat-sidenav
+        [fixedInViewport]="mobileQuery.matches"
+        fixedTopGap="56"
+        [mode]="mobileQuery.matches ? 'over' : 'side'"
+        [opened]="opened"
+        style="background-color: rgb(60, 81, 130);"
+      >
+        <mat-nav-list>
+          <a class="menu-icon white" mat-list-item routerLink="/">
+            <mat-icon>home</mat-icon>
+            <span>Inicio</span>
+          </a>
+          <a class="menu-icon white" mat-list-item routerLink="/dashboard">
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+          </a>
+          <a class="menu-icon white" mat-list-item routerLink=".">
+            <i class="fas fa-thermometer-half"></i>
+            <span>Temperatura</span>
+          </a>
+          <a class="menu-icon white" mat-list-item routerLink=".">
+            <i class="fas fa-humidity"></i>
+            <span>Humedad</span>
+          </a>
+          <a class="menu-icon white" mat-list-item routerLink=".">
+            <mat-icon>wb_incandescent</mat-icon>
+            <span>Luces</span>
+          </a>
+          <a class="menu-icon white" mat-list-item routerLink=".">
+            <mat-icon>memory</mat-icon>
+            <span>Microcontroladores</span>
+          </a>
+          <a class="menu-icon white" mat-list-item routerLink=".">
+            <mat-icon>info</mat-icon>
+            <span>Información</span>
+          </a>
+          <a class="menu-icon white" mat-list-item (click)="opened = !opened">
+            <mat-icon>close</mat-icon>
+            <span>Cerrar</span>
+          </a>
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <router-outlet></router-outlet>
+        <div style="margin-top: 7%;"></div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</nav>
+
