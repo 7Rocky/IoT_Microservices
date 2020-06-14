@@ -1,0 +1,24 @@
+<mat-card class="stats float-right">
+  <mat-card-title>Estadísticas</mat-card-title>
+  <mat-card-content>
+    <ul>
+      <li>
+        <div class="measure-name">Tiempo transcurrido: </div>
+        <span class="black measure-value">{{ formatTime(elapsedTime) }}</span>
+      </li>
+      <li>
+        <div class="measure-name">Tiempo en ON: </div>
+        <span class="bg-light-red measure-value white">{{ formatTime(timeOn) }}</span>
+      </li>
+      <li>
+        <div class="measure-name">Tiempo en OFF: </div>
+        <span class="bg-light-blue measure-value white">{{ formatTime(timeOff) }}</span>
+      </li>
+      <li>
+        <div class="measure-name">Porcentaje ON: </div>
+        <span class="bg-gray measure-value white">{{ percent }} %</span>
+      </li>
+    </ul>
+    <span>{{ nSamples }}</span>
+  </mat-card-content>
+</mat-card>

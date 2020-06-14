@@ -1,0 +1,19 @@
+<mat-card class="float-left">
+  <mat-card-title>Tiempo real</mat-card-title>
+  <mat-card-content>
+    <img [src]="'assets/images/light_' + lightStatus + '.png'" style="height: 222px; margin: -3% 0 0 20%;">
+    <div style="margin: auto; margin-top: -120px; text-align: center;">
+      <mat-slide-toggle
+        (change)="slideChange(switch.checked)"
+        [checked]="isLightOn()"
+        class="make-visible"
+        color="primary"
+        [disabled]="disabledBtn"
+        #switch
+      >
+        <span style="position: relative; right: 80px;">OFF</span>
+        <span>ON</span>
+      </mat-slide-toggle>
+    </div>
+  </mat-card-content>
+</mat-card>
