@@ -50,15 +50,20 @@ spec:
             configMapKeyRef:
               key: MONGO_INITDB_ROOT_PASSWORD
               name: env-configmap
-        - name: QUEUE_NAME_HUMIDITY
+        - name: QUEUE_HUMIDITY_NAME
           valueFrom:
             configMapKeyRef:
-              key: QUEUE_NAME_HUMIDITY
+              key: QUEUE_HUMIDITY_NAME
               name: env-configmap
-        - name: QUEUE_NAME_TEMPERATURE
+        - name: QUEUE_LIGHT_NAME
           valueFrom:
             configMapKeyRef:
-              key: QUEUE_NAME_TEMPERATURE
+              key: QUEUE_LIGHT_NAME
+              name: env-configmap
+        - name: QUEUE_TEMPERATURE_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: QUEUE_TEMPERATURE_NAME
               name: env-configmap
         - name: RABBITMQ_DEFAULT_USER
           valueFrom:

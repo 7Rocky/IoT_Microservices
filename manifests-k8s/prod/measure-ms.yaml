@@ -1,31 +1,31 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: temperature-ms
+  name: measure-ms
 spec:
   ports:
   - port: 80
     protocol: TCP
     targetPort: 80
   selector:
-    app: temperature-ms
+    app: measure-ms
     tier: backend
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: temperature-ms
+  name: measure-ms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: temperature-ms
+      app: measure-ms
       tier: backend
   template:
     metadata:
       labels:
-        app: temperature-ms
+        app: measure-ms
         tier: backend
     spec:
       containers:
@@ -55,10 +55,20 @@ spec:
             configMapKeyRef:
               key: MICROCONTROLLERS_MS_HOSTNAME
               name: env-configmap
-        - name: QUEUE_NAME_TEMPERATURE
+        - name: QUEUE_HUMIDITY_NAME
           valueFrom:
             configMapKeyRef:
-              key: QUEUE_NAME_TEMPERATURE
+              key: QUEUE_HUMIDITY_NAME
+              name: env-configmap
+        - name: QUEUE_LIGHT_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: QUEUE_LIGHT_NAME
+              name: env-configmap
+        - name: QUEUE_TEMPERATURE_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: QUEUE_TEMPERATURE_NAME
               name: env-configmap
         - name: PORT
           value: '80'
@@ -77,9 +87,9 @@ spec:
             configMapKeyRef:
               key: RABBITMQ_HOSTNAME
               name: env-configmap
-        image: 7rocky/temperature-ms
+        image: 7rocky/measure-ms
         imagePullPolicy: Always
-        name: temperature-ms
+        name: measure-ms
         ports:
         - containerPort: 80
         resources:

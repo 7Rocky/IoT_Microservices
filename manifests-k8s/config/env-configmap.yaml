@@ -2,6 +2,7 @@ apiVersion: v1
 data:
   ANGULAR_MS_HOSTNAME: angular-ms
   AUTH_MS_HOSTNAME: auth-ms
+  MEASURE_MS_HOSTNAME: measure-ms
   MICROCONTROLLERS_MS_HOSTNAME: microcontrollers-ms
   MONGO_DATABASE_NAME: iot
   MONGO_HOSTNAME: mongo
@@ -11,13 +12,13 @@ data:
   MYSQL_HOSTNAME: mysql
   MYSQL_ROOT_PASSWORD: my-secret-pw
   ORCHESTRATOR_MS_HOSTNAME: orchestrator-ms
-  QUEUE_NAME_HUMIDITY: humidities
-  QUEUE_NAME_TEMPERATURE: temperatures
+  QUEUE_HUMIDITY_NAME: humidities
+  QUEUE_LIGHT_NAME: lights
+  QUEUE_TEMPERATURE_NAME: temperatures
   RABBITMQ_DEFAULT_USER: user
   RABBITMQ_DEFAULT_PASS: password
   RABBITMQ_HOSTNAME: rabbitmq
   STATS_MS_HOSTNAME: stats-ms
-  TEMPERATURE_MS_HOSTNAME: temperature-ms
 kind: ConfigMap
 metadata:
   name: env-configmap
