@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core'
 
 @Component({
   selector: 'app-navbar',
@@ -7,23 +7,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  today: string = this.getToday();
+  isOpen = false
+  @Output() opened = new EventEmitter<boolean>()
+  today = this.getToday()
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() { }
 
+  toggle() {
+    this.isOpen = !this.isOpen
+    this.opened.emit(this.isOpen)
   }
 
-  private getToday(): string {
-    const date: Date = new Date();
-    const day: number = date.getDate();
-    const month: number = date.getMonth() + 1;
-    const year: number = date.getFullYear();
+  private getToday() {
+    const date = new Date()
+    const day = date.getDate()
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
 
-    const correct = (n: number): string => n < 10 ? `0${n}` : `${n}`;
+    const correct = (n: number) => n < 10 ? `0${n}` : `${n}`
 
-    return `${correct(day)}/${correct(month)}/${year}`;
+    return `${correct(day)}/${correct(month)}/${year}`
   }
 
 }
