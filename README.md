@@ -37,7 +37,7 @@ You can test each Node.js microservice using this command:
 npm test
 ```
 
-If you are not using an Arduino board, you can mock it using the _fake-arduino-iot_ Node.js application. For this task, run `npm install` and `npm start` at the `fake-arduino-iot` directory.
+If you are not using an Arduino board, you can mock it using the [fake-arduino-iot](https://github.com/7Rocky/IoT_Microservices/tree/master/fake-arduino-iot) Node.js application. For this task, run `npm install` and `npm start` at this directory.
 
 ## 3. Develop Angular microservice
 
