@@ -3,9 +3,11 @@
 
 #include "main-template.h" // Add data to main-template.h and change its name to main.h
 
-const int NUM_ENDPOINTS = 2;
-const String MEASURES[] = { "temperature", "humidity" };
-const int MEASURE_PINS[] = { 0, 1 };
+const int NUM_ENDPOINTS = 3;
+const String MEASURES[] = { "temperature", "humidity", "light" };
+const int PINS[] = { 0, 1, LED_BUILTIN };
+const String LIGHT_STATUS[] = { "on", "off" };
+const int LED_STATUS[] = { HIGH, LOW };
 
 WiFiServer server(PORT);
 
@@ -40,7 +42,7 @@ void loop() {
   WiFiClient client = server.available();
 
   if (client) {
-    int analogInputPin = -1, measureIndex;
+    int measureIndex = -1;
     String currentLine = "";
 
     while (client.connected()) {
@@ -49,10 +51,11 @@ void loop() {
 
         if (c == '\n') {
           if (currentLine.length() == 0) {
-            sendResponse(client, analogInputPin, MEASURES[measureIndex]);
+            sendResponse(client, measureIndex);
             break;
           } else {
-            handleRequest(currentLine, &analogInputPin, &measureIndex);
+            boolean matched = handleGetRequest(currentLine, &measureIndex);
+            if (!matched) handlePostRequest(currentLine, &measureIndex);
             currentLine = "";
           }
         } else if (c != '\r') {
@@ -66,19 +69,31 @@ void loop() {
   }
 }
 
-void handleRequest(String line, int* ppin, int* pindex) {
-  for (int i = 0; i < NUM_ENDPOINTS; i++) {
-    if (line.equals("GET /" + MEASURES[i] + " HTTP/1.1")) {
-      *ppin = MEASURE_PINS[i];
-      *pindex = i;
+void handlePostRequest(String line, int* pindex) {
+  for (int i = 0; i < 2; i++) {
+    if (line.equals("POST /light/" + LIGHT_STATUS[i] + " HTTP/1.1")) {
+      digitalWrite(PINS[2], LED_STATUS[i]);
+      *pindex = 2;
       break;
     }
   }
 }
 
-void sendResponse(WiFiClient client, int pin, String measure) {
-  if (pin == -1) printHttpError(client);
-  else printHttpResponse(client, analogRead(pin), measure);
+boolean handleGetRequest(String line, int* pindex) {
+  for (int i = 0; i < NUM_ENDPOINTS; i++) {
+    if (line.equals("GET /" + MEASURES[i] + " HTTP/1.1")) {
+      *pindex = i;
+      break;
+    }
+  }
+
+  return *pindex != -1;
+}
+
+void sendResponse(WiFiClient client, int index) {
+  if (index == -1) printHttpError(client);
+  else if (index == 2) printHttpResponse(client, digitalRead(PINS[index]), MEASURES[index]);
+  else printHttpResponse(client, analogRead(PINS[index]), MEASURES[index]);
 }
 
 void printHttpHeaders(WiFiClient client, int httpStatus) {
