@@ -1,14 +1,6 @@
 @import 'colors.less';
 @import 'styles.less';
 
-.arrow-btn {
-  cursor: pointer;
-  cursor: hand;
-  font-weight: bold;
-  position: relative;
-  top: -3px;
-  vertical-align: middle;
-}
 .cards-container {
   height: 265px;
   text-align: center;
@@ -26,8 +18,13 @@
   margin-left: 3%;
   width: 34%;
 }
-.measure-block:nth-child(even) {
-  .topic-title {
-    background-image: linear-gradient(to left, @dark-blue, @blue);
+.measure-block {
+  &:nth-child(even) {
+    .topic-title {
+      background-image: linear-gradient(to left, @dark-blue, @blue);
+    }
+  }
+  &:last-of-type {
+    height: 450px;
   }
 }

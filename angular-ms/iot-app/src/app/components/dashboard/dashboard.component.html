@@ -3,17 +3,43 @@
     <h1 class="topic-title white">
       <app-dashboard-microcontroller [micro]="micro"></app-dashboard-microcontroller>
     </h1>
-    <div class="cards-container">
+    <div class="cards-container" *ngIf="micro.measure === 'humidity'">
       <div class="card card-left">
-        <app-dashboard-chart
+        <app-humidity-chart
           (inactivity)="changeActivity($event)"
-          (measure)="stats.newMeasure($event)"
+          (measure)="humidityStats.newMeasure($event)"
           [micro]="micro"
-          *ngIf="stats"
-        ></app-dashboard-chart>
+          *ngIf="humidityStats"
+        ></app-humidity-chart>
       </div>
       <div class="card card-right">
-        <app-dashboard-stats #stats></app-dashboard-stats>
+        <app-humidity-stats #humidityStats></app-humidity-stats>
+      </div>
+    </div>
+    <div class="cards-container" *ngIf="micro.measure === 'light'">
+      <div class="card card-left">
+        <app-light-chart
+          (inactivity)="changeActivity($event)"
+          (measure)="lightStats.newMeasure($event)"
+          [micro]="micro"
+          *ngIf="lightStats"
+        ></app-light-chart>
+      </div>
+      <div class="card card-right">
+        <app-light-stats #lightStats></app-light-stats>
+      </div>
+    </div>
+    <div class="cards-container" *ngIf="micro.measure === 'temperature'">
+      <div class="card card-left">
+        <app-temperature-chart
+          (inactivity)="changeActivity($event)"
+          (measure)="temperatureStats.newMeasure($event)"
+          [micro]="micro"
+          *ngIf="temperatureStats"
+        ></app-temperature-chart>
+      </div>
+      <div class="card card-right">
+        <app-temperature-stats #temperatureStats></app-temperature-stats>
       </div>
     </div>
   </div>

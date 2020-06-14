@@ -22,9 +22,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.arduinoService.getMicrocontrollers()
       .subscribe(
-        response => {
+        (response: Microcontroller[]) => {
           this.microcontrollers = response
-          this.microcontrollers.forEach(micro => {
+          this.microcontrollers.forEach((micro: Microcontroller) => {
             micro.isInactive = false
           })
         },
