@@ -28,7 +28,6 @@ module.exports = class JwtModule {
   }
 
   getTokenFromHeaders(headers) {
-    console.log(headers)
     if (!headers.authorization) return ''
     return headers.authorization.substring(7)
   }
