@@ -1,0 +1,6 @@
+<mat-card class="float-left">
+  <mat-card-title>Tiempo real</mat-card-title>
+  <mat-card-content *ngIf="isChartReady">
+    <google-chart [data]="chart"></google-chart>
+  </mat-card-content>
+</mat-card>
