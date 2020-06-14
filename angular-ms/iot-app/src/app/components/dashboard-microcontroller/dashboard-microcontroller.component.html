@@ -10,15 +10,11 @@
     <mat-icon>keyboard_arrow_down</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item [routerLink]="['/temperature/realtime', micro.ip, micro.measure]">
-      <mat-icon>timelapse</mat-icon>
-      <span>Tiempo real</span>
-    </button>
-    <button mat-menu-item [routerLink]="['/temperature/history', micro.ip, micro.measure]">
+    <button mat-menu-item [routerLink]="[ '/history', micro.ip, micro.measure ]">
       <mat-icon>bar_chart</mat-icon>
       <span>Estadísticas</span>
     </button>
-    <button mat-menu-item [routerLink]="'#'">
+    <button mat-menu-item [routerLink]="[ '/microcontrollers/edit', micro.ip, micro.measure ]">
       <mat-icon>edit</mat-icon>
       <span>Editar</span>
     </button>

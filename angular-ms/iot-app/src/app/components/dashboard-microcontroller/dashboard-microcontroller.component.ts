@@ -11,12 +11,8 @@ export class DashboardMicrocontrollerComponent implements OnInit {
 
   @Input() micro: Microcontroller
 
-  constructor() {
+  constructor() { }
 
-  }
-
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
 }

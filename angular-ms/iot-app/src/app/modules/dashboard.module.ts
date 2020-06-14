@@ -9,22 +9,28 @@ import { MatModule } from '@modules/mat.module'
 import { DashboardRoutingModule } from '@routes/dashboard.routing.module'
 
 import { DashboardComponent } from '@components/dashboard/dashboard.component'
-import { DashboardChartComponent } from '@components/dashboard-chart/dashboard-chart.component'
 import {
   DashboardMicrocontrollerComponent
 } from '@components/dashboard-microcontroller/dashboard-microcontroller.component'
-import { DashboardStatsComponent } from '@components/dashboard-stats/dashboard-stats.component'
-import { TemperatureHistoryComponent } from '@components/temperature-history/temperature-history.component'
-import { TemperatureRealtimeComponent } from '@components/temperature-realtime/temperature-realtime.component'
+import { HumidityChartComponent } from '@components/humidity-chart/humidity-chart.component'
+import { HumidityStatsComponent } from '@components/humidity-stats/humidity-stats.component'
+import { LightChartComponent } from '@components/light-chart/light-chart.component'
+import { LightStatsComponent } from '@components/light-stats/light-stats.component'
+import { MeasureHistoryComponent } from '@components/measure-history/measure-history.component'
+import { TemperatureChartComponent } from '@components/temperature-chart/temperature-chart.component'
+import { TemperatureStatsComponent } from '@components/temperature-stats/temperature-stats.component'
 
 @NgModule({
   declarations: [
-    DashboardChartComponent,
     DashboardComponent,
     DashboardMicrocontrollerComponent,
-    DashboardStatsComponent,
-    TemperatureHistoryComponent,
-    TemperatureRealtimeComponent
+    HumidityChartComponent,
+    HumidityStatsComponent,
+    LightChartComponent,
+    LightStatsComponent,
+    MeasureHistoryComponent,
+    TemperatureChartComponent,
+    TemperatureStatsComponent,
   ],
   imports: [
     CommonModule,
