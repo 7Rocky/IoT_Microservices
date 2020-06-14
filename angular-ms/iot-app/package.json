@@ -10,7 +10,6 @@
     "@angular/platform-browser": "^9.1.11",
     "@angular/platform-browser-dynamic": "^9.1.11",
     "@angular/router": "^9.1.11",
-    "angular-google-charts": "^0.1.6",
     "ng2-google-charts": "^5.0.0",
     "rxjs": "^6.5.5",
     "tslib": "^1.13.0",
