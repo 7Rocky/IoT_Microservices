@@ -1,8 +1,9 @@
 const request = require('supertest')
 const app = require('../src/app/app')
 
+let accessToken
 let refreshToken
-let token
+
 const username = 'Rocky'
 const password = 'password'
 
@@ -14,19 +15,19 @@ describe('Microcontrollers endpoints from UI', () => {
       .end((err, res) => {
         expect(res.body).toEqual(
           expect.objectContaining({
-            refreshToken: expect.any(String),
-            token: expect.any(String)
+            accessToken: expect.any(String),
+            refreshToken: expect.any(String)
           })
         )
 
+        accessToken = res.body.accessToken
         refreshToken = res.body.refreshToken
-        token = res.body.token
         done()
       })
   })
 
   it('should return list of users microcontrollers', async () => {
-    const res = await request(app).get('/microcontrollers').set('Authorization', `Bearer ${token}`)
+    const res = await request(app).get('/microcontrollers').set('Authorization', `Bearer ${accessToken}`)
     expect(res.statusCode).toBe(200)
     expect(res.body).toEqual(
       expect.arrayContaining([
@@ -54,7 +55,7 @@ describe('Microcontrollers endpoints from UI', () => {
         sensor: 'Grove - Temperature',
         username: 'Rocky'
       })
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
 
     expect(res.statusCode).toBe(201)
     expect(res.body).toEqual(
@@ -91,7 +92,7 @@ describe('Microcontrollers endpoints from UI', () => {
         sensor: 'Grove - Temperature',
         username: 'Rocky'
       })
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
 
     expect(res.statusCode).toBe(201)
     expect(res.body).toEqual(
@@ -131,7 +132,7 @@ describe('Microcontrollers endpoints from UI', () => {
         sensor: 'Grove - Temperature',
         username: 'Rocky'
       })
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
 
     expect(res.statusCode).toBe(200)
   }, 10000)

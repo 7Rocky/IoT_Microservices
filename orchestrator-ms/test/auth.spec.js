@@ -1,10 +1,11 @@
-const request = require('supertest')
-const app = require('../src/app/app')
 const jwt = require('jsonwebtoken')
+const request = require('supertest')
+
+const app = require('../src/app/app')
 const { MAX_EXPIRATION_TIME, TOKEN_EXPIRATION_TIME, TOKEN_SECRET } = require('../src/config/jwt.config')
 
+let accessToken
 let refreshToken
-let token
 const username = 'Rocky'
 const password = 'password'
 
@@ -14,8 +15,8 @@ describe('Auth endpoints', () => {
     expect(res.statusCode).toBe(200)
     expect(res.body).toEqual(
       expect.objectContaining({
-        refreshToken: expect.any(String),
-        token: expect.any(String)
+        accessToken: expect.any(String),
+        refreshToken: expect.any(String)
       })
     )
   })
@@ -35,8 +36,8 @@ describe('Auth endpoints', () => {
     expect(res.statusCode).toBe(200)
     expect(res.body).toEqual(
       expect.objectContaining({
-        refreshToken: expect.any(String),
-        token: expect.any(String)
+        accessToken: expect.any(String),
+        refreshToken: expect.any(String)
       })
     )
   })
@@ -60,29 +61,29 @@ describe('Refresh token endpoint', () => {
       .end((err, res) => {
         expect(res.body).toEqual(
           expect.objectContaining({
-            refreshToken: expect.any(String),
-            token: expect.any(String)
+            accessToken: expect.any(String),
+            refreshToken: expect.any(String)
           })
         )
 
+        accessToken = res.body.accessToken
         refreshToken = res.body.refreshToken
-        token = res.body.token
         done()
       })
   })
 
   it('should change refresh token and access token', async () => {
     await new Promise(r => setTimeout(r, 1000))
-    const res = await request(app).post('/refresh').send({ refreshToken }).set('Authorization', `Bearer ${token}`)
+    const res = await request(app).post('/refresh').send({ refreshToken }).set('Authorization', `Bearer ${accessToken}`)
     expect(res.statusCode).toBe(200)
     expect(res.body).toEqual(
       expect.objectContaining({
-        refreshToken: expect.any(String),
-        token: expect.any(String)
+        accessToken: expect.any(String),
+        refreshToken: expect.any(String)
       })
     )
     expect(res.body.refreshToken).not.toEqual(refreshToken)
-    expect(res.body.token).not.toEqual(token)
+    expect(res.body.accessToken).not.toEqual(accessToken)
   }, 60000)
 
   it('should not change refresh token and access token', async () => {
@@ -103,28 +104,26 @@ describe('Refresh token endpoint', () => {
 
   it('should refresh token', async () => {
     const iat = Number((Date.now() / 1000 - MAX_EXPIRATION_TIME + 1).toFixed())
-    console.log(iat)
     const exp = iat + TOKEN_EXPIRATION_TIME
-    const token = jwt.sign({ username, iat, exp }, TOKEN_SECRET)
+    const accessToken = jwt.sign({ username, iat, exp }, TOKEN_SECRET)
 
     const res = await request(app)
       .post('/refresh')
       .send({ refreshToken })
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
 
     expect(res.statusCode).toBe(200)
   }, 60000)
 
   it('should not refresh token because of time limit', async () => {
     const iat = Number((Date.now() / 1000 - MAX_EXPIRATION_TIME - 1).toFixed())
-    console.log(iat)
     const exp = iat + TOKEN_EXPIRATION_TIME
-    const token = jwt.sign({ username, iat, exp }, TOKEN_SECRET)
+    const accessToken = jwt.sign({ username, iat, exp }, TOKEN_SECRET)
 
     const res = await request(app)
       .post('/refresh')
       .send({ refreshToken })
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${accessToken}`)
 
     expect(res.statusCode).toBe(401)
   }, 60000)

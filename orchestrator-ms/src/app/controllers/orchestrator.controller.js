@@ -1,4 +1,4 @@
-const { AUTH_MS, MICROCONTROLLERS_MS, TEMPERATURE_MS } = require('../../config/services.config')
+const { AUTH_MS, MEASURE_MS, MICROCONTROLLERS_MS } = require('../../config/services.config')
 const { hashPassword } = require('../../helpers/helpers')
 
 const JwtModule = require('../../modules/jwt.module')
@@ -17,16 +17,24 @@ const doAuth = async (req, res, path) => {
   const response = await servicesController.postToConnectedService(res, AUTH_MS, path, body, null, true)
   if (!response.data) return res.sendStatus(401)
 
-  const token = jwt.generateToken({ username: body.username })
-  return res.json({ refreshToken: body.refreshToken, token })
+  const accessToken = jwt.generateToken({ username: body.username })
+  return res.json({ accessToken, refreshToken: body.refreshToken })
 }
 
 module.exports = class OrchestratorController {
 
-  async connectTemperatureService(req, res) {
-    const { path, ...query } = req.query
+  async getMeasureService(req, res) {
+    let { path, ...query } = req.query
+    if (!path) path = req.route.path.substring(1)
     query.username = req.user.username
-    await servicesController.getToConnectedService(res, TEMPERATURE_MS, path, query)
+    await servicesController.getToConnectedService(res, MEASURE_MS, path, query)
+  }
+
+  async postMeasureService(req, res) {
+    let { path, ...body } = req.body
+    if (!path) path = req.route.path.substring(1)
+    body.username = req.user.username
+    await servicesController.postToConnectedService(res, MEASURE_MS, path, body)
   }
 
   async login(req, res) {
@@ -35,18 +43,15 @@ module.exports = class OrchestratorController {
 
   async register(req, res) {
     await doAuth(req, res, 'register')
-    //await this.postMicrocontrollers()
   }
 
   async refresh(req, res) {
-    const token = jwt.getTokenFromHeaders(req.headers)
+    const accessToken = jwt.getTokenFromHeaders(req.headers)
     const { refreshToken } = req.body
-    const payload = jwt.getPayload(token)
+    const payload = jwt.getPayload(accessToken)
 
-    console.log(token, refreshToken, payload)
-
-    if (!refreshToken || !token || !payload || !payload.username) return res.sendStatus(400)
-    if (!jwt.isRefreshable(token)) return res.sendStatus(401)
+    if (!refreshToken || !accessToken || !payload || !payload.username) return res.sendStatus(400)
+    if (!jwt.isRefreshable(accessToken)) return res.sendStatus(401)
 
     const newRefreshToken = jwt.generateRefreshToken()
     const { username } = payload
@@ -55,33 +60,28 @@ module.exports = class OrchestratorController {
 
     if (!response.data) return res.sendStatus(400)
     return res.json({
-      refreshToken: newRefreshToken,
-      token: jwt.generateToken({ username })
+      accessToken: jwt.generateToken({ username }),
+      refreshToken: newRefreshToken
     })
   }
 
-  // Send list of µC of a certain user to the webapp
   async getMicrocontrollers(req, res) {
     const { username } = req.user
     await servicesController.getToConnectedService(res, MICROCONTROLLERS_MS, '', { username })
   }
 
-  // User creates a new µC
   async postMicrocontrollers(req, res) {
     const microcontroller = req.body
     await servicesController.postToConnectedService(res, MICROCONTROLLERS_MS, '', microcontroller, 201)
   }
 
-  // User updates an existing µC
   async putMicrocontrollers(req, res) {
     const updatedMicrocontroller = req.body
     await servicesController.putToConnectedService(res, MICROCONTROLLERS_MS, '', updatedMicrocontroller, 201)
   }
 
-  // User deletes an existing µC
   async deleteMicrocontrollers(req, res) {
     const microcontroller = req.body
-    console.log(microcontroller)
     await servicesController.deleteToConnectedService(res, MICROCONTROLLERS_MS, '', microcontroller)
   }
 
