@@ -3,8 +3,8 @@ import os
 import unittest
 
 from math import sqrt
-from measures.operations import mean, std
-from measures.temperature import Temperature
+from src.measures.operations import mean, std
+from src.measures.temperature import Temperature
 
 class TestStatsMS(unittest.TestCase):
     def test_mean(self):
@@ -20,7 +20,9 @@ class TestStatsMS(unittest.TestCase):
 
         with open('test/temperatures.json', 'r') as f:
             data = list(json.loads(f.read()))
-            self.assertEqual(temperature.calculate_stats(data), {
+            self.assertEqual(
+                temperature.calculate_stats(data),
+                {
                     'end_date': 'Sun, 26 Apr 2020 13:21:35 GMT',
                     'end_timestamp': 1587907295530,
                     'init_date': 'Sun, 26 Apr 2020 13:21:34 GMT',
@@ -31,11 +33,13 @@ class TestStatsMS(unittest.TestCase):
                     'ip': '192.168.1.50',
                     'min_value': 22.4,
                     'n_samples': 2,
+                    'real_values': [ 25.4, 22.4 ],
                     'sensor': 'Grove - Temperature',
                     'std_deviation': 1.5,
                     'time_span': 1000,
                     'username': 'Rocky'
-                })
+                }
+            )
 
 if __name__ == '__main__':
     unittest.main()

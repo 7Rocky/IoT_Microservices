@@ -1,5 +1,5 @@
-from measures.measure import Measure
-from measures.operations import mean, std
+from src.measures.measure import Measure
+from src.measures.operations import mean, std
 
 class Temperature(Measure):
     def __init__(self, queue_collection, max_items):
@@ -29,12 +29,13 @@ class Temperature(Measure):
             'end_timestamp': end_timestamp,
             'init_date': init_date,
             'init_timestamp': init_timestamp,
+            'ip': ip,
             'max_value': max_value,
             'mean_value': round(mean_value, 1),
             'measure': measure,
-            'ip': ip,
             'min_value': min_value,
             'n_samples': n_samples,
+            'real_values': real_values,
             'sensor': sensor,
             'std_deviation': round(std_deviation, 1),
             'time_span': time_span,

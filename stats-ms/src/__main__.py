@@ -1,12 +1,14 @@
-from config.config import DB_NAME, QUEUE_NAME_HUMIDITY, QUEUE_NAME_TEMPERATURE
-from measures.humidity import Humidity
-from queue.queue import Queue
-from measures.temperature import Temperature
+from src.config.config import DB_NAME, QUEUE_HUMIDITY_NAME, QUEUE_LIGHT_NAME, QUEUE_TEMPERATURE_NAME
+from src.measures.humidity import Humidity
+from src.measures.light import Light
+from src.measures.temperature import Temperature
+from src.queue.queue import Queue
 from threading import Thread
 
 controllers = [
-    Temperature(QUEUE_NAME_TEMPERATURE, 60) # ,
-    # Humidity(QUEUE_NAME_HUMIDITY, 3)
+    Humidity(QUEUE_HUMIDITY_NAME, 60),
+    Light(QUEUE_LIGHT_NAME, 60),
+    Temperature(QUEUE_TEMPERATURE_NAME, 60)
 ]
 
 def main():
