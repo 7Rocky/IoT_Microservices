@@ -23,12 +23,18 @@ cd IoT_Microservices
 
 ## 2. Develop Node.js microservices
 
-There are two microservices developed on Node.js: [temperature-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/temperature-ms) and [orchestrator-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/orchestrator-ms). You will need to execute the following commands to run the microservice locally:
+There are three microservices developed on Node.js: [measure-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/measure-ms), [microcontrollers-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/microcontrollers-ms) and [orchestrator-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/orchestrator-ms). You will need to execute the following commands to run the microservice locally:
 
 ```bash
-cd temperature-ms
+cd measure-ms
 npm install
 npm run dev
+```
+
+You can test each Node.js microservice using this command:
+
+```bash
+npm test
 ```
 
 If you are not using an Arduino board, you can mock it using the _fake-arduino-iot_ Node.js application. For this task, run `npm install` and `npm start` at the `fake-arduino-iot` directory.
@@ -83,7 +89,13 @@ pip install -r requirements
 And then, run the application:
 
 ```bash
-python src
+python -m src
+```
+
+To test the application, use:
+
+```bash
+python -m unittest discover
 ```
 
 ## 6. Program Arduino board
