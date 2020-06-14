@@ -1,7 +1,7 @@
 const {
   AUTH_MS,
-  MICROCONTROLLERS_MS,
-  TEMPERATURE_MS
+  MEASURE_MS,
+  MICROCONTROLLERS_MS
 } = require('../../src/config/services.config')
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
   get: (url='') => {
     if (url.includes(`${MICROCONTROLLERS_MS}`)) {
       return Promise.resolve({ data: require('../microcontrollers.json') })
-    } else if (url.includes(`${TEMPERATURE_MS}`)) {
+    } else if (url.includes(`${MEASURE_MS}`)) {
       return Promise.resolve({ 
         data: url.includes('temperatures') ? require('../temperature-stats.json') : require('../temperature.json')
       })
