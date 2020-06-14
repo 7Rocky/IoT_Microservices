@@ -6,10 +6,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { DashboardModule } from '@modules/dashboard.module'
 import { MatModule } from '@modules/mat.module'
+import { MicrocontrollersModule } from '@modules/microcontrollers.module'
 
-import { AppRoutingModule } from '@routes/app-routing.module'
+import { AppRoutingModule } from '@routes/app.routing.module'
 
-import { AuthGuard } from '../guards/auth.guard'
+import { ArduinoService } from '@services/arduino.service'
+import { AuthService } from '@services/auth.service'
+
+import { AuthGuard } from '@guards/auth.guard'
 
 import { TokenInterceptor } from '@interceptors/token.interceptor'
 
@@ -19,8 +23,6 @@ import { LoginComponent } from '@components/login/login.component'
 import { LoginDialogComponent } from '@components/login/login-dialog.component'
 import { RegisterDialogComponent } from '@components/login/register-dialog.component'
 import { NavbarComponent } from '@components/navbar/navbar.component'
-import { AuthService } from '@services/auth.service';
-
 
 @NgModule({
   bootstrap: [
@@ -32,7 +34,7 @@ import { AuthService } from '@services/auth.service';
     LoginComponent,
     LoginDialogComponent,
     NavbarComponent,
-    RegisterDialogComponent,
+    RegisterDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -42,9 +44,11 @@ import { AuthService } from '@services/auth.service';
     FormsModule,
     HttpClientModule,
     MatModule,
+    MicrocontrollersModule,
     ReactiveFormsModule
   ],
   providers: [
+    ArduinoService,
     AuthGuard,
     AuthService,
     {
@@ -56,7 +60,7 @@ import { AuthService } from '@services/auth.service';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor
     },
-    LoginComponent
+    // LoginComponent
   ]
 })
 export class AppModule { }

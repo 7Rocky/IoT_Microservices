@@ -9,9 +9,15 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
+import { MatListModule } from '@angular/material/list'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatNativeDateModule } from '@angular/material/core'
+import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatSelectModule } from '@angular/material/select'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatStepperModule } from '@angular/material/stepper'
+import { MatTableModule } from '@angular/material/table'
+import { MatToolbarModule } from '@angular/material/toolbar'
 
 @NgModule({
   exports: [
@@ -23,9 +29,15 @@ import { MatSelectModule } from '@angular/material/select'
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatMenuModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSidenavModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatStepperModule,
+    MatTableModule,
+    MatToolbarModule
   ],
   providers: [
     {
