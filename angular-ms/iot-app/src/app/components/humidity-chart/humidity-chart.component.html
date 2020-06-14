@@ -1,0 +1,22 @@
+<mat-card class="float-left">
+  <mat-card-title>Tiempo real</mat-card-title>
+  <mat-card-content *ngIf="isChartReady">
+    <google-chart [data]="chart"></google-chart>
+  </mat-card-content>
+  <mat-table [dataSource]="dataSource" class="absolute mat-elevation-z8">
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Estado del suelo</mat-header-cell>
+      <mat-cell [class]="{ 'current-humidity': element.min <= lastHumidity && lastHumidity < element.max }"*matCellDef="let element">{{element.status}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="min">
+      <mat-header-cell *matHeaderCellDef>Mínimo</mat-header-cell>
+      <mat-cell [class]="{ 'current-humidity': element.min <= lastHumidity && lastHumidity < element.max }"*matCellDef="let element">{{element.min}} %</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="max">
+      <mat-header-cell *matHeaderCellDef>Máximo</mat-header-cell>
+      <mat-cell [class]="{ 'current-humidity': element.min <= lastHumidity && lastHumidity < element.max }"*matCellDef="let element">{{element.max}} %</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</mat-card>
