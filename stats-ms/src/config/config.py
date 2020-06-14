@@ -8,8 +8,9 @@ MONGO_PASSWORD = os.environ.get('MONGO_DEFAULT_PASS', 'secret')
 MONGO_PORT = os.environ.get('MONGO_SERVICE_PORT', 32000)
 MONGO = f'{MONGO_HOST}:{MONGO_PORT}'
 
-QUEUE_NAME_HUMIDITY = os.environ.get('QUEUE_NAME_HUMIDITY', 'humidities')
-QUEUE_NAME_TEMPERATURE = os.environ.get('QUEUE_NAME_TEMPERATURE', 'temperatures')
+QUEUE_HUMIDITY_NAME = os.environ.get('QUEUE_HUMIDITY_NAME', 'humidities')
+QUEUE_LIGHT_NAME = os.environ.get('QUEUE_LIGHT_NAME', 'lights')
+QUEUE_TEMPERATURE_NAME = os.environ.get('QUEUE_TEMPERATURE_NAME', 'temperatures')
 
 RABBITMQ_USERNAME = os.environ.get('RABBITMQ_DEFAULT_USER', 'user')
 RABBITMQ_PASSWORD = os.environ.get('RABBITMQ_DEFAULT_PASS', 'password')
