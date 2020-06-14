@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
+  showBtn1 = false
+  showBtn2 = false
+  showBtn3 = false
+
   constructor() { }
 
   ngOnInit() { }

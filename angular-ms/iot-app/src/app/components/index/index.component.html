@@ -1,2 +1,27 @@
-<h1>Bienvenido</h1>
-<a routerLink="/dashboard">Dashboard</a>
+<br>
+<br>
+<mat-card class="text-center" (mouseenter)="showBtn1 = true" (mouseleave)="showBtn1 = false">
+  <img src="assets/images/blog_header_que-es-iot-devices.jpg">
+  <p class="absolute text-center" [style.top]="showBtn1 ? '15%' : '30%'">Entra a tu dashboard de control y gestiona tu entorno</p>
+  <div class="absolute text-center">
+    <a mat-raised-button routerLink="/dashboard" [style.opacity]="showBtn1 ? '1' : '0'">Abrir dashboard</a>
+  </div>
+</mat-card>
+<br>
+<br>
+<mat-card class="text-center" (mouseenter)="showBtn2 = true" (mouseleave)="showBtn2 = false">
+  <img src="assets/images/lights.jpg">
+  <p class="absolute text-center" [style.top]="showBtn2 ? '15%' : '30%'">Controla la iluminación de tu casa con un solo click</p>
+  <div class="absolute text-center">
+    <a mat-raised-button routerLink="/lights" [style.opacity]="showBtn2 ? '1' : '0'">Abrir panel de control</a>
+  </div>
+</mat-card>
+<br>
+<br>
+<mat-card class="text-center" (mouseenter)="showBtn3 = true" (mouseleave)="showBtn3 = false">
+  <img src="assets/images/index2.jpeg">
+  <p class="absolute text-center" [style.top]="showBtn3 ? '15%' : '30%'">Configura tus sensores y microcontroladores</p>
+  <div class="absolute text-center">
+    <a mat-raised-button routerLink="/microcontrollers" [style.opacity]="showBtn3 ? '1' : '0'">Abrir configuración</a>
+  </div>
+</mat-card>
