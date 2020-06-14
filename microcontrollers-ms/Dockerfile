@@ -1,4 +1,4 @@
-FROM node:12.16.1-alpine
+FROM node:12.18-alpine
 
 WORKDIR /microcontrollers-ms
 
