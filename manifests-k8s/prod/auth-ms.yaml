@@ -58,3 +58,16 @@ spec:
             memory: 256Mi
           requests:
             memory: 64Mi
+      initContainers:
+      - command:
+        - 'sh'
+        - '-c'
+        - 'until nslookup $MYSQL_HOSTNAME; do :; sleep 2; done;'
+        env:
+        - name: MYSQL_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_HOSTNAME
+              name: env-configmap
+        image: busybox:1.28
+        name: init-auth-ms

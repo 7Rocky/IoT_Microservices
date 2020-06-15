@@ -58,3 +58,16 @@ spec:
             memory: 64Mi
           requests:
             memory: 16Mi
+      initContainers:
+      - command:
+        - 'sh'
+        - '-c'
+        - 'until nslookup $MYSQL_HOSTNAME; do :; sleep 2; done;'
+        env:
+        - name: MYSQL_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_HOSTNAME
+              name: env-configmap
+        image: busybox:1.28
+        name: init-microcontrollers-ms

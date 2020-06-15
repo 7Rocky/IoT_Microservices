@@ -98,3 +98,26 @@ spec:
             memory: 64Mi
           requests:
             memory: 16Mi
+      initContainers:
+      - command:
+        - 'sh'
+        - '-c'
+        - 'until nslookup $MICROCONTROLLERS_MS_HOSTNAME && nslookup $MONGO_HOSTNAME && nslookup $RABBITMQ_HOSTNAME; do :; sleep 2; done;'
+        env:
+        - name: MICROCONTROLLERS_MS_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: MICROCONTROLLERS_MS_HOSTNAME
+              name: env-configmap
+        - name: MONGO_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: MONGO_HOSTNAME
+              name: env-configmap
+        - name: RABBITMQ_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: RABBITMQ_HOSTNAME
+              name: env-configmap
+        image: busybox:1.28
+        name: init-measure-ms
