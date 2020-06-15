@@ -35,6 +35,11 @@ spec:
             configMapKeyRef:
               key: AUTH_MS_HOSTNAME
               name: env-configmap
+        - name: MEASURE_MS_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: MEASURE_MS_HOSTNAME
+              name: env-configmap
         - name: MICROCONTROLLERS_MS_HOSTNAME
           valueFrom:
             configMapKeyRef:
@@ -42,11 +47,6 @@ spec:
               name: env-configmap
         - name: PORT
           value: '80'
-        - name: TEMPERATURE_MS_HOSTNAME
-          valueFrom:
-            configMapKeyRef:
-              key: TEMPERATURE_MS_HOSTNAME
-              name: env-configmap
         image: 7rocky/orchestrator-ms
         imagePullPolicy: Always
         name: orchestrator-ms
