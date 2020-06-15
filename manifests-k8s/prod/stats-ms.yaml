@@ -108,4 +108,4 @@ spec:
               key: RABBITMQ_HOSTNAME
               name: env-configmap
         image: busybox:1.28
-        name: init-measure-ms
+        name: init-stats-ms
