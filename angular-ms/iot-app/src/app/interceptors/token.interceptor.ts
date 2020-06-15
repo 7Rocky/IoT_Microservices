@@ -11,6 +11,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs'
 import { catchError, filter, switchMap, take } from 'rxjs/operators'
 
 import { AuthService } from '@services/auth.service'
+import { AuthResponse } from '@models/auth-response.model';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -35,6 +36,7 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         catchError(error => {
+          console.log('catched error', error)
           if (error instanceof HttpErrorResponse && error.status === 401) {
             return this.handle401Error(request, next)
           } else {
@@ -55,7 +57,8 @@ export class TokenInterceptor implements HttpInterceptor {
 
       return this.authService.refresh()
         .pipe(
-          switchMap((response: any): Observable<HttpEvent<any>> => {
+          switchMap((response: AuthResponse): Observable<HttpEvent<any>> => {
+            console.log('obtained tokens', response)
             this.isRefreshing = false
             this.refreshTokenSubject.next(response.accessToken)
             return next.handle(this.addToken(request, response.accessToken))
@@ -65,6 +68,7 @@ export class TokenInterceptor implements HttpInterceptor {
       return this.refreshTokenSubject
         .pipe(
           filter((token: string): boolean => {
+            console.log('get token from subject', token)
             if (!token) this.authService.announceLogIn(false)
             return true
           }),

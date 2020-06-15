@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
 
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces'
 
@@ -18,7 +18,7 @@ const ELEMENT_DATA: { status: string, min: number, max: number }[] = [
   styleUrls: [ './humidity-chart.component.less' ],
   templateUrl: './humidity-chart.component.html'
 })
-export class HumidityChartComponent implements OnInit {
+export class HumidityChartComponent implements OnInit, OnDestroy {
 
   @Input() micro: Microcontroller
   @Output() inactivity = new EventEmitter<Microcontroller>()

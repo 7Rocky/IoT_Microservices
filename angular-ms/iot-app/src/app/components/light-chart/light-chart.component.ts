@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
 
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces'
 
@@ -12,7 +12,7 @@ import { Microcontroller } from '@models/microcontroller.model'
   styleUrls: [ './light-chart.component.less' ],
   templateUrl: './light-chart.component.html'
 })
-export class LightChartComponent implements OnInit {
+export class LightChartComponent implements OnDestroy, OnInit {
 
   @Input() micro: Microcontroller
   @Output() inactivity = new EventEmitter<Microcontroller>()

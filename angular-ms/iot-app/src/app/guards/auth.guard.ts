@@ -37,6 +37,7 @@ export class AuthGuard implements CanActivate {
 
   setLastUrl(next: ActivatedRouteSnapshot) {
     this.lastUrl = '/' + next.url.map(url => url.path).join('/')
+    console.log(this.lastUrl)
   }
 
 }
