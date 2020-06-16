@@ -1,88 +1,53 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
-
-import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces'
+import { Component } from '@angular/core'
 
 import { ArduinoService } from '@services/arduino.service'
 
 import { Light } from '@models/light.model'
-import { Microcontroller } from '@models/microcontroller.model'
+
+import { MeasureChart } from '@shared/measure-chart.class'
 
 @Component({
   selector: 'app-light-chart',
   styleUrls: [ './light-chart.component.less' ],
   templateUrl: './light-chart.component.html'
 })
-export class LightChartComponent implements OnDestroy, OnInit {
+export class LightChartComponent extends MeasureChart {
 
-  @Input() micro: Microcontroller
-  @Output() inactivity = new EventEmitter<Microcontroller>()
-  @Output() measure = new EventEmitter<Light>()
-
-  chart: GoogleChartInterface = { chartType: 'Gauge' }
-  header: string[] = [ 'Tiempo', 'Humedad' ]
-  isChartReady = false
-  refresh_time = 10000
-  interval: any
-  lastHumidity = -1
   lightStatus = 'unknown'
   disabledBtn = true
 
   constructor(
     private arduinoService: ArduinoService
-  ) { }
+  ) {
+    super('Light')
+  }
 
-  async ngOnInit() {
-    const lightMeasure = await this.arduinoService.getCurrentMeasure(this.micro.ip, this.micro.measure) as Light
+  async getCurrentMeasure(isFirstTime: boolean) {
+    const light = await this.arduinoService.getCurrentMeasure(this.micro.ip, this.micro.measure) as Light
 
-    if (lightMeasure) {
-      this.disabledBtn = false
-      this.lightStatus = lightMeasure.digital_value ? 'on' : 'off'
-
-      this.measure.emit(lightMeasure)
-
-      this.interval = setInterval(() => this.getCurrentLight(), this.refresh_time)
-    } else {
+    if (light) {
+      this.handleMeasure(light, isFirstTime)
+    } else if (!this.micro.isInactive) {
       this.lightStatus = 'unknown'
+      this.disabledBtn = true
       this.setInactivity(true)
     }
   }
 
-  ngOnDestroy() {
-    clearInterval(this.interval)
-  }
-
-  isLightOn(): boolean {
-    return this.lightStatus === 'on'
-  }
-
-  async getCurrentLight() {
-    const lightMeasure = await this.arduinoService.getCurrentMeasure(this.micro.ip, this.micro.measure) as Light
-
-    if (lightMeasure) {
-      if (this.micro.isInactive) {
-        this.setInactivity(false)
-      }
-
-      this.disabledBtn = false
-      this.lightStatus = lightMeasure.digital_value ? 'on' : 'off'
-
-      this.measure.emit(lightMeasure)
-    } else {
-      this.lightStatus = 'unknown'
-      this.setInactivity(true)
-    }
-  }
-
-  private setInactivity(isInactive: boolean) {
-    this.micro.isInactive = isInactive
-    this.inactivity.emit(this.micro)
+  drawData(light: Light) {
+    this.disabledBtn = false
+    this.lightStatus = light.digital_value ? 'on' : 'off'
   }
 
   async slideChange(state: boolean) {
     this.disabledBtn = true
-    const lightMeasure = await this.arduinoService.postLightStatus(this.micro.ip, state ? 'on' : 'off')
-    this.lightStatus = lightMeasure.digital_value ? 'on' : 'off'
+    const light = await this.arduinoService.postLightStatus(this.micro.ip, state ? 'on' : 'off')
+    this.lightStatus = light.digital_value ? 'on' : 'off'
     this.disabledBtn = false
+  }
+
+  isLightOn(): boolean {
+    return this.lightStatus === 'on'
   }
 
 }
