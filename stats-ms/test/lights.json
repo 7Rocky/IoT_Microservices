@@ -1,21 +1,19 @@
 [
   {
     "date": "Sun, 26 Apr 2020 13:21:34 GMT",
-    "digital_value": 516,
+    "digital_value": 1,
     "ip": "192.168.1.50",
-    "measure": "temperature",
-    "real_value": 25.4,
-    "sensor": "Grove - Temperature",
+    "measure": "light",
+    "sensor": "Smart LED",
     "timestamp": 1587907294530,
     "username": "Rocky"
   },
   {
     "date": "Sun, 26 Apr 2020 13:21:35 GMT",
-    "digital_value": 470,
+    "digital_value": 0,
     "ip": "192.168.1.50",
-    "measure": "temperature",
-    "real_value": 22.4,
-    "sensor": "Grove - Temperature",
+    "measure": "light",
+    "sensor": "Smart LED",
     "timestamp": 1587907295530,
     "username": "Rocky"
   }

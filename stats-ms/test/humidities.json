@@ -1,21 +1,21 @@
 [
   {
     "date": "Sun, 26 Apr 2020 13:21:34 GMT",
-    "digital_value": 516,
+    "digital_value": 380,
     "ip": "192.168.1.50",
-    "measure": "temperature",
-    "real_value": 25.4,
-    "sensor": "Grove - Temperature",
+    "measure": "humidity",
+    "real_value": 40,
+    "sensor": "Grove - Moisture",
     "timestamp": 1587907294530,
     "username": "Rocky"
   },
   {
     "date": "Sun, 26 Apr 2020 13:21:35 GMT",
-    "digital_value": 470,
+    "digital_value": 190,
     "ip": "192.168.1.50",
-    "measure": "temperature",
-    "real_value": 22.4,
-    "sensor": "Grove - Temperature",
+    "measure": "humidity",
+    "real_value": 20,
+    "sensor": "Grove - Moisture",
     "timestamp": 1587907295530,
     "username": "Rocky"
   }
