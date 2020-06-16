@@ -1,5 +1,5 @@
-from src.config.config import DB_NAME, MONGO, MONGO_PASSWORD, MONGO_USERNAME
 from pymongo import MongoClient
+from src.config.config import DB_NAME, MONGO, MONGO_PASSWORD, MONGO_USERNAME
 
 class Dao:
     def __init__(self, collection):
