@@ -19,6 +19,9 @@
     "moduleResolution": "node",
     "outDir": "./dist/out-tsc",
     "paths": {
+      "@alias/*": [
+        "src/app/alias/*"
+      ],
       "@components/*": [
         "src/app/components/*"
       ],
