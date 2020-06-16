@@ -29,15 +29,19 @@ export class TokenInterceptor implements HttpInterceptor {
       return next.handle(request)
     }
 
-    if (this.authService.getAccessToken()) {
-      request = this.addToken(request, this.authService.getAccessToken())
+    const accessToken = this.authService.getAccessToken()
+
+    if (accessToken) {
+      request = this.addToken(request, accessToken)
     }
 
     return next.handle(request)
       .pipe(
         catchError(error => {
-          console.log('catched error', error)
           if (error instanceof HttpErrorResponse && error.status === 401) {
+            if (request.url.includes('refresh')) {
+              this.authService.announceLogIn(false)
+            }
             return this.handle401Error(request, next)
           } else {
             return throwError(error)
@@ -58,7 +62,6 @@ export class TokenInterceptor implements HttpInterceptor {
       return this.authService.refresh()
         .pipe(
           switchMap((response: AuthResponse): Observable<HttpEvent<any>> => {
-            console.log('obtained tokens', response)
             this.isRefreshing = false
             this.refreshTokenSubject.next(response.accessToken)
             return next.handle(this.addToken(request, response.accessToken))
@@ -67,11 +70,7 @@ export class TokenInterceptor implements HttpInterceptor {
     } else {
       return this.refreshTokenSubject
         .pipe(
-          filter((token: string): boolean => {
-            console.log('get token from subject', token)
-            if (!token) this.authService.announceLogIn(false)
-            return !!token
-          }),
+          filter((token: string): boolean => !!token),
           take(1),
           switchMap((token: string): Observable<HttpEvent<any>> => next.handle(this.addToken(request, token)))
         )

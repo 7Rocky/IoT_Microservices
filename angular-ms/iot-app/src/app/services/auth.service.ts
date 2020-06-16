@@ -31,43 +31,35 @@ export class AuthService {
     return this.isLogged
   }
 
-  login(username: string, password: string): Observable<AuthResponse> {
+  private doAuth(username: string, password: string, method: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(
-        `http://${environment.ORCHESTRATOR_MS}/login`,
-        { 
-          password,
-          username
-        }
-      )
-      .pipe(
-        tap((response: AuthResponse) => {
+      `http://${environment.ORCHESTRATOR_MS}/${method}`,
+      { 
+        password,
+        username
+      }
+    )
+    .pipe(
+      tap(
+        (response: AuthResponse) => {
           this.isLogged = true
           this.setTokens(response)
-        }),
-        catchError(() => {
-          console.log('catchError')
+        },
+        () => {
           this.isLogged = false
+          this.removeTokens()
           return empty()
-        })
+        }
       )
+    )
+  }
+
+  login(username: string, password: string): Observable<AuthResponse> {
+    return this.doAuth(username, password, 'login')
   }
 
   register(username: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(
-        `http://${environment.ORCHESTRATOR_MS}/register`,
-        { 
-          password,
-          username
-        }
-      )
-      .pipe(
-        tap(
-          (response: AuthResponse) => {
-            this.setTokens(response)
-          },
-          () => this.removeTokens()
-        )
-      )
+    return this.doAuth(username, password, 'register')
   }
 
   refresh(): Observable<AuthResponse> {

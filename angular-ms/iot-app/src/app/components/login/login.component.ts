@@ -62,7 +62,7 @@ export class LoginComponent implements OnDestroy, OnInit {
   logout() {
     this.menuClosed()
     this.authService.removeTokens()
-    this.router.navigate([''])
+    this.router.navigateByUrl('/')
     this.username = ''
   }
 
@@ -86,6 +86,11 @@ export class LoginComponent implements OnDestroy, OnInit {
     switch (typeof result) {
       case 'undefined':
         this.isDialogOpen = false
+
+        if (!this.isLogged) {
+          this.router.navigateByUrl('/')
+        }
+
         break
       case 'string':
         this.username = result
