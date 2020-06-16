@@ -2,33 +2,33 @@
   <mat-card-title>Estadísticas</mat-card-title>
   <mat-card-content>
     <ul>
-      <li *ngIf="lastTemperature">
+      <li *ngIf="lastMeasure">
         <div class="measure-name">Último valor: </div>
-        <span class="black measure-value">{{ lastTemperature.real_value }} ºC</span>
+        <span class="black measure-value">{{ lastMeasure.real_value }} {{ measureUnit }}</span>
         <span>
           <mat-icon class="stats-arrow-icon">keyboard_arrow_right</mat-icon>
-          {{ lastTemperature.date.substring(17, 25) }}
+          {{ lastMeasure.date.substring(17, 25) }}
         </span>
       </li>
-      <li *ngIf="maxTemperature">
+      <li *ngIf="maxMeasure">
         <div class="measure-name">Máxima: </div>
-        <span class="bg-light-red measure-value white">{{ maxTemperature.real_value }} ºC</span>
+        <span class="bg-light-red measure-value white">{{ maxMeasure.real_value }} {{ measureUnit }}</span>
         <span>
           <mat-icon class="stats-arrow-icon">keyboard_arrow_right</mat-icon>
-          {{ maxTemperature.date.substring(17, 25) }}
+          {{ maxMeasure.date.substring(17, 25) }}
         </span>
       </li>
-      <li *ngIf="minTemperature">
+      <li *ngIf="minMeasure">
         <div class="measure-name">Mínima: </div>
-        <span class="bg-light-blue measure-value white">{{ minTemperature.real_value }} ºC</span>
+        <span class="bg-light-blue measure-value white">{{ minMeasure.real_value }} {{ measureUnit }}</span>
         <span>
           <mat-icon class="stats-arrow-icon">keyboard_arrow_right</mat-icon>
-          {{ minTemperature.date.substring(17, 25) }}
+          {{ minMeasure.date.substring(17, 25) }}
         </span>
       </li>
-      <li *ngIf="avgTemperature">
+      <li *ngIf="avgMeasure">
         <div class="measure-name">Media: </div>
-        <span class="bg-gray measure-value white">{{ avgTemperature }} ºC</span>
+        <span class="bg-gray measure-value white">{{ avgMeasure }} {{ measureUnit }}</span>
       </li>
     </ul>
     <span>{{ nSamples }}</span>
