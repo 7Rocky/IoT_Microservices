@@ -1,4 +1,4 @@
-from src.config.config import DB_NAME, QUEUE_HUMIDITY_NAME, QUEUE_LIGHT_NAME, QUEUE_TEMPERATURE_NAME
+from src.config.config import QUEUE_HUMIDITY_NAME, QUEUE_LIGHT_NAME, QUEUE_TEMPERATURE_NAME
 from src.measures.humidity import Humidity
 from src.measures.light import Light
 from src.measures.temperature import Temperature
