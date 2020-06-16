@@ -2,7 +2,6 @@ const { MICROCONTROLLERS_MS } = require('../../src/app/constants/constants')
 
 module.exports = {
   get: (url='', options) => {
-    //console.log(url)
     if (url.includes(`${MICROCONTROLLERS_MS}/humidity`)) {
       return Promise.resolve({ 
         data: require('../microcontrollers.json').filter(micro => micro.measure === 'humidity')

@@ -88,9 +88,7 @@ export class MeasureHistoryComponent implements OnInit {
       this.micro = await this.arduinoService.getMicrocontroller(ip, measure)
       this.header = [ 'Tiempo', this.micro.measure ]
       this.chart.dataTable = [ this.header, [ new Date(), 24 ] ]
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) { }
   }
 
   selectChanged() {
