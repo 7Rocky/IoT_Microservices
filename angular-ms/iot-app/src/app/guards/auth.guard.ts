@@ -16,11 +16,11 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     const refreshToken = this.authService.getRefreshToken()
+    this.setLastUrl(next)
 
     if (this.authService.isLoggedIn()) return true
 
     if (refreshToken) {
-      this.setLastUrl(next)
       try {
         await this.authService.refresh().toPromise()
         return true
@@ -37,7 +37,6 @@ export class AuthGuard implements CanActivate {
 
   setLastUrl(next: ActivatedRouteSnapshot) {
     this.lastUrl = '/' + next.url.map(url => url.path).join('/')
-    console.log(this.lastUrl)
   }
 
 }

@@ -70,7 +70,7 @@ export class TokenInterceptor implements HttpInterceptor {
           filter((token: string): boolean => {
             console.log('get token from subject', token)
             if (!token) this.authService.announceLogIn(false)
-            return true
+            return !!token
           }),
           take(1),
           switchMap((token: string): Observable<HttpEvent<any>> => next.handle(this.addToken(request, token)))
