@@ -1,5 +1,5 @@
+from statistics import fmean
 from src.measures.measure import Measure
-from src.measures.operations import mean
 
 class Light(Measure):
     def __init__(self, queue_collection, max_items):
@@ -14,7 +14,7 @@ class Light(Measure):
         init_timestamp, end_timestamp = min(timestamps), max(timestamps)
         time_span = end_timestamp - init_timestamp
 
-        mean_value = mean(digital_values)
+        mean_value = fmean(digital_values)
 
         n_samples = len(data)
 

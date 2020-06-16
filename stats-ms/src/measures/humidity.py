@@ -1,5 +1,5 @@
+from statistics import fmean, stdev
 from src.measures.measure import Measure
-from src.measures.operations import mean, std
 
 class Humidity(Measure):
     def __init__(self, queue_collection, max_items):
@@ -15,7 +15,7 @@ class Humidity(Measure):
         init_timestamp, end_timestamp = min(timestamps), max(timestamps)
         time_span = end_timestamp - init_timestamp
 
-        mean_value, std_deviation = mean(real_values), std(real_values)
+        mean_value, std_deviation = fmean(real_values), stdev(real_values)
 
         n_samples = len(data)
 
