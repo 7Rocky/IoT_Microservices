@@ -1,4 +1,5 @@
-const randomArduinoValue = () => Number((Math.random() * 100 + 400).toFixed())
+const randomHumidity = () => Number((Math.random() * 950).toFixed())
+const randomTemperature = () => Number((Math.random() * 100 + 400).toFixed())
 const switchLight = status => status === 'on' ? 1 : 0
 
 module.exports = class Controller {
@@ -8,7 +9,7 @@ module.exports = class Controller {
   }
 
   getHumidity = (req, res) => {
-    return res.json({ humidity: randomArduinoValue() })
+    return res.json({ humidity: randomHumidity() })
   }
 
   getLight = (req, res) => {
@@ -16,7 +17,7 @@ module.exports = class Controller {
   }
 
   getTemperature = (req, res) => {
-    return res.json({ temperature: randomArduinoValue() })
+    return res.json({ temperature: randomTemperature() })
   }
 
   postLight = (req, res) => {
