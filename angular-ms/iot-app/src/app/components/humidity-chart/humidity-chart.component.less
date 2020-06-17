@@ -4,12 +4,29 @@ mat-card {
   box-sizing: border-box;
   height: 100%;
   width: 100%;
+  @media screen and (max-width: 500px) {
+    overflow-x: scroll;
+  }
+}
+mat-icon {
+  top: 100px;
+  left: 230px;
+  font-size: 60px;
+  @media screen and (max-width: 500px) {
+    left: 260px;
+    transform: rotate(90deg);
+  }
 }
 mat-table {
   height: 80%;
   right: 3%;
   top: 10%;
   width: 50%;
+  @media screen and (max-width: 500px) {
+    display: inline-block;
+    position: unset !important;
+    width: 100%;
+  }
 }
 .mat-header-cell {
   font-size: 16px;

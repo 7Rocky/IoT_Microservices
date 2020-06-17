@@ -4,6 +4,9 @@ nav {
   top: 64px;
   height: 100%;
   width: 100%;
+  @media screen and (max-width: 500px) {
+    top: 110px;
+  }
 }
 .example-container,
 mat-sidenav-container {
@@ -20,5 +23,12 @@ mat-sidenav-container {
   i, mat-icon {
     margin-left: 8px;
     margin-right: 12px
+  }
+}
+footer {
+  margin-top: 7%;
+  @media screen and (max-width: 500px) {
+    float: right;
+    margin: 51% 0;
   }
 }

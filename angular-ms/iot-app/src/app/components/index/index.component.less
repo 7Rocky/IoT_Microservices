@@ -1,6 +1,9 @@
 mat-card {
   margin: auto;
   width: 90%;
+  @media screen and (max-width: 500px) {
+    width: 80%;
+  }
 }
 img {
   position: relative;
@@ -14,14 +17,25 @@ p {
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 5px;
   font-size: 36px;
+  left: 0;
   line-height: 64px;
   margin: 0 30%;
   padding: 2%;
   transition: top linear 0.5s;
+  @media screen and (max-width: 500px) {
+    font-size: 20px;
+    line-height: 28px;
+    padding: 1%;
+    margin: 0 10%;
+  }
 }
 a {
+  left: 0;
   margin: auto;
   padding: 1% 4%;
   font-size: 28px;
   transition: opacity linear 0.5s;
+  @media screen and (max-width: 500px) {
+    font-size: 16px;
+  }
 }

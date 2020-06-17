@@ -1,11 +1,16 @@
-@navbar-height: 64px;
-
 nav {
   box-sizing: border-box;
-  height: @navbar-height;
+  height: 64px;
   padding: 14px 16px;
   white-space: nowrap;
   width: 100%;
+  @media screen and (max-width: 500px) {
+    height: 110px;
+    .metal-mania {
+      font-size: 39px !important;
+      margin-right: 16px !important;
+    }
+  }
 }
 .nav-item {
   font-size: 24px;
@@ -16,6 +21,10 @@ nav {
   font-size: 24px;
   line-height: 36px;
   margin-right: 5%;
+  @media screen and (max-width: 500px) {
+    float: left;
+    margin-top: 20px;
+  }
 }
 .nav-ms-menu {
   font-size: 24px;

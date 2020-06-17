@@ -4,6 +4,9 @@
 .cards-container {
   height: 265px;
   text-align: center;
+  @media screen and (max-width: 500px) {
+    height: 600px;
+  }
 }
 .card {
   display: inline-block;
@@ -13,10 +16,17 @@
 .card-left {
   margin-right: 3%;
   width: 60%;
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
 }
 .card-right {
   margin-left: 3%;
   width: 34%;
+  @media screen and (max-width: 500px) {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 .measure-block {
   &:nth-child(even) {

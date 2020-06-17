@@ -1,10 +1,10 @@
 <app-navbar (opened)="toggle($event)"></app-navbar>
 <nav>
   <div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
-    <mat-sidenav-container [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav-container><!-- [style.marginTop.px]="mobileQuery.matches ? 56 : 0"> -->
       <mat-sidenav
         [fixedInViewport]="mobileQuery.matches"
-        fixedTopGap="56"
+        fixedTopGap="110"
         [mode]="mobileQuery.matches ? 'over' : 'side'"
         [opened]="opened"
         style="background-color: rgb(60, 81, 130);"
@@ -46,7 +46,7 @@
       </mat-sidenav>
       <mat-sidenav-content>
         <router-outlet></router-outlet>
-        <div style="margin-top: 7%;"></div>
+        <footer></footer>
       </mat-sidenav-content>
     </mat-sidenav-container>
   </div>

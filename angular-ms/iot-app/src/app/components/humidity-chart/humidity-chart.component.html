@@ -3,6 +3,7 @@
   <mat-card-content *ngIf="isChartReady">
     <google-chart [data]="chart"></google-chart>
   </mat-card-content>
+  <mat-icon class="absolute">keyboard_arrow_right</mat-icon>
   <mat-table [dataSource]="dataSource" class="absolute mat-elevation-z8">
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef>Estado del suelo</mat-header-cell>

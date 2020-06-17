@@ -1,6 +1,9 @@
 .measure-name {
   display: inline-block;
   width: 25%;
+  @media screen and (max-width: 500px) {
+    width: 50%;
+  }
 }
 .measure-value {
   font-weight: 500;
@@ -16,8 +19,4 @@
   li {
     padding: 2% 2% 2% 0;
   }
-}
-.stats-arrow-icon {
-  line-height: inherit;
-  vertical-align: middle;
 }
