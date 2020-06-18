@@ -35,7 +35,7 @@ module.exports = class MeasureController {
 
   getMeasures = async (req, res) => {
     try {
-      res.json(await this.measureModel.findMeasures(req.query))
+      res.status(200).json(await this.measureModel.findMeasures(req.query))
     } catch (error) {
       res.sendStatus(400)
     }

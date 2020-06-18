@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const { B_TERMISTOR, MICROCONTROLLERS_MS, PING_TIMEOUT } = require('../app/constants/constants')
+const { B_TERMISTOR, MICROCONTROLLERS_MS } = require('../app/constants/constants')
 
 module.exports = class MicrocontrollersModule {
 
