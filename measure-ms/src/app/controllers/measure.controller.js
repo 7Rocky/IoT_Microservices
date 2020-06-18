@@ -1,8 +1,6 @@
 const axios = require('axios')
 
-const { QUEUES_MEASURES } = require('../../config/queue.config')
 const { PING_TIMEOUT, REFRESH_TIME } = require('../constants/constants')
-const Queue = require('../../modules/queue.module')
 const MicrocontrollersModule = require('../../modules/microcontrollers.module')
 const MeasureModel = require('../models/measure.model')
 
@@ -14,20 +12,8 @@ module.exports = class MeasureController {
     this.measure = measure
     this.microsModule = new MicrocontrollersModule(measure)
     this.measureModel = new MeasureModel(measure)
-    this.queue = new Queue(QUEUES_MEASURES[measure])
     
-    setTimeout(() => {
-      this.microsModule.getMicrocontrollers()
-      setInterval(this.publishMeasure, REFRESH_TIME)
-    }, GET_MICROS_TIMEOUT)
-  }
-
-  publishMeasure = async () => {
-    const micros = await this.microsModule.getMicrocontrollers()
-    micros.forEach(async micro => {
-      const response = await this.requestMeasure(micro)
-      if (response) this.queue.publish(response)
-    })
+    setTimeout(this.microsModule.getMicrocontrollers, GET_MICROS_TIMEOUT)
   }
 
   getMeasure = async (req, res) => {
@@ -39,14 +25,11 @@ module.exports = class MeasureController {
   }
 
   requestMeasure = async micro => {
-    if (micro.isInactive) return null
     try {
       const response = await axios.get(`http://${micro.ip}/${micro.measure}`, { timeout: PING_TIMEOUT })
       return this.measureModel.getMessage(response.data, micro)
     } catch (error) {
-      if (micro.isInactive) return null
-      micro.isInactive = true
-      this.microsModule.pingMicro(micro)
+      return
     }
   }
 
