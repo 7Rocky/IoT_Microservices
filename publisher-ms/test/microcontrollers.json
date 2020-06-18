@@ -1,0 +1,20 @@
+[
+  {
+    "ip": "192.168.1.50",
+    "measure": "humidity",
+    "sensor": "Grove - Moisture",
+    "username": "Rocky"
+  },
+  {
+    "ip": "192.168.1.50",
+    "measure": "light",
+    "sensor": "Smart LED",
+    "username": "Rocky"
+  },
+  {
+    "ip": "192.168.1.50",
+    "measure": "temperature",
+    "sensor": "Grove - Temperature",
+    "username": "Rocky"
+  }
+]
