@@ -11,7 +11,7 @@ import (
 
 // connect Connect to MySQL Server
 func connect() *sql.DB {
-	user := "root"
+	user := helper.GetEnv("MYSQL_ROOT_USERNAME", "root")
 	password := helper.GetEnv("MYSQL_ROOT_PASSWORD", "my-secret-pw")
 	host := helper.GetEnv("MYSQL_HOSTNAME", "192.168.1.222")
 	port := helper.GetEnv("MYSQL_SERVICE_PORT", "31000")
