@@ -32,14 +32,14 @@ spec:
       - env:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: MONGO_INITDB_ROOT_USERNAME
-              name: env-configmap
+              name: secrets
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: MONGO_INITDB_ROOT_PASSWORD
-              name: env-configmap
+              name: secrets
         image: mongo:4.2.5
         imagePullPolicy: Always
         name: mongo

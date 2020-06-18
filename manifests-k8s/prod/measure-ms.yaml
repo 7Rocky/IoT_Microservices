@@ -42,14 +42,14 @@ spec:
               name: env-configmap
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: MONGO_INITDB_ROOT_USERNAME
-              name: env-configmap
+              name: secrets
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: MONGO_INITDB_ROOT_PASSWORD
-              name: env-configmap
+              name: secrets
         - name: MICROCONTROLLERS_MS_HOSTNAME
           valueFrom:
             configMapKeyRef:

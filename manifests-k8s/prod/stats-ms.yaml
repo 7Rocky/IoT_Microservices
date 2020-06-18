@@ -42,14 +42,14 @@ spec:
               name: env-configmap
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: MONGO_INITDB_ROOT_USERNAME
-              name: env-configmap
+              name: secrets
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: MONGO_INITDB_ROOT_PASSWORD
-              name: env-configmap
+              name: secrets
         - name: QUEUE_HUMIDITY_NAME
           valueFrom:
             configMapKeyRef:
@@ -67,14 +67,14 @@ spec:
               name: env-configmap
         - name: RABBITMQ_DEFAULT_USER
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: RABBITMQ_DEFAULT_USER
-              name: env-configmap
+              name: secrets
         - name: RABBITMQ_DEFAULT_PASS
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: RABBITMQ_DEFAULT_PASS
-              name: env-configmap
+              name: secrets
         - name: RABBITMQ_HOSTNAME
           valueFrom:
             configMapKeyRef:

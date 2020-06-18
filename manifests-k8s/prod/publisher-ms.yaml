@@ -31,14 +31,14 @@ spec:
                   name: env-configmap
             - name: RABBITMQ_DEFAULT_USER
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   key: RABBITMQ_DEFAULT_USER
-                  name: env-configmap
+                  name: secrets
             - name: RABBITMQ_DEFAULT_PASS
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   key: RABBITMQ_DEFAULT_PASS
-                  name: env-configmap
+                  name: secrets
             - name: RABBITMQ_HOSTNAME
               valueFrom:
                 configMapKeyRef:

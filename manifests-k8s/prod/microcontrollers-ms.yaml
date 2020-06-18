@@ -42,9 +42,14 @@ spec:
               name: env-configmap
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: MYSQL_ROOT_PASSWORD
-              name: env-configmap
+              name: secrets
+        - name: MYSQL_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_ROOT_USERNAME
+              name: secrets
         - name: PORT
           value: '80'
         image: 7rocky/microcontrollers-ms

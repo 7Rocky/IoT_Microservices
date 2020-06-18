@@ -32,9 +32,9 @@ spec:
       - env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: MYSQL_ROOT_PASSWORD
-              name: env-configmap
+              name: secrets
         image: 7rocky/mysql-iot
         imagePullPolicy: Always
         name: mysql
