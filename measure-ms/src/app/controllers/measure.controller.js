@@ -1,10 +1,8 @@
 const axios = require('axios')
 
-const { PING_TIMEOUT, REFRESH_TIME } = require('../constants/constants')
+const { PING_TIMEOUT } = require('../constants/constants')
 const MicrocontrollersModule = require('../../modules/microcontrollers.module')
 const MeasureModel = require('../models/measure.model')
-
-const GET_MICROS_TIMEOUT = REFRESH_TIME / 5
 
 module.exports = class MeasureController {
 
@@ -12,8 +10,6 @@ module.exports = class MeasureController {
     this.measure = measure
     this.microsModule = new MicrocontrollersModule(measure)
     this.measureModel = new MeasureModel(measure)
-    
-    setTimeout(this.microsModule.getMicrocontrollers, GET_MICROS_TIMEOUT)
   }
 
   getMeasure = async (req, res) => {

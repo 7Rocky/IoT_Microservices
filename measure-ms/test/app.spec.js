@@ -1,9 +1,7 @@
 const request = require('supertest')
 const app = require('../src/app/app')
 
-process.env.NODE_ENV = 'test'
-
-const { REFRESH_TIME } = require('../src/app/constants/constants')
+const REFRESH_TIME = 6000
 
 describe('Humidity endpoints', () => {
   it('should return current humidity', async () => {
