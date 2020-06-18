@@ -54,6 +54,31 @@ describe('Microcontrollers endpoints from UI', () => {
         username: expect.any(String)
       })
     )
+    expect(res.body.ip).toBe('192.168.1.222')
+    expect(res.body.measure).toBe('temperature')
+  }, 10000)
+
+  it('should insert a new microcontroller', async () => {
+    const res = await request(app)
+      .post('/')
+      .send({
+        ip: 'fake-arduino-iot.eu-gb.mybluemix.net',
+        measure: 'temperature',
+        sensor: 'Fake Grove - Temperature',
+        username: 'Rocky'
+      })
+
+    expect(res.statusCode).toBe(201)
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        ip: expect.any(String),
+        measure: expect.any(String),
+        sensor: expect.any(String),
+        username: expect.any(String)
+      })
+    )
+    expect(res.body.ip).toBe('fake-arduino-iot.eu-gb.mybluemix.net')
+    expect(res.body.measure).toBe('temperature')
   }, 10000)
 
   it('should not insert a new microcontroller', async () => {
