@@ -16,31 +16,24 @@ module.exports = class MeasureModel {
 
   getMessage = (data, micro) => {
     const date = new Date()
-
+    const message = {
+      date: date.toUTCString(),
+      digital_value: data[micro.measure],
+      ip: micro.ip,
+      measure: micro.measure,
+      sensor: micro.sensor,
+      timestamp: date.getTime(),
+      username: micro.username
+    }
+  
     switch (micro.measure) {
-      case 'light':
-        return {
-          date: date.toUTCString(),
-          digital_value: data[micro.measure],
-          ip: micro.ip,
-          measure: micro.measure,
-          sensor: micro.sensor,
-          timestamp: date.getTime(),
-          username: micro.username
-        }
       case 'humidity':
       case 'temperature':
-        return {
-          date: date.toUTCString(),
-          digital_value: data[micro.measure],
-          ip: micro.ip,
-          measure: micro.measure,
-          real_value: this.microsModule.digitalToReal(data[micro.measure], micro.sensor),
-          sensor: micro.sensor,
-          timestamp: date.getTime(),
-          username: micro.username
-        }
+        message.real_value = this.microsModule.digitalToReal(data[micro.measure], micro.sensor)
+      case 'light':
     }
+  
+    return message
   }
 
   findMeasures = async query => {
