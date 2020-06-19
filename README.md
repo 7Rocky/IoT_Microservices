@@ -154,13 +154,13 @@ minikube ip
 
 To use database services locally, there are `mongo-dev.yaml`, `mysql-dev.yaml` and `rabbitmq-dev.yaml` (in a folder called `/dev`), which can be accessed from a NodePort. The microservices code are aware of dev/prod environments, you will not need to configure anything presumably.
 
+Kubernetes offers the possibility to configure environment variables. All relevant environment variables are placed in [env-configmap.yaml](https://github.com/7Rocky/IoT_Microservices/tree/master/manifests-k8s/config/env-configmap.yaml) and [secrets.yaml](https://github.com/7Rocky/IoT_Microservices/tree/master/manifests-k8s/config/secrets.yaml).
+
 ## 9. Deploy your own Docker images on Kubernetes
 
 Take a look at the YAML files and note that there is a property called `image: 7rocky/<name-of-the-image>`. You will need to change `7rocky` for your username, and put the name of the Docker image you want to deploy (the image must be uploaded to [Docker Hub](https://hub.docker.com)).
 
 However, if you just want to try the application, you are allowed to use the images that are already set, because they are accesible from Docker Hub.
-
-Kubernetes offers the possibility to configure environment variables. All relevant environment variables are placed in [env-configmap.yaml](https://github.com/7Rocky/IoT_Microservices/tree/master/manifests-k8s/config/env-configmap.yaml).
 
 ## 10. Stop the application
 
