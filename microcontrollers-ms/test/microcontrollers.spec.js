@@ -114,7 +114,6 @@ describe('Microcontrollers endpoints from UI', () => {
         ip: '192.168.1.222',
         measure: 'temperature',
         old_ip: '192.168.1.50',
-        old_measure: 'temperature',
         sensor: 'Grove - Temperature',
         username: 'Rocky'
       })
@@ -140,7 +139,6 @@ describe('Microcontrollers endpoints from UI', () => {
         ip: '192.168.1.50',
         measure: 'temperature',
         old_ip: '192.168.1.200',
-        old_measure: 'temperature',
         sensor: 'Grove - Temperature',
         username: 'Rocky'
       })
@@ -155,7 +153,6 @@ describe('Microcontrollers endpoints from UI', () => {
         ip: '192.168.1.350',
         measure: 'temperature',
         old_ip: '192.168.1.50',
-        old_measure: 'temperature',
         sensor: 'Grove - Temperature',
         username: 'Rocky'
       })

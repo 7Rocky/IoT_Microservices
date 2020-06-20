@@ -16,8 +16,8 @@ module.exports = {
           })
           cb(null, { affectedRows: exists ? 0 : 1 })
         } else if (query === 'UPDATE microcontrollers SET ip = ?, measure = ?, sensor = ?, username = ? WHERE ip = ? AND measure = ?') {
-          const [ ip, measure, sensor, username, old_ip, old_measure ] = values
-          const updatedMicro = [ old_ip, old_measure, sensor, username ]
+          const [ ip, measure, sensor, username, old_ip ] = values
+          const updatedMicro = [ measure, old_ip, sensor, username ]
 
           const exists = microcontrollers.some(micro => {
             return JSON.stringify(Object.values(micro).sort()) === JSON.stringify(updatedMicro.sort())

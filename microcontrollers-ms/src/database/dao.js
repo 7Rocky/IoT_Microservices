@@ -42,10 +42,10 @@ module.exports = class Mysql {
     return !!result.affectedRows
   }
 
-  async updateMicrocontroller({ ip, measure, old_ip, old_measure, sensor, username }) {
+  async updateMicrocontroller({ ip, measure, old_ip, sensor, username }) {
     const result = await this.query(
       'UPDATE microcontrollers SET ip = ?, measure = ?, sensor = ?, username = ? WHERE ip = ? AND measure = ?', 
-      [ ip, measure, sensor, username, old_ip, old_measure ]
+      [ ip, measure, sensor, username, old_ip, measure ]
     )
     return !!result.affectedRows
   }
