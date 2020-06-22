@@ -22,7 +22,7 @@
     "url": "https://github.com/7Rocky/IoT_Microservices.git"
   },
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "nodemon src/index_dev.js",
     "start": "node src/index.js",
     "test": "jest"
   },
