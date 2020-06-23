@@ -24,8 +24,8 @@ export class LoginComponent implements OnDestroy, OnInit {
   isDialogOpen = false
   isLogged: boolean
   options: { link: string, name: string }[] = [
-    { link: '/', name: 'Mi perfil' },
-    { link: '/', name: 'Configuración' }
+    { link: '/dashboard', name: 'Mi dashboard' },
+    { link: '/microcontrollers', name: 'Mis microcontroladores' }
   ]
   password: string
   username: string
