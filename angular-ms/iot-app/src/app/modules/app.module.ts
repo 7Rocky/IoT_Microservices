@@ -1,4 +1,6 @@
+import { registerLocaleData } from '@angular/common'
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
+import localeEs from '@angular/common/locales/es'
 import { LOCALE_ID, NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser'
@@ -23,6 +25,8 @@ import { LoginComponent } from '@components/login/login.component'
 import { LoginDialogComponent } from '@components/login/login-dialog.component'
 import { RegisterDialogComponent } from '@components/login/register-dialog.component'
 import { NavbarComponent } from '@components/navbar/navbar.component'
+
+registerLocaleData(localeEs, 'es')
 
 @NgModule({
   bootstrap: [
@@ -59,8 +63,7 @@ import { NavbarComponent } from '@components/navbar/navbar.component'
       multi: true,
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor
-    },
-    // LoginComponent
+    }
   ]
 })
 export class AppModule { }

@@ -6,5 +6,5 @@
     <a routerLink="/">IoT_Microservices</a>
   </span>
   <app-login></app-login>
-  <span class="float-right nav-date">{{ today }}</span>
+  <span class="float-right nav-date">{{ today | date: 'dd/MM/yyyy' }}</span>
 </nav>

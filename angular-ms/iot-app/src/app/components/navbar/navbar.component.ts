@@ -9,7 +9,7 @@ export class NavbarComponent implements OnInit {
 
   isOpen = false
   @Output() opened = new EventEmitter<boolean>()
-  today = this.getToday()
+  today = new Date()
 
   constructor() { }
 
@@ -18,17 +18,6 @@ export class NavbarComponent implements OnInit {
   toggle() {
     this.isOpen = !this.isOpen
     this.opened.emit(this.isOpen)
-  }
-
-  private getToday() {
-    const date = new Date()
-    const day = date.getDate()
-    const month = date.getMonth() + 1
-    const year = date.getFullYear()
-
-    const correct = (n: number) => n < 10 ? `0${n}` : `${n}`
-
-    return `${correct(day)}/${correct(month)}/${year}`
   }
 
 }
