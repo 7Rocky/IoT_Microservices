@@ -8,6 +8,7 @@ import { MeasureHistoryComponent } from '@components/measure-history/measure-his
 
 const routes: Routes = [
   { canActivate: [ AuthGuard ], component: DashboardComponent, path: '' },
+  { canActivate: [ AuthGuard ], component: DashboardComponent, path: 'measure/:measure' },
   { canActivate: [ AuthGuard ], component: MeasureHistoryComponent, path: 'history/:ip/:measure' }
 ]
 
