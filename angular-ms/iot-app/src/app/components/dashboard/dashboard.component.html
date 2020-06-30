@@ -1,7 +1,7 @@
 <main class="container">
   <div class="measure-block" *ngFor="let micro of microcontrollers">
     <h1 class="topic-title white">
-      <app-dashboard-microcontroller [micro]="micro"></app-dashboard-microcontroller>
+      <app-dashboard-microcontroller [isHistory]="false" [micro]="micro"></app-dashboard-microcontroller>
     </h1>
     <div class="cards-container" *ngIf="micro.measure === 'humidity'">
       <div class="card card-left">

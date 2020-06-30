@@ -1,44 +1,37 @@
 <main class="container" *ngIf="micro">
   <h1 class="topic-title white">
-    <span>
-      {{ micro.measure }}: micro.name,
-      <i>{{ micro.sensor }}</i>
-    </span>
-    <span class="float-right">
-      <mat-icon style="position: relative; top: 4px;">wifi</mat-icon>
-      &nbsp;{{ micro.ip }}&nbsp;
-    </span>
+    <app-dashboard-microcontroller [isHistory]="true" [micro]="micro"></app-dashboard-microcontroller>
   </h1>
-  <form [formGroup]="historyForm" (ngSubmit)="getPreviousTemperatures(historyForm.value)">
+  <form [formGroup]="historyForm" (ngSubmit)="getPreviousMeasures(historyForm.value)">
     <mat-form-field>
       <mat-label>Fecha inicial</mat-label>
-      <input formControlName="init_date" matInput [matDatepicker]="init_datepicker">
-      <mat-datepicker-toggle matSuffix [for]="init_datepicker"></mat-datepicker-toggle>
+      <input formControlName="init_date" [matDatepicker]="init_datepicker" matInput>
+      <mat-datepicker-toggle [for]="init_datepicker" matSuffix></mat-datepicker-toggle>
       <mat-datepicker #init_datepicker></mat-datepicker>
     </mat-form-field>
-    <mat-form-field style="margin-left: 5%;">
+    <mat-form-field>
       <mat-label>Fecha final</mat-label>
-      <input formControlName="end_date" matInput [matDatepicker]="end_datepicker">
-      <mat-datepicker-toggle matSuffix [for]="end_datepicker"></mat-datepicker-toggle>
+      <input formControlName="end_date" [matDatepicker]="end_datepicker" matInput>
+      <mat-datepicker-toggle [for]="end_datepicker" matSuffix></mat-datepicker-toggle>
       <mat-datepicker #end_datepicker></mat-datepicker>
     </mat-form-field>
-    <button
-      [color]="'primary'"
-      [disabled]="historyForm.invalid"
-      mat-raised-button
-      style="margin-left: 5%;"
-      type="submit"
-    >
-      <mat-label>Cargar</mat-label>
+    <button color="primary" [disabled]="historyForm.invalid" mat-raised-button type="submit">
       <mat-icon>history</mat-icon>
+      <mat-label>Cargar</mat-label>
     </button>
   </form>
   <div>
-    <mat-form-field>
+    <mat-form-field class="view-stats">
       <mat-label>Ver:</mat-label>
-      <mat-select multiple [(ngModel)]="currentStats" (selectionChange)="selectChanged()" [value]="currentStats">
+      <mat-select
+        [disabled]="!data.length"
+        multiple
+        [(ngModel)]="currentStats"
+        (selectionChange)="selectChanged()"
+        [value]="currentStats"
+      >
         <mat-option
-          [disabled]="micro.measure === 'light' && stat.name !== 'Mean'"
+          [disabled]="isOptionDisabled(micro, stat)"
           *ngFor="let stat of stats"
           [value]="stat.value"
         >{{ stat.name }}</mat-option>
@@ -48,7 +41,7 @@
   <br>
   <mat-card>
     <mat-card-content>
-      <google-chart [data]="chart" style="width: 100%"></google-chart>
+      <google-chart [data]="chart"></google-chart>
     </mat-card-content>
   </mat-card>
 </main>
