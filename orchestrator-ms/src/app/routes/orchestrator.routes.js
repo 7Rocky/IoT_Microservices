@@ -4,7 +4,7 @@ const expressJwt = require('express-jwt')
 const { TOKEN_SECRET } = require('../../config/jwt.config')
 const OrchestratorController = require('../controllers/orchestrator.controller')
 
-const jwtMiddleware = expressJwt({ secret: TOKEN_SECRET })
+const jwtMiddleware = expressJwt({ algorithms: [ 'HS256' ], secret: TOKEN_SECRET })
 const orchestratorController = new OrchestratorController()
 const router = Router()
 
