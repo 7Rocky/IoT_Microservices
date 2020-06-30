@@ -6,7 +6,7 @@
           <ng-template matStepLabel>Selecciona la magnitud a medir</ng-template>
           <mat-form-field>
             <mat-label>Magnitud</mat-label>
-            <mat-select [disabled]="isEdit" formControlName="measure" (selectionChange)="resetSensors()">
+            <mat-select formControlName="measure" (selectionChange)="resetSensors()">
               <mat-option *ngFor="let measure of measures" [value]="measure.name">{{ measure.view }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -33,7 +33,7 @@
           <ng-template matStepLabel>Seleccione el sensor que va a utilizar</ng-template>
           <mat-form-field>
             <mat-label>Sensor</mat-label>
-            <mat-select [disabled]="isEdit" formControlName="sensor">
+            <mat-select formControlName="sensor">
               <mat-option *ngFor="let sensor of getAvailableSensors(measureForm.value.measure)" [value]="sensor">{{ sensor }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -46,7 +46,7 @@
       <mat-step [stepControl]="lastForm">
         <ng-template matStepLabel>Listo</ng-template>
         <div>
-          <button mat-raised-button type="submit">Añadir</button>
+          <button mat-raised-button type="submit">{{ isEdit ? 'Actualizar' : 'Añadir' }}</button>
         </div>
       </mat-step>
     </mat-vertical-stepper>

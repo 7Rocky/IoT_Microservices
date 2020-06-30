@@ -25,12 +25,10 @@ export class MicrocontrollersComponent implements OnInit {
 
   deleteMicrocontroller(micro: Microcontroller) {
     this.arduinoService.deleteMicrocontroller(micro)
-      .subscribe(
-        () => {
-          this.ngOnInit()
-        },
-        response => console.log(response)
-      )
+      .subscribe(() => {
+        this.arduinoService.clearMicrocontrollers()
+        this.ngOnInit()
+      })
   }
 
 }

@@ -50,10 +50,12 @@ export class MicrocontrollersEditComponent implements OnInit {
       this.arduinoService.getMicrocontroller(ip, measure)
         .then(micro => {
           this.ipForm.setValue({ ip: micro.ip })
+
           const measures = this.measures.filter(m => m.name === micro.measure)
-          console.log(measures)
           this.measureForm.setValue({ measure: measures[0].name })
           this.sensorForm.setValue({ sensor: micro.sensor })
+          this.measureForm.disable()
+          this.sensorForm.disable()
         })
     }
   }
@@ -69,10 +71,10 @@ export class MicrocontrollersEditComponent implements OnInit {
     if (this.isEdit) {
       microcontroller['old_ip'] = this.route.snapshot.paramMap.get('ip')
       this.arduinoService.putMicrocontroller(microcontroller)
-        .subscribe(response => console.log(response))
+        .subscribe(() => this.arduinoService.clearMicrocontrollers())
     } else {
       this.arduinoService.postMicrocontroller(microcontroller)
-        .subscribe(response => console.log(response))
+        .subscribe(() => this.arduinoService.clearMicrocontrollers())
     }
   }
 
