@@ -81,8 +81,17 @@ module.exports = class OrchestratorController {
   }
 
   async deleteMicrocontrollers(req, res) {
-    const microcontroller = req.body
-    await servicesController.deleteToConnectedService(res, MICROCONTROLLERS_MS, '', microcontroller)
+    const { ip, measure } = req.query
+    await servicesController.deleteToConnectedService(
+      res,
+      MICROCONTROLLERS_MS,
+      '',
+      {
+        ip,
+        measure,
+        username: req.user.username
+      }
+    )
   }
 
 }
