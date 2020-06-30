@@ -1,58 +1,55 @@
-<form
-  (ngSubmit)="postMicrocontroller(
-    measureForm.value.measure,
-    ipForm.value.ip,
-    sensorForm.value.sensor
-  )"
->
-  <mat-vertical-stepper [linear]="false" #stepper>
-    <mat-step [stepControl]="measureForm">
-      <form [formGroup]="measureForm">
-        <ng-template matStepLabel>Selecciona la magnitud a medir</ng-template>
-        <mat-form-field>
-          <mat-label>Magnitud</mat-label>
-          <mat-select formControlName="measure" (selectionChange)="resetSensors()">
-            <mat-option *ngFor="let measure of measures" [value]="measure.name">{{ measure.view }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+<mat-card>
+  <form (ngSubmit)="submitMicrocontroller(measureForm.value.measure, ipForm.value.ip, sensorForm.value.sensor)">
+    <mat-vertical-stepper [linear]="false" #stepper>
+      <mat-step [stepControl]="measureForm">
+        <form [formGroup]="measureForm">
+          <ng-template matStepLabel>Selecciona la magnitud a medir</ng-template>
+          <mat-form-field>
+            <mat-label>Magnitud</mat-label>
+            <mat-select [disabled]="isEdit" formControlName="measure" (selectionChange)="resetSensors()">
+              <mat-option *ngFor="let measure of measures" [value]="measure.name">{{ measure.view }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Siguiente</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="ipForm">
+        <form [formGroup]="ipForm">
+          <ng-template matStepLabel>Escribe la dirección del microcontrolador</ng-template>
+          <mat-form-field>
+            <mat-label>IP</mat-label>
+            <input matInput formControlName="ip" placeholder="Dirección IP" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Atrás</button>
+            <button mat-button matStepperNext>Siguiente</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="sensorForm">
+        <form [formGroup]="sensorForm">
+          <ng-template matStepLabel>Seleccione el sensor que va a utilizar</ng-template>
+          <mat-form-field>
+            <mat-label>Sensor</mat-label>
+            <mat-select [disabled]="isEdit" formControlName="sensor">
+              <mat-option *ngFor="let sensor of getAvailableSensors(measureForm.value.measure)" [value]="sensor">{{ sensor }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Atrás</button>
+            <button mat-button matStepperNext>Siguiente</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="lastForm">
+        <ng-template matStepLabel>Listo</ng-template>
         <div>
-          <button mat-button matStepperNext>Siguiente</button>
+          <button mat-raised-button type="submit">Añadir</button>
         </div>
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="ipForm">
-      <form [formGroup]="ipForm">
-        <ng-template matStepLabel>Escribe la dirección del microcontrolador</ng-template>
-        <mat-form-field>
-          <mat-label>IP</mat-label>
-          <input matInput formControlName="ip" placeholder="Dirección IP" required>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Atrás</button>
-          <button mat-button matStepperNext>Siguiente</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="sensorForm">
-      <form [formGroup]="sensorForm">
-        <ng-template matStepLabel>Seleccione el sensor que va a utilizar</ng-template>
-        <mat-form-field>
-          <mat-label>Sensor</mat-label>
-          <mat-select formControlName="sensor">
-            <mat-option *ngFor="let sensor of getAvailableSensors(measureForm.value.measure)" [value]="sensor">{{ sensor }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Atrás</button>
-          <button mat-button matStepperNext>Siguiente</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="lastForm">
-      <ng-template matStepLabel>Listo</ng-template>
-      <div>
-        <button mat-raised-button type="submit">Añadir</button>
-      </div>
-    </mat-step>
-  </mat-vertical-stepper>
-</form>
+      </mat-step>
+    </mat-vertical-stepper>
+  </form>
+</mat-card>
+<img class="absolute" src="assets/images/microcontroller.jpg">
