@@ -67,10 +67,10 @@ module.exports = class OrchestratorController {
   }
 
   async deleteMicrocontrollers(req, res) {
-    const microcontroller = req.body
+    const { ip, measure } = req.query
 
     try {
-      const changes = await dao.deleteMicrocontroller(microcontroller)
+      const changes = await dao.deleteMicrocontroller({ ip, measure })
       if (!changes) return res.sendStatus(404)
 
       cache.del([ `/?username=${microcontroller.username}`, `/${microcontroller.measure}` ])

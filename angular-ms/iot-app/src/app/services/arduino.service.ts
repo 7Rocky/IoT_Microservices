@@ -53,6 +53,21 @@ export class ArduinoService {
     return this.http.post<any>(`http://${environment.ORCHESTRATOR_MS}/microcontrollers`, microcontroller)
   }
 
+  deleteMicrocontroller(microcontroller: Microcontroller): Observable<any> {
+    return this.http.delete<any>(
+      `http://${environment.ORCHESTRATOR_MS}/microcontrollers`, {
+        params: {
+          ip: microcontroller.ip,
+          measure: microcontroller.measure
+        }
+      }
+    )
+  }
+
+  putMicrocontroller(updatedMicrocontroller: any): Observable<any> {
+    return this.http.put<any>(`http://${environment.ORCHESTRATOR_MS}/microcontrollers`, updatedMicrocontroller)
+  }
+
   private getCurrentMeasures(measure: string): Observable<Measure[]> {
     return this.http.get<any[]>(`http://${environment.ORCHESTRATOR_MS}/${measure}`)
   }

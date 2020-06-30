@@ -14,6 +14,7 @@ import { Microcontroller } from '@models/microcontroller.model';
 export class MicrocontrollersEditComponent implements OnInit {
 
   ipForm: FormGroup
+  isEdit = true
   lastForm: FormGroup
   measureForm: FormGroup
   sensorForm: FormGroup
@@ -43,7 +44,9 @@ export class MicrocontrollersEditComponent implements OnInit {
     const ip = this.route.snapshot.paramMap.get('ip')
     const measure = this.route.snapshot.paramMap.get('measure')
 
-    if (ip && measure) {
+    this.isEdit = !!(ip && measure)
+
+    if (this.isEdit) {
       this.arduinoService.getMicrocontroller(ip, measure)
         .then(micro => {
           this.ipForm.setValue({ ip: micro.ip })
@@ -55,7 +58,7 @@ export class MicrocontrollersEditComponent implements OnInit {
     }
   }
 
-  postMicrocontroller(measure: string, ip: string, sensor: string) {
+  submitMicrocontroller(measure: string, ip: string, sensor: string) {
     const microcontroller: Microcontroller = {
       ip,
       measure,
@@ -63,8 +66,14 @@ export class MicrocontrollersEditComponent implements OnInit {
       username: this.authService.getUser()
     }
 
-    this.arduinoService.postMicrocontroller(microcontroller)
-      .subscribe(response => console.log(response))
+    if (this.isEdit) {
+      microcontroller['old_ip'] = this.route.snapshot.paramMap.get('ip')
+      this.arduinoService.putMicrocontroller(microcontroller)
+        .subscribe(response => console.log(response))
+    } else {
+      this.arduinoService.postMicrocontroller(microcontroller)
+        .subscribe(response => console.log(response))
+    }
   }
 
   getAvailableSensors(measure: string): string[] {

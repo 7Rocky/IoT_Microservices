@@ -19,7 +19,7 @@
           <button mat-button [routerLink]="[ '/my-microcontrollers/edit', micro.ip, micro.measure ]">
             <mat-icon>edit</mat-icon> Editar
           </button>
-          <button color="warn" mat-button [routerLink]="[ '/my-microcontrollers/edit', micro.ip, micro.measure ]">
+          <button color="warn" mat-button (click)="deleteMicrocontroller(micro)">
             <mat-icon>delete</mat-icon> Eliminar
           </button>
         </td>
