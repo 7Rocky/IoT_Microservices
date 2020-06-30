@@ -20,9 +20,7 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private arduinoService: ArduinoService,
     private authService: AuthService
-  ) {
-    console.log('constructor')
-  }
+  ) { }
 
   ngOnInit() {
     this.route.url
