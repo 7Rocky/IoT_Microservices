@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
 
 import { ArduinoService } from '@services/arduino.service'
 
@@ -12,20 +11,16 @@ import { Microcontroller } from '@models/microcontroller.model'
 })
 export class MicrocontrollersComponent implements OnInit {
 
+  displayedColumns = [ 'measure', 'sensor', 'ip', 'actions' ]
   microcontrollers: Microcontroller[] = []
 
   constructor(
-    private arduinoService: ArduinoService,
-    private router: Router
+    private arduinoService: ArduinoService
   ) { }
 
   ngOnInit() {
     this.arduinoService.getMicrocontrollers()
       .subscribe(microcontrollers => this.microcontrollers = microcontrollers)
-  }
-
-  newMicro() {
-    this.router.navigateByUrl('/microcontrollers/edit')
   }
 
 }
