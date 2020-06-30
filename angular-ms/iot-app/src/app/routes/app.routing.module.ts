@@ -11,7 +11,7 @@ const routes: Routes = [
   { canActivate: [ AuthGuard ], component: DashboardComponent, path: 'dashboard' },
   { canActivate: [ AuthGuard ], component: MicrocontrollersComponent, path: 'my-microcontrollers' },
   { component: IndexComponent, path: '' },
-  // { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' }
 ]
 
 @NgModule({

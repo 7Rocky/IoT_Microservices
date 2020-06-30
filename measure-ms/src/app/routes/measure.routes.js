@@ -17,6 +17,4 @@ router.post('/light', lightController.postLight)
 router.get('/temperature', temperatureController.getMeasure)
 router.get('/temperatures', temperatureController.getMeasures)
 
-// router.get('/insert', humidityController.insertTemperatures)
-
 module.exports = router

@@ -37,8 +37,4 @@ module.exports = class MongoDB {
     return await Temperature.find(temperature, { _id: 0, __v: 0 })
   }
 
-  /*async insertMany(objects) {
-    return await Temperature.insertMany(objects)
-  }*/
-
 }

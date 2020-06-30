@@ -1,7 +1,7 @@
 <app-navbar (opened)="toggle($event)"></app-navbar>
 <nav>
   <div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
-    <mat-sidenav-container><!-- [style.marginTop.px]="mobileQuery.matches ? 56 : 0"> -->
+    <mat-sidenav-container>
       <mat-sidenav
         [fixedInViewport]="mobileQuery.matches"
         fixedTopGap="110"
@@ -34,10 +34,6 @@
             <mat-icon>memory</mat-icon>
             <span>Microcontroladores</span>
           </a>
-          <!--<a class="menu-icon white" mat-list-item routerLink=".">
-            <mat-icon>info</mat-icon>
-            <span>Información</span>
-          </a>-->
           <a class="menu-icon white" mat-list-item (click)="opened = !opened">
             <mat-icon>close</mat-icon>
             <span>Cerrar</span>
