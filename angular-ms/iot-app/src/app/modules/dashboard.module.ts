@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Ng2GoogleChartsModule } from 'ng2-google-charts'
 
 import { MatModule } from '@modules/mat.module'
+import { PipesModule } from './pipes.module'
 
 import { DashboardRoutingModule } from '@routes/dashboard.routing.module'
 
@@ -38,6 +39,7 @@ import { TemperatureStatsComponent } from '@components/temperature-stats/tempera
     FormsModule,
     MatModule,
     Ng2GoogleChartsModule,
+    PipesModule,
     ReactiveFormsModule
   ]
 })

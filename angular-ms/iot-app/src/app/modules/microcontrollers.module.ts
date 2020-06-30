@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { MatModule } from '@modules/mat.module'
+import { PipesModule } from './pipes.module'
 
 import { MicrocontrollersRoutingModule } from '@routes/microcontrollers.routing.module'
 
@@ -19,6 +20,7 @@ import { MicrocontrollersEditComponent } from '@components/microcontrollers-edit
     FormsModule,
     MatModule,
     MicrocontrollersRoutingModule,
+    PipesModule,
     ReactiveFormsModule
   ]
 })

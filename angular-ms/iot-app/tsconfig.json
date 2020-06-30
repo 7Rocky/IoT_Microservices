@@ -43,6 +43,9 @@
       "@modules/*": [
         "src/app/modules/*"
       ],
+      "@pipes/*": [
+        "src/app/pipes/*"
+      ],
       "@routes/*": [
         "src/app/routes/*"
       ],

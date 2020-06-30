@@ -16,14 +16,4 @@ export class DashboardMicrocontrollerComponent implements OnInit {
 
   ngOnInit() { }
 
-  getMeasureView(name: string): string {
-    const measures: { name: string, view: string }[] = [
-      { name: 'humidity', view: 'Humedad' },
-      { name: 'light', view: 'Bombilla inteligente' },
-      { name: 'temperature', view: 'Temperatura' }
-    ]
-
-    return measures.filter(measure => measure.name === name)[0].view
-  }
-
 }
