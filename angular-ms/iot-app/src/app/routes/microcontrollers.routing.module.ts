@@ -8,8 +8,8 @@ import { MicrocontrollersEditComponent } from '@components/microcontrollers-edit
 
 const routes: Routes = [
   { canActivate: [ AuthGuard ], component: MicrocontrollersComponent, path: '' },
-  { canActivate: [ AuthGuard ], component: MicrocontrollersEditComponent, path: 'microcontrollers/edit/:ip/:measure' },
-  { canActivate: [ AuthGuard ], component: MicrocontrollersEditComponent, path: 'microcontrollers/edit' }
+  { canActivate: [ AuthGuard ], component: MicrocontrollersEditComponent, path: 'my-microcontrollers/edit/:ip/:measure' },
+  { canActivate: [ AuthGuard ], component: MicrocontrollersEditComponent, path: 'my-microcontrollers/edit' }
 ]
 
 @NgModule({

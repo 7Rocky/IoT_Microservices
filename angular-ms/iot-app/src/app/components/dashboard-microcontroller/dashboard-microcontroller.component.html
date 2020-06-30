@@ -1,22 +1,24 @@
 <span>
-  {{ micro.measure | titlecase }}:&nbsp;
+  {{ micro.measure | measureView }}:&nbsp;
   <i>{{ micro.sensor }}</i>
 </span>
 <span class="float-right">
   <mat-icon class="connection-icon" *ngIf="!micro.isInactive">wifi</mat-icon>
   <mat-icon class="connection-icon yellow" *ngIf="micro.isInactive">wifi_off</mat-icon>
   &nbsp;{{ micro.ip }}&nbsp;
-  <button class="arrow-btn" mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>keyboard_arrow_down</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item [routerLink]="[ '/history', micro.ip, micro.measure ]">
-      <mat-icon>bar_chart</mat-icon>
-      <span>Estadísticas</span>
+  <ng-container *ngIf="!isHistory">
+    <button class="arrow-btn" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>keyboard_arrow_down</mat-icon>
     </button>
-    <button mat-menu-item [routerLink]="[ '/microcontrollers/edit', micro.ip, micro.measure ]">
-      <mat-icon>edit</mat-icon>
-      <span>Editar</span>
-    </button>
-  </mat-menu>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="[ '/history', micro.ip, micro.measure ]">
+        <mat-icon>bar_chart</mat-icon>
+        <span>Estadísticas</span>
+      </button>
+      <button mat-menu-item [routerLink]="[ '/my-microcontrollers/edit', micro.ip, micro.measure ]">
+        <mat-icon>edit</mat-icon>
+        <span>Editar</span>
+      </button>
+    </mat-menu>
+  </ng-container>
 </span>
