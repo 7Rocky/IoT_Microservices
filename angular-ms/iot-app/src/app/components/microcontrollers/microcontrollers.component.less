@@ -1,0 +1,32 @@
+.example-container {
+  padding: 5%;
+}
+.mat-header-cell {
+  font-size: 16px;
+}
+.add-micro, table {
+  box-shadow: 10px 10px 8px #222;
+  width: 100%;
+  z-index: 2;
+}
+.table-container {
+  overflow-x: scroll;
+  width: 100%;
+}
+table {
+  @media screen and (max-width: 500px) {
+    display: block;
+    overflow: scroll;
+    width: 100%;
+  }
+}
+img {
+  filter: brightness(150%) blur(10px);
+  opacity: 0.7;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+  @media screen and (max-width: 500px) {
+    height: 100%;
+  }
+}

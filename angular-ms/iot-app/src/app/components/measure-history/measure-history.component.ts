@@ -13,6 +13,15 @@ import { TemperatureStats } from '@models/temperature-stats.model'
 
 import { MustBeOrderedDates } from '@helpers/must-be-ordered-dates.helper'
 
+import { MeasureViewPipe } from '@pipes/measure-view.pipe'
+
+interface Stat {
+  color: string
+  isSelected: boolean
+  name: string
+  value: string
+}
+
 @Component({
   selector: 'app-measure-history',
   styleUrls: [ './measure-history.component.less' ],
@@ -24,28 +33,10 @@ export class MeasureHistoryComponent implements OnInit {
   options: any = {
     colors: [ 'green' ],
     hAxis: {
-      gridlines: {
-        units: {
-          days: {
-            format: [ 'dd MMM' ]
-          },
-          hours: {
-            format: [ "HH 'h'" ]
-          }
-        }
-      },
-      minorGridlines: {
-        units: {
-          hours: {
-            format: [ "HH 'h'" ]
-          },
-        }
-      }
+      gridlines: { units: { days: { format: [ 'dd MMM' ] }, hours: { format: [ "HH 'h'" ] } } },
+      minorGridlines: { units: { hours: { format: [ "HH 'h'" ] } } }
     },
-    legend: {
-      alignment: 'end',
-      position: 'top'
-    }
+    legend: { alignment: 'end', position: 'top' }
   }
   chart: GoogleChartInterface = {
     chartType: 'LineChart',
@@ -55,11 +46,11 @@ export class MeasureHistoryComponent implements OnInit {
   data: HumidityStats[] | LightStats[] | TemperatureStats[] = []
   micro: Microcontroller
   historyForm: FormGroup
-  stat = 'Mean'
-  stats: { color: string, isSelected: boolean, name: string, value: string }[] = [
-    { color: 'blue', isSelected: false, name: 'Min', value: 'min_value' },
-    { color: 'green', isSelected: true, name: 'Mean', value: 'mean_value' },
-    { color: 'red', isSelected: false, name: 'Max', value: 'max_value' }
+  stat = 'Media'
+  stats: Stat[] = [
+    { color: 'blue', isSelected: false, name: 'Mínimo', value: 'min_value' },
+    { color: 'green', isSelected: true, name: 'Media', value: 'mean_value' },
+    { color: 'red', isSelected: false, name: 'Máximo', value: 'max_value' }
   ]
   currentStats: string[] = [ 'mean_value' ]
 
@@ -86,7 +77,7 @@ export class MeasureHistoryComponent implements OnInit {
 
     try {
       this.micro = await this.arduinoService.getMicrocontroller(ip, measure)
-      this.header = [ 'Tiempo', this.micro.measure ]
+      this.header = [ 'Tiempo', new MeasureViewPipe().transform(this.micro.measure) ]
       this.chart.dataTable = [ this.header, [ new Date(), 24 ] ]
     } catch (error) { }
   }
@@ -99,7 +90,12 @@ export class MeasureHistoryComponent implements OnInit {
     this.drawChart(this.data)
   }
 
-  getPreviousTemperatures({ init_date, end_date }: { init_date: Date, end_date: Date }) {
+  isOptionDisabled(micro: Microcontroller, stat: Stat): boolean {
+    if (micro.measure === 'light' && stat.name !== 'Mean') return true
+    return this.stats.filter(stat => stat.isSelected).length === 1 && stat.isSelected
+  }
+
+  getPreviousMeasures({ init_date, end_date }: { init_date: Date, end_date: Date }) {
     this.arduinoService.getPreviousMeasures(
         this.micro.ip,
         this.micro.measure,
