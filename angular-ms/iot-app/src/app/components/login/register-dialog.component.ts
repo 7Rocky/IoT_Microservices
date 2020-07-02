@@ -22,9 +22,9 @@ export class RegisterDialogComponent {
   ) {
     this.registerForm = this.formBuilder.group(
       {
-        username: [ '', Validators.required, Validators.maxLength(30) ],
-        password: [ '', Validators.required, Validators.maxLength(30) ],
-        repeatPassword: [ '', Validators.required, Validators.maxLength(30) ]
+        username: [ '', [ Validators.required, Validators.maxLength(30) ] ],
+        password: [ '', [ Validators.required, Validators.maxLength(30) ] ],
+        repeatPassword: [ '', [ Validators.required, Validators.maxLength(30) ] ]
       },
       {
         validator: MustMatch('password', 'repeatPassword')
