@@ -7,7 +7,7 @@ export function MustBeOrderedDates(init: string, end: string) {
 
     if (end_date.errors && !end_date.errors.mustMatch) return
 
-    if (init_date.value.getTime() < end_date.value.getTime()) {
+    if (init_date.value.getTime() < end_date.value.getTime() && end_date.value.getTime() <= Date.now()) {
       init_date.setErrors(null)
       end_date.setErrors(null)
     } else {
