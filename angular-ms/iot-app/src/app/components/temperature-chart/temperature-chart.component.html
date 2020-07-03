@@ -1,5 +1,8 @@
 <mat-card class="float-left">
   <mat-card-title>Tiempo real</mat-card-title>
+  <button class="absolute black" (click)="getCurrentMeasure(false)" mat-icon-button>
+    <mat-icon>sync</mat-icon>
+  </button>
   <mat-card-content *ngIf="isChartReady">
     <google-chart [data]="chart"></google-chart>
   </mat-card-content>
