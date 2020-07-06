@@ -4,7 +4,7 @@
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.9.18"
+    "mongoose": "^5.9.21"
   },
   "description": "Measure microservice",
   "devDependencies": {
@@ -13,7 +13,7 @@
     "supertest": "^4.0.2"
   },
   "engines": {
-    "node": "12.18.1",
+    "node": "12.18.2",
     "npm": "6.14.5"
   },
   "license": "ISC",
