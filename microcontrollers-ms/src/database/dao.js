@@ -13,7 +13,26 @@ const abstractQuery = (db, query, values=[]) => {
 module.exports = class Mysql {
 
   constructor() {
+    this.connect()
+  }
+
+  connect() {
     this.db = mysql.createConnection(`mysql://${USERNAME}:${PASSWORD}@${MYSQL}/${DB_NAME}`)
+
+    this.db.connect(error => {
+      if (error) {
+        console.log('Error when connecting to db:', err)
+        setTimeout(handleDisconnect, 2000)
+      }
+    })
+
+    this.db.on('error', error => {
+      if (error.code === 'PROTOCOL_CONNECTION_LOST') {
+        this.connect()
+      } else {
+        throw error
+      }
+    })
   }
 
   query(query, values) {
