@@ -16,8 +16,8 @@
     "supertest": "^4.0.2"
   },
   "engines": {
-    "node": "12.18.2",
-    "npm": "6.14.5"
+    "node": "12.18.3",
+    "npm": "6.14.7"
   },
   "license": "ISC",
   "main": "src/index.js",
