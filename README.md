@@ -23,7 +23,7 @@ cd IoT_Microservices
 
 ## 2. Develop Node.js microservices
 
-There are three microservices developed on Node.js: [measure-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/measure-ms), [microcontrollers-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/microcontrollers-ms), [orchestrator-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/orchestrator-ms) and [publisher-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/publisher-ms). You will need to execute the following commands to run the microservice locally:
+There are four microservices developed on Node.js: [measure-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/measure-ms), [microcontrollers-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/microcontrollers-ms), [orchestrator-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/orchestrator-ms) and [publisher-ms](https://github.com/7Rocky/IoT_Microservices/tree/master/publisher-ms). You will need to execute the following commands to run the microservice locally:
 
 ```bash
 cd measure-ms
@@ -71,7 +71,7 @@ go run main.go
 
 This will start a process listening on port 5000.
 
-To build de application on a executable file, run:
+To build de application to an executable file, run:
 
 ```bash
 go build -o main
