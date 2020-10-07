@@ -6,7 +6,7 @@
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
-    "query-string": "^6.13.2",
+    "query-string": "^6.13.5",
     "rand-token": "^1.0.1"
   },
   "description": "Orchestrator microservice",
@@ -16,7 +16,7 @@
     "supertest": "^4.0.2"
   },
   "engines": {
-    "node": "12.18.4",
+    "node": "v12.19.0",
     "npm": "6.14.8"
   },
   "license": "ISC",
