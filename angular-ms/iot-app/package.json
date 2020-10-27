@@ -12,7 +12,7 @@
     "@angular/router": "^9.1.12",
     "ng2-google-charts": "^5.0.0",
     "rxjs": "^6.6.3",
-    "tslib": "^1.14.0",
+    "tslib": "^1.14.1",
     "zone.js": "^0.10.3"
   },
   "description": "Angular dashboard microservice",
@@ -23,7 +23,7 @@
     "@angular/language-service": "^9.1.12",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.12.64",
+    "@types/node": "^12.19.2",
     "codelyzer": "^5.2.2",
     "jasmine-core": "^3.6.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -38,7 +38,7 @@
     "typescript": "~3.7.5"
   },
   "engines": {
-    "node": "v12.19.0",
+    "node": "v14.15.0",
     "npm": "6.14.8"
   },
   "license": "ISC",
