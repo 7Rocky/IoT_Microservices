@@ -7,7 +7,7 @@ type User struct {
 	RefreshToken string
 }
 
-// Credential New Ttokens for a certain user
+// Credential New Tokens for a certain user
 type Credential struct {
 	Username        string
 	RefreshToken    string
