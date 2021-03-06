@@ -1,5 +1,7 @@
 # IoT_Microservices
 
+You may check the web application at: https://iot-microservices.eu-gb.mybluemix.net.
+
 ## Before you begin
 
 You'll need to have at least Kubernetes (Minikube) and Docker installed on your machine to run the application.
