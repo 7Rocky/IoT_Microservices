@@ -6,8 +6,8 @@
   },
   "description": "Fake Arduino",
   "engines": {
-    "node": "v14.15.0",
-    "npm": "6.14.8"
+    "node": "14.16.0",
+    "npm": "7.6.1"
   },
   "license": "ISC",
   "main": "src/index.js",

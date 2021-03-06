@@ -29,6 +29,8 @@ func connect() *sql.DB {
 // Exists Exists user credentials in the DB
 func Exists(user model.User) (bool, model.User) {
 	db := connect()
+	defer db.Close()
+
 	pStmt, _ := db.Prepare("SELECT * FROM iot.users WHERE username = ? AND password = ?")
 	defer pStmt.Close()
 
@@ -49,6 +51,8 @@ func Exists(user model.User) (bool, model.User) {
 // Insert Insert new user credentials in the DB
 func Insert(user model.User) bool {
 	db := connect()
+	defer db.Close()
+
 	pStmt, _ := db.Prepare("INSERT INTO iot.users VALUES (?, ?, ?)")
 	defer pStmt.Close()
 
@@ -65,6 +69,8 @@ func Insert(user model.User) bool {
 // Update Update user credentials in the DB
 func Update(credentials model.Credential) int64 {
 	db := connect()
+	defer db.Close()
+
 	pStmt, _ := db.Prepare("UPDATE iot.users SET refresh_token = ? WHERE refresh_token = ? AND username = ?")
 	defer pStmt.Close()
 
