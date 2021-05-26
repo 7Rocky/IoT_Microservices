@@ -17,7 +17,7 @@
   },
   "description": "Angular dashboard microservice",
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.901.12",
+    "@angular-devkit/build-angular": "^0.901.15",
     "@angular/cli": "^9.1.12",
     "@angular/compiler-cli": "^9.1.12",
     "@angular/language-service": "^9.1.12",
@@ -38,8 +38,8 @@
     "typescript": "~3.7.5"
   },
   "engines": {
-    "node": "14.16.1",
-    "npm": "7.12.0"
+    "node": "14.17.0",
+    "npm": "7.14.0"
   },
   "license": "ISC",
   "name": "iot-app",
